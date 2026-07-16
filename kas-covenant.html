@@ -1,0 +1,156 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KAS manifesto storyboard</title></head><body>
+<title>KMM's manifesto → Mission KAS/IAS hero</title>
+<style>
+  :root{
+    --navy:#0c1428; --navy2:#111c38; --ink:#f4f1ea; --muted:#9aa3b8; --line:#20304f;
+    --orange:#F27121; --orange2:#ff9a4d; --gold:#d9b26a; --paper:#f6f2ea; --paperink:#1a1f2b;
+    --bg:#e9e4d9; --panel:#fffdf9; --cardline:#e2dccd; --mutedp:#8a8172;
+  }
+  @media (prefers-color-scheme:dark){ :root{ --bg:#0d1526; --panel:#121a2c; --cardline:#22304c; --mutedp:#9aa3b8; --paper:#0f1830; --paperink:#eef1f7; } }
+  :root[data-theme="dark"]{ --bg:#0d1526; --panel:#121a2c; --cardline:#22304c; --mutedp:#9aa3b8; --paper:#0f1830; --paperink:#eef1f7; }
+  :root[data-theme="light"]{ --bg:#e9e4d9; --panel:#fffdf9; --cardline:#e2dccd; --mutedp:#8a8172; --paper:#f6f2ea; --paperink:#1a1f2b; }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--paperink);margin:0;line-height:1.55;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .serif{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif}
+  .brandtoken{text-transform:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:40px 22px 76px}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:800}
+  h1{font-size:30px;line-height:1.12;margin:8px 0 8px;font-weight:800;letter-spacing:-.02em}
+  .sub{color:var(--mutedp);font-size:15px;max-width:76ch}
+  h2.sec{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mutedp);font-weight:800;margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--cardline)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}
+  @media(max-width:840px){.cols{grid-template-columns:1fr}}
+  .state{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
+  .s-b{color:var(--mutedp)} .s-a{color:var(--gold)}
+
+  /* the "screen" — a navy landing hero */
+  .screen{border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 44px rgba(4,10,25,.28)}
+  .hero{background:radial-gradient(circle at 18% 20%, rgba(242,113,33,.20), transparent 42%),radial-gradient(circle at 85% 90%, rgba(242,113,33,.14), transparent 40%),var(--navy);
+    color:var(--ink);padding:30px 26px 28px}
+  .pill{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--orange2);
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:5px 11px}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);}
+  .h-title{font-size:30px;font-weight:900;letter-spacing:-.01em;margin:16px 0 8px;line-height:1.05}
+  .h-title .g{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .h-sub{color:#c7cede;font-size:13.5px;max-width:52ch;margin:0}
+  .cta{display:inline-block;margin-top:18px;background:var(--orange);color:#fff;font-weight:800;font-size:13px;padding:11px 20px;border-radius:11px}
+
+  /* founder block */
+  .founder{display:flex;gap:16px;align-items:center;background:var(--panel);border-top:1px solid var(--line);padding:20px 26px}
+  .avatar{width:74px;height:74px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#fff;
+    background:linear-gradient(140deg,var(--navy2),var(--orange));border:3px solid var(--panel);box-shadow:0 0 0 2px var(--orange)}
+  .f-k{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}
+  .f-n{font-size:16px;font-weight:800;margin:2px 0 6px;color:var(--paperink)}
+  .f-cred{font-size:11.5px;color:var(--mutedp);margin:2px 0;display:flex;gap:6px;align-items:baseline}
+  .f-cred .v{color:var(--orange);font-weight:800}
+
+  /* AFTER — the covenant band */
+  .covenant{background:linear-gradient(180deg,var(--navy),#0a1120);color:var(--ink);padding:34px 28px 30px;position:relative}
+  .covenant .rule{width:44px;height:3px;background:var(--gold);border-radius:2px;margin-bottom:16px}
+  .cov-eye{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:10px}
+  .cov-line{font-size:26px;line-height:1.2;font-weight:600;letter-spacing:-.01em;margin:0}
+  .cov-line .you{color:var(--orange2)} .cov-line .me{color:#dfe6f2}
+  .cov-line + .cov-line{margin-top:6px}
+  .cov-inv{margin:18px 0 0;font-size:13.5px;color:#c7cede;max-width:56ch}
+  .cov-inv b{color:#fff}
+  .cov-foot{display:flex;gap:12px;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.10)}
+  .cov-foot .avatar{width:52px;height:52px;font-size:15px}
+  .cov-sign{font-size:12px;color:#aeb7cb}
+  .cov-sign b{color:#fff;font-size:13px}
+
+  .cap{margin-top:12px;font-size:12.5px;color:var(--mutedp);display:flex;gap:8px;align-items:baseline}
+  .cap .d{flex:none;width:18px;height:18px;border-radius:50%;background:var(--orange);color:#fff;font-weight:800;font-size:10px;display:flex;align-items:center;justify-content:center}
+  .cap.g .d{background:var(--gold);color:#1a1f2b}
+
+  .note{background:var(--panel);border:1px solid var(--cardline);border-radius:12px;padding:16px 18px;margin-top:24px}
+  .note b{color:var(--paperink)} .note p{margin:0 0 8px;font-size:13.5px;color:var(--mutedp)}
+  .note p:last-child{margin-bottom:0}
+  .tag{display:inline-block;font-size:11px;font-weight:700;color:var(--orange);border:1px solid var(--cardline);border-radius:999px;padding:3px 10px;margin:3px 6px 0 0}
+  .decide{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .decide span{font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;border:1px solid var(--cardline);background:var(--bg)}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Storyboard · for KMM sign-off</div>
+  <h1>Making KMM's words the soul of the Mission&nbsp;KAS / IAS page</h1>
+  <p class="sub">Today the page opens with <em>method</em> and lists KMM's credentials as <em>facts</em>. His note —
+    <b>“I believe in you — Future Officer. I believe in myself — a Former Officer.”</b> — is the missing emotional
+    spine. Below: the hero + founder area today, and the same area rebuilt around his voice. Same page, same brand
+    (navy + <span style="color:var(--orange);font-weight:700">iRise</span>Pro orange); we just give it a heart.</p>
+
+  <h2 class="sec">The hero + founder area — before → after</h2>
+  <div class="cols">
+
+    <!-- BEFORE -->
+    <div>
+      <p class="state s-b">Before · live today</p>
+      <div class="screen">
+        <div class="hero">
+          <span class="pill"><span class="dot"></span> Scientific Preparation Methodology</span>
+          <div class="h-title">MISSION <span class="g">IAS PRELIMS</span></div>
+          <p class="h-sub"><span class="brandtoken">iRisePro</span>-INVENTION STRENGTHENS YOUR SUCCESS ABILITIES — SCIENTIFICALLY AND HOLISTICALLY</p>
+          <span class="cta">Start Your Journey</span>
+        </div>
+        <div class="founder">
+          <div class="avatar">KMM</div>
+          <div>
+            <div class="f-k">Invented &amp; Copyrighted by</div>
+            <div class="f-n">Krishnaraja M. Manjunath</div>
+            <div class="f-cred"><span class="v">✓</span> Former Civil Services Officer (resigned for this mission)</div>
+            <div class="f-cred"><span class="v">✓</span> Former Media Network Chief · 14+ yrs research</div>
+          </div>
+        </div>
+      </div>
+      <p class="cap"><span class="d">!</span>Accurate, but it speaks in the third person — <em>method</em> and a
+        <em>résumé</em>. It informs the aspirant; it doesn't yet look them in the eye.</p>
+    </div>
+
+    <!-- AFTER -->
+    <div>
+      <p class="state s-a">After · proposed</p>
+      <div class="screen">
+        <div class="hero" style="padding-bottom:22px">
+          <span class="pill"><span class="dot"></span> Mission KAS · Prelims &amp; beyond</span>
+          <div class="h-title">Become the <span class="g">Officer</span> you were meant to be.</div>
+          <p class="h-sub">The World's First Scientific Success Strengthening System — built by an officer, for the next one.</p>
+        </div>
+        <div class="covenant">
+          <div class="rule"></div>
+          <div class="cov-eye">A word from the founder</div>
+          <p class="cov-line serif">I believe in <span class="you">you</span> — <span class="you">a Future Officer.</span></p>
+          <p class="cov-line serif">I believe in <span class="me">myself</span> — <span class="me">a Former Officer.</span></p>
+          <p class="cov-inv">And I believe in <b>my invention — the World's First Scientific Success Strengthening System.</b>
+            I left the officer's chair to build it. Now it stands behind you.</p>
+          <div class="cov-foot">
+            <div class="avatar">KMM</div>
+            <div class="cov-sign"><b>Krishnaraja M. Manjunath</b><br>Former Civil Services Officer · Inventor, <span class="brandtoken">iRisePro</span></div>
+          </div>
+          <span class="cta" style="margin-top:20px">Begin your Mission</span>
+        </div>
+      </div>
+      <p class="cap g"><span class="d">✓</span>His words become the hero's heart: <em>former officer → future officer</em>,
+        then the invention as his personal covenant. Credentials stay — as the signature under a promise, not a list.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <p><b>Why this works —</b> the aspirant's deepest want isn't “a methodology”, it's to <em>become an officer</em>.
+      KMM was one; he resigned to build the science; he says it to their face. That's trust no feature list can buy.
+      The line's mirror structure (<em>you/future ↔ myself/former</em>) is doing the heavy lifting — we just frame it.</p>
+    <p><b>Two real opportunities this unlocks:</b>
+      <span class="tag">There is no distinct KAS page yet — this becomes its birth hero</span>
+      <span class="tag">Skills-strategy tailwind: “ability over credentials” is now national policy language — a credibility band right below</span></p>
+  </div>
+
+  <div class="note">
+    <p><b>Sign-off —</b> tell me / KMM: <b>(1)</b> put the covenant on the <b>existing Mission&nbsp;IAS</b> page, spin a
+      <b>new KAS</b> page from it, or <b>both</b>? <b>(2)</b> covenant as a <b>band under the hero</b> (shown), or make the
+      belief lines the <b>hero headline itself</b>? <b>(3)</b> keep KMM's words verbatim, or use the lightly-framed
+      version above. Then I storyboard the full page + build it.</p>
+    <div class="decide"><span>Existing IAS page</span><span>New KAS page</span><span>Both</span><span>Band under hero</span><span>Belief = the headline</span><span>Verbatim words</span></div>
+  </div>
+</div>
+</body></html>
