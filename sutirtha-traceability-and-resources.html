@@ -1,0 +1,297 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iRisePro · Evaluation Traceability + Task Learning Material — Storyboard</title>
+<style>
+  :root{
+    --ink:#1d2430; --sub:#5b6675; --line:#e7e9ee; --bg:#f6f7f9; --card:#ffffff;
+    --saffron:#F58321; --saffron-ink:#b45c0d; --blue:#2F6BF0; --green:#178A45; --gold:#D99A00;
+    --bad:#c8412f; --badbg:#fdeceb; --good:#137a43; --goodbg:#e9f6ee;
+    --radius:14px; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .brandtoken{text-transform:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px}
+  header.top{margin-bottom:8px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--saffron-ink);font-weight:700}
+  h1{font-size:30px;margin:.2em 0 .1em;letter-spacing:-.01em}
+  h1 .brandtoken{color:var(--saffron)}
+  .lede{color:var(--sub);font-size:16px;max-width:70ch}
+  .meta{margin-top:10px;font-size:13px;color:var(--sub)}
+  .meta code{font-family:var(--mono);background:#eef0f4;padding:1px 6px;border-radius:5px}
+
+  section.change{margin-top:44px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px}
+  .sec-num{font-family:var(--mono);font-weight:700;color:#fff;background:var(--ink);border-radius:8px;padding:3px 9px;font-size:13px}
+  .sec-head h2{font-size:21px;margin:0}
+  .sec-sub{color:var(--sub);font-size:14px;margin:8px 0 0}
+
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+  @media(max-width:760px){.ba{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+  .panel .tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:9px 14px;color:#fff}
+  .panel.before .tag{background:#8b93a1}
+  .panel.after .tag{background:var(--saffron)}
+  .panel .body{padding:16px;flex:1}
+  .cap{font-size:12.5px;color:var(--sub);padding:0 16px 15px}
+
+  /* mock chrome */
+  .mock{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#fff}
+  .mock .bar{background:#f1f3f6;border-bottom:1px solid var(--line);padding:7px 11px;font-size:11px;color:var(--sub);display:flex;align-items:center;gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#cfd4dc;display:inline-block}
+  .mock .screen{padding:14px}
+  .mono{font-family:var(--mono)}
+
+  /* admin table */
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;color:var(--sub);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line)}
+  td{padding:8px;border-bottom:1px solid #f0f2f5;vertical-align:middle}
+  .code{font-family:var(--mono);font-weight:700;color:var(--ink);background:#f3f5f8;border:1px solid var(--line);border-radius:6px;padding:2px 7px;font-size:11.5px;white-space:nowrap}
+  .pill{display:inline-block;font-size:10.5px;font-weight:700;border-radius:999px;padding:2px 9px}
+  .pill.done{background:var(--goodbg);color:var(--good)}
+  .pill.prog{background:#fff5e9;color:var(--saffron-ink)}
+  .pill.wait{background:#eef0f4;color:var(--sub)}
+  .muted-block{padding:16px;border:1px dashed #cfd4dc;border-radius:10px;color:var(--sub);font-size:12.5px;text-align:center;background:#fbfcfd}
+
+  /* student task mock */
+  .stask h4{margin:0 0 8px;font-size:15px}
+  .rawblob{border:1px dashed #d7b48b;background:#fff8f0;border-radius:9px;padding:12px;font-family:var(--mono);font-size:11px;color:#9a6a2e;word-break:break-all}
+  .res{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:9px;background:#fff}
+  .res:last-child{margin-bottom:0}
+  .res .ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto}
+  .res .t{font-weight:700;font-size:13px}
+  .res .s{font-size:11.5px;color:var(--sub)}
+  .res .go{margin-left:auto;font-size:11px;font-weight:700;color:var(--saffron-ink);white-space:nowrap}
+  .ic.link{background:#eaf1ff;color:var(--blue)} .ic.pod{background:#fdeede;color:var(--saffron-ink)}
+  .ic.img{background:#e9f6ee;color:var(--green)} .ic.pdf{background:#fbeceb;color:var(--bad)}
+
+  /* phone frame for the student mobile view */
+  .phone{max-width:290px;margin:0 auto;border:9px solid #11151c;border-radius:34px;background:#fff;overflow:hidden;box-shadow:0 18px 40px -18px rgba(17,24,38,.45)}
+  .phone .notch{height:22px;background:#11151c;position:relative}
+  .phone .notch:after{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:78px;height:15px;background:#11151c;border-radius:0 0 11px 11px}
+  .phone .view{padding:13px;max-height:520px;overflow:hidden}
+  .task-hd{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+  .task-hd .tmr{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:12px;color:var(--saffron-ink);background:#fff5e9;border:1px solid #f6dcbb;border-radius:8px;padding:3px 8px}
+  .task-hd .ttl{font-weight:800;font-size:14px;line-height:1.25}
+  .lm-card{border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 2px 8px -4px rgba(17,24,38,.12);overflow:hidden}
+  .lm-top{display:flex;align-items:center;gap:8px;padding:11px 13px;background:linear-gradient(180deg,#fffaf3,#fff);border-bottom:1px solid var(--line)}
+  .lm-top .h{font-weight:800;font-size:13px}
+  .lm-top .n{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--saffron-ink);background:#fdeede;border-radius:999px;padding:2px 8px}
+  .lm-list{padding:9px}
+  .r2{display:flex;align-items:center;gap:11px;padding:10px;border-radius:12px}
+  .r2+.r2{margin-top:5px}
+  .r2:active{background:#f7f8fa}
+  .r2 .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex:0 0 auto}
+  .r2 .t{font-weight:700;font-size:12.5px;line-height:1.25}
+  .r2 .s{font-size:11px;color:var(--sub);margin-top:1px}
+  .r2 .chev{margin-left:auto;color:#b9c0cc;font-size:15px;flex:0 0 auto}
+  .r2 .seen{margin-left:auto;color:var(--good);font-size:14px;font-weight:700;flex:0 0 auto}
+  /* inline audio player (expanded podcast) */
+  .player{margin:5px 4px 2px;background:#111826;border-radius:13px;padding:11px 12px;color:#fff}
+  .player .row{display:flex;align-items:center;gap:10px}
+  .player .play{width:34px;height:34px;border-radius:50%;background:var(--saffron);color:#111;display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto}
+  .player .pt{font-size:12px;font-weight:700}
+  .player .ps{font-size:10.5px;color:#aeb6c6}
+  .player .bar2{height:4px;border-radius:3px;background:#333c50;margin-top:9px;position:relative;overflow:hidden}
+  .player .bar2 i{position:absolute;left:0;top:0;height:100%;width:38%;background:var(--saffron);border-radius:3px}
+  .player .tm{display:flex;justify-content:space-between;font-size:9.5px;color:#8b94a6;margin-top:5px;font-family:var(--mono)}
+  .sheet-note{display:flex;gap:8px;align-items:flex-start;margin-top:11px;font-size:11px;color:var(--sub)}
+  .sheet-note b{color:var(--ink)}
+  /* swipeable carousel of resource slides */
+  .carou{padding:10px 0 4px}
+  .track{display:flex;gap:9px;padding:0 11px;overflow:hidden}
+  .slide{flex:0 0 88%;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 3px 10px -6px rgba(17,24,38,.2);overflow:hidden}
+  .slide.peek{flex:0 0 10%;opacity:.55}
+  .slide .shead{display:flex;align-items:center;gap:8px;padding:9px 11px;border-bottom:1px solid #f0f2f5}
+  .slide .shead .ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .slide .shead .t{font-weight:700;font-size:12px;line-height:1.2}
+  .slide .shead .ty{font-size:10px;color:var(--sub)}
+  .slide .sbody{padding:11px}
+  .imgslide{height:96px;background:linear-gradient(135deg,#e9f6ee,#d8ecdf);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:12px;font-weight:700;border-radius:9px}
+  .linkslide{display:flex;align-items:center;gap:9px;background:#f5f8ff;border:1px solid #e0eaff;border-radius:10px;padding:10px}
+  .linkslide .go{margin-left:auto;font-size:11px;font-weight:800;color:var(--blue)}
+  .dots{display:flex;gap:6px;justify-content:center;align-items:center;padding:11px 0 3px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:#d3d8e0;display:block}
+  .dots i.on{width:20px;border-radius:4px;background:var(--saffron)}
+  .dots i.done{background:var(--good)}
+  .counter{font-size:10.5px;font-family:var(--mono);color:var(--sub);margin-left:6px}
+  .swipehint{text-align:center;font-size:10.5px;color:var(--sub);padding-bottom:6px}
+
+  .why{margin-top:18px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--saffron);border-radius:10px;padding:14px 16px}
+  .why b{font-size:13px}
+  .why ul{margin:8px 0 0;padding-left:18px;font-size:13.5px;color:#39414d}
+  .why li{margin:4px 0}
+
+  .decide{margin-top:16px;background:#111826;color:#eef1f6;border-radius:12px;padding:16px 18px}
+  .decide h3{margin:0 0 6px;font-size:14px;color:#ffd8ad}
+  .decide p{margin:6px 0;font-size:13.5px;color:#cbd2df}
+  .opt{display:grid;grid-template-columns:auto 1fr;gap:10px;margin-top:10px}
+  .opt .b{font-family:var(--mono);font-weight:700;color:#fff;background:#2a3346;border-radius:7px;padding:2px 9px;height:fit-content}
+  .opt.pick .b{background:var(--saffron);color:#111}
+  .opt .txt{font-size:13px;color:#cbd2df}
+  .opt.pick .txt{color:#fff}
+  .rec{display:inline-block;margin-left:8px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#111;background:var(--saffron);border-radius:5px;padding:1px 7px}
+  footer{margin-top:56px;border-top:1px solid var(--line);padding-top:16px;color:var(--sub);font-size:12.5px}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">Storyboard · for review &amp; sign-off</div>
+    <h1><span class="brandtoken">iRisePro</span> — Evaluation Traceability + Task Learning Material</h1>
+    <p class="lede">Two of Sutirtha's dogfood items. Each shown <b>before → after</b> with the rationale. Nothing is built yet — this is the proposal to approve before any code lands.</p>
+    <div class="meta">Sources: <code>Student::getPseudonymAttribute()</code> · <code>YashodarshiAuthController</code> · <code>superadmin/enrollments/show.blade.php</code> · <code>task-details.blade.php:602</code></div>
+  </header>
+
+  <!-- ============================ #7 + #8 ============================ -->
+  <section class="change">
+    <div class="sec-head">
+      <span class="sec-num">#7 · #8</span>
+      <h2>Evaluation traceability &amp; a persistent student code</h2>
+    </div>
+    <p class="sec-sub">Sutirtha can't tell <i>which</i> student she evaluated. Per the DPDPA call, we surface the mapping in <b>superadmin</b> — never in the Yashodarshi panel, which stays blind. The join key is the student's code, made <b>persistent &amp; deterministic</b> so it's stable forever.</p>
+
+    <div class="ba">
+      <div class="panel before">
+        <div class="tag">Before</div>
+        <div class="body">
+          <div class="mock">
+            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp; superadmin › enrolment › show</div>
+            <div class="screen">
+              <div style="font-size:12px;color:var(--sub);margin-bottom:8px">Enrolment detail shows name, challenge, payment, dates…</div>
+              <div class="muted-block">No evaluation trace.<br>Who marked this student? Which code did the evaluator see?<br><b style="color:var(--ink)">Not shown anywhere.</b></div>
+              <div style="font-size:11.5px;color:var(--sub);margin-top:10px">Student code is computed on-the-fly (<span class="mono">HMAC(id)</span>), <b>never stored</b>, and never displayed to admins — so a parent dispute has no lookup.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cap">Evaluator sees <span class="code">Candidate 3F9C1</span> (blind, correct). Admin has no way back from that code to the student or the evaluator.</div>
+      </div>
+
+      <div class="panel after">
+        <div class="tag">After</div>
+        <div class="body">
+          <div class="mock">
+            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp; superadmin › evaluation traceability</div>
+            <div class="screen">
+              <table>
+                <thead><tr><th>Code</th><th>Student</th><th>Stream</th><th>Evaluator</th><th>Tasks</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="code">3F9C1</span></td><td>Ananya R.<br><span style="color:var(--sub);font-size:11px">ananya@…</span></td><td>ias_kas<br><span style="color:var(--sub);font-size:11px">₹4999</span></td><td>S. Mandal</td><td>21/21</td><td><span class="pill done">Scored</span></td></tr>
+                  <tr><td><span class="code">A72E0</span></td><td>Vikram S.<br><span style="color:var(--sub);font-size:11px">vikram@…</span></td><td>neet<br><span style="color:var(--sub);font-size:11px">₹1999</span></td><td>S. Mandal</td><td>9/15</td><td><span class="pill prog">In review</span></td></tr>
+                  <tr><td><span class="code">C15B8</span></td><td>Meera T.<br><span style="color:var(--sub);font-size:11px">meera@…</span></td><td>jee<br><span style="color:var(--sub);font-size:11px">₹999</span></td><td>— unallocated</td><td>0/5</td><td><span class="pill wait">Awaiting</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="cap">Admin-only. Code ↔ real student ↔ evaluator ↔ #tasks ↔ status — the full dispute-resolution trail. Yashodarshi panel is <b>unchanged</b> (still blind).</div>
+      </div>
+    </div>
+
+    <div class="why">
+      <b>Why persist the code (your call — "definitely persistent and deterministic")</b>
+      <ul>
+        <li><b>Same value, now stored.</b> Today the code is a deterministic <span class="mono">HMAC(student id, APP_KEY)</span> → <span class="code">3F9C1</span>. We backfill every existing student with the <i>exact same value</i>, so no evaluator's "Candidate 3F9C1" reference ever shifts.</li>
+        <li><b>Rotation-proof.</b> Once stored, an <span class="mono">APP_KEY</span> rotation can never silently change a student's code (today it would, breaking old references).</li>
+        <li><b>A real join key.</b> Stored → indexable/unique → the traceability query is a clean join, and the code can appear on scorecards, exports, and dispute tickets.</li>
+        <li><b>Minted at enrolment</b> (and defensively at student creation) via a model hook, so every student always has one.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ #11 ============================ -->
+  <section class="change">
+    <div class="sec-head">
+      <span class="sec-num">#11</span>
+      <h2>External resource access — Learning Material in a task</h2>
+    </div>
+    <p class="sec-sub">The person who matters here is a <b>student mid-test on a phone</b>. The goal isn't "a list of links" — it's letting them <b>consume the material without ever leaving the task</b> (timer running, draft safe). Today a task has one raw-HTML blob (<span class="mono">task_multimedia</span>) built for a single Vimeo embed — it can't hold a link, an image, or a podcast, which is exactly why they're stuck.</p>
+
+    <div class="ba">
+      <div class="panel before">
+        <div class="tag">Before</div>
+        <div class="body">
+          <div class="mock">
+            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp; student · task details</div>
+            <div class="screen stask">
+              <h4>Learning Material</h4>
+              <div class="rawblob">{!! $task-&gt;task_multimedia !!}<br><span style="opacity:.7">&lt;iframe src="vimeo.com/…"&gt;&lt;/iframe&gt;</span></div>
+              <div style="font-size:11.5px;color:var(--bad);margin-top:10px;font-weight:600">✗ One raw-HTML field, Vimeo-shaped.<br>✗ No podcast, no comprehension image, no PDF.<br>✗ Nothing tappable — and a pasted link would throw the student out of the app.</div>
+            </div>
+          </div>
+        </div>
+        <div class="cap">An empty shell that dumps whatever HTML is pasted in. A podcast or an image has nowhere to live.</div>
+      </div>
+
+      <div class="panel after">
+        <div class="tag">After · student on mobile</div>
+        <div class="body">
+          <div class="phone">
+            <div class="notch"></div>
+            <div class="view">
+              <div class="task-hd">
+                <div class="ttl">Ethics: dilemma<br>response</div>
+                <div class="tmr">⏱ 14:52</div>
+              </div>
+              <div class="lm-card">
+                <div class="lm-top"><span>📚</span><span class="h">Learning Material</span><span class="n">swipe · 4</span></div>
+                <div class="carou">
+                  <div class="track">
+                    <!-- current slide: podcast → inline player -->
+                    <div class="slide">
+                      <div class="shead"><div class="ic pod">🎧</div><div><div class="t">The Officer's Mindset — Ep.4</div><div class="ty">Podcast</div></div></div>
+                      <div class="sbody">
+                        <div class="player" style="margin:0">
+                          <div class="row"><div class="play">▶</div><div><div class="pt">Play inline</div><div class="ps">stay in the task</div></div></div>
+                          <div class="bar2"><i></i></div>
+                          <div class="tm"><span>4:31</span><span>12:00</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- peek of the next slide (comprehension image) → discoverability -->
+                    <div class="slide peek"><div class="imgslide" style="height:100%;border-radius:0">🖼️</div></div>
+                  </div>
+                  <div class="dots"><i class="on"></i><i></i><i class="done"></i><i></i><span class="counter">1 / 4</span></div>
+                  <div class="swipehint">‹ swipe · 🎧 podcast · 🖼️ passage · 🔗 link · 📄 pdf ›</div>
+                </div>
+              </div>
+              <div class="sheet-note"><span>🛡️</span><div><b>Each slide is tailored to its type</b> — audio plays inline, the passage image &amp; PDF pop to a full-screen viewer, a link opens a new tab. The task, timer &amp; draft never move. A ✓ dot marks what's been opened.</div></div>
+              <div class="sheet-note" style="margin-top:7px"><span>📌</span><div><b>Plus a pinned "Materials" chip on the answer screen</b> — one tap reopens the passage while they're writing, so reference-while-answering isn't a swipe-hunt.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="cap">Thumb-sized cards (44px+), one calm card under the header and above the work. The podcast is a real inline player — the "beautiful + useful" moment: press play, keep reading the task.</div>
+      </div>
+    </div>
+
+    <div class="why">
+      <b>Why the carousel (my honest verdict) — beautiful <i>and</i> useful on a phone</b>
+      <ul>
+        <li><b>One thing at a time.</b> A student under a timer shouldn't face a wall of links. A swipeable deck gives full attention to each resource, and stays compact so the task stays reachable.</li>
+        <li><b>Type-tailored slides.</b> Each slide is built for its medium — inline audio player, full-bleed passage image, a big link card, a PDF/video poster — instead of one generic row for everything.</li>
+        <li><b>Discoverability solved.</b> The carousel's one weakness is "did they see there's more?" — fixed with pagination dots, a "1 / 4" counter, and a <i>peek</i> of the next slide at the edge.</li>
+        <li><b>Zero context-loss.</b> Audio plays inline; image &amp; PDF pop to a full-screen viewer; a link opens a new tab. The task, timer &amp; draft never move. A ✓ dot marks what's opened.</li>
+        <li><b>Reference-while-answering.</b> The carousel's real limit — needing the passage <i>while</i> writing — is closed by a pinned <b>Materials</b> chip on the answer screen: one tap reopens it, no swipe-hunt.</li>
+        <li><b>Reuses what you ship.</b> The task gallery already runs Swiper (<span class="mono">swiper taskCarousel</span>), so this is a known, tested pattern — not new infra.</li>
+      </ul>
+    </div>
+
+    <div class="decide">
+      <h3>Product call — how we deliver this</h3>
+      <p>Choice was (a) a link inside the description vs (b) a "Learning Material" section. For a student testing on a phone:</p>
+      <div class="opt pick">
+        <span class="b">B</span>
+        <div class="txt"><b>"Learning Material" as a swipeable, type-aware carousel</b> <span class="rec">Recommended</span><br>Complete the existing shell into a Swiper deck of tailored slides (audio inline · image/PDF full-screen · link new-tab) with dots + "1/4" + next-slide peek, plus a pinned <b>Materials</b> re-open chip on the answer screen. First-class, framed before the task, retires the fragile raw-HTML blob (closes an XSS foot-gun).</div>
+      </div>
+      <div class="opt">
+        <span class="b">A</span>
+        <div class="txt"><b>Inline hyperlink in the description</b> — fastest, but a lone link buried in prose is easy to skip, throws the student out to a browser tab mid-test, and can't carry a podcast/image/PDF. Fine as a <i>secondary</i> convenience, not the primary mechanism.</div>
+      </div>
+      <p style="margin-top:12px">→ Proposed: build <b>B</b> as a carousel. Authoring gets an <b>"Add learning material"</b> repeater (type · title · URL or upload); the student task view renders the swipeable deck above + the pinned re-open chip. Casual inline links in the description keep working too.</p>
+    </div>
+  </section>
+
+  <footer>
+    Reply with <b>go</b> (or tweaks) per section and I'll fold each in — migration + model + admin view + tests for #7/#8, and the resource model + authoring repeater + student cards + tests for #11. Storyboard only; no code shipped yet. · <span class="brandtoken">iRisePro</span>
+  </footer>
+</div>
