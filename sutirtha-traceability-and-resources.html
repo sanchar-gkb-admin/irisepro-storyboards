@@ -117,6 +117,14 @@
   .dots i.done{background:var(--good)}
   .counter{font-size:10.5px;font-family:var(--mono);color:var(--sub);margin-left:6px}
   .swipehint{text-align:center;font-size:10.5px;color:var(--sub);padding-bottom:6px}
+  .datastrip{margin-top:16px;background:#0f1622;border-radius:12px;padding:14px 16px;color:#dfe5ef}
+  .datastrip h4{margin:0 0 3px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#ffd8ad}
+  .datastrip .src{font-size:11px;color:#8b94a6;margin-bottom:10px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip2{font-size:11.5px;background:#1b2534;border:1px solid #26324a;border-radius:8px;padding:5px 9px}
+  .chip2 b{color:#fff;font-family:var(--mono)}
+  .chip2.hot{border-color:var(--saffron);background:#2a2013}
+  .datanote{margin-top:10px;font-size:12px;color:#b9c1cf}
 
   .why{margin-top:18px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--saffron);border-radius:10px;padding:14px 16px}
   .why b{font-size:13px}
@@ -205,7 +213,20 @@
       <span class="sec-num">#11</span>
       <h2>External resource access — Learning Material in a task</h2>
     </div>
-    <p class="sec-sub">The person who matters here is a <b>student mid-test on a phone</b>. The goal isn't "a list of links" — it's letting them <b>consume the material without ever leaving the task</b> (timer running, draft safe). Today a task has one raw-HTML blob (<span class="mono">task_multimedia</span>) built for a single Vimeo embed — it can't hold a link, an image, or a podcast, which is exactly why they're stuck.</p>
+    <p class="sec-sub">The person who matters here is a <b>student mid-test on a phone</b>. The goal isn't "a list of links" — it's letting them <b>consume the material without ever leaving the task</b> (timer running, draft safe). The design below is grounded in the <b>actual authored content</b>, not guesses.</p>
+
+    <div class="datastrip">
+      <h4>Grounded in real prod content</h4>
+      <div class="src">source: <span class="mono">prod-catalog-content.sql</span> — the live tasks KMM &amp; Sutirtha authored</div>
+      <div class="chips">
+        <span class="chip2 hot">🎧 Podcast — <b>Spotify links</b> ×35 ("Step 1: Listen to the podcast: open.spotify.com/…")</span>
+        <span class="chip2 hot">📄 Reading / PDF ×<b>130</b> (self-hosted <span class="mono">tasks/mini_timer/*.pdf</span>, timed passages)</span>
+        <span class="chip2">🎬 Video — <b>YouTube</b> ×~5 ("Muted Video Link: youtu.be/…")</span>
+        <span class="chip2">🖼️ Passage image — <b>Drive</b> ×4 ("Picture: drive.google.com/…")</span>
+        <span class="chip2">🔗 Web link ×few · only <b>4</b> real &lt;a&gt; tags · <b>0</b> iframes</span>
+      </div>
+      <div class="datanote"><b>The failure, precisely:</b> material is buried as plain-text numbered steps inside the instructions (median ~321 chars). On a phone that's an <b>untappable URL</b> — and Spotify / YouTube / Drive throw the student out of the test (Drive can even hit a login/permission wall). That's why they "can't open" it.</div>
+    </div>
 
     <div class="ba">
       <div class="panel before">
@@ -237,22 +258,22 @@
                 <div class="lm-top"><span>📚</span><span class="h">Learning Material</span><span class="n">swipe · 4</span></div>
                 <div class="carou">
                   <div class="track">
-                    <!-- current slide: podcast → inline player -->
+                    <!-- current slide: Spotify podcast → inline embed player (real: open.spotify.com/episode/…) -->
                     <div class="slide">
-                      <div class="shead"><div class="ic pod">🎧</div><div><div class="t">The Officer's Mindset — Ep.4</div><div class="ty">Podcast</div></div></div>
+                      <div class="shead"><div class="ic pod">🎧</div><div><div class="t">Listen: the podcast (Step 1)</div><div class="ty">Spotify · plays inline</div></div></div>
                       <div class="sbody">
                         <div class="player" style="margin:0">
-                          <div class="row"><div class="play">▶</div><div><div class="pt">Play inline</div><div class="ps">stay in the task</div></div></div>
+                          <div class="row"><div class="play">▶</div><div><div class="pt">Spotify embed</div><div class="ps">no leaving the test</div></div></div>
                           <div class="bar2"><i></i></div>
                           <div class="tm"><span>4:31</span><span>12:00</span></div>
                         </div>
                       </div>
                     </div>
-                    <!-- peek of the next slide (comprehension image) → discoverability -->
-                    <div class="slide peek"><div class="imgslide" style="height:100%;border-radius:0">🖼️</div></div>
+                    <!-- peek of the next slide (reading passage / PDF) → discoverability -->
+                    <div class="slide peek"><div class="imgslide" style="height:100%;border-radius:0;background:linear-gradient(135deg,#fbeceb,#f6dad8);color:var(--bad)">📄</div></div>
                   </div>
                   <div class="dots"><i class="on"></i><i></i><i class="done"></i><i></i><span class="counter">1 / 4</span></div>
-                  <div class="swipehint">‹ swipe · 🎧 podcast · 🖼️ passage · 🔗 link · 📄 pdf ›</div>
+                  <div class="swipehint">‹ swipe · 🎧 podcast · 📄 passage · 🎬 video · 🖼️ image ›</div>
                 </div>
               </div>
               <div class="sheet-note"><span>🛡️</span><div><b>Each slide is tailored to its type</b> — audio plays inline, the passage image &amp; PDF pop to a full-screen viewer, a link opens a new tab. The task, timer &amp; draft never move. A ✓ dot marks what's been opened.</div></div>
@@ -265,14 +286,22 @@
     </div>
 
     <div class="why">
-      <b>Why the carousel (my honest verdict) — beautiful <i>and</i> useful on a phone</b>
+      <b>Per-type viewer strategy — matched to how the content is really hosted</b>
       <ul>
-        <li><b>One thing at a time.</b> A student under a timer shouldn't face a wall of links. A swipeable deck gives full attention to each resource, and stays compact so the task stays reachable.</li>
-        <li><b>Type-tailored slides.</b> Each slide is built for its medium — inline audio player, full-bleed passage image, a big link card, a PDF/video poster — instead of one generic row for everything.</li>
-        <li><b>Discoverability solved.</b> The carousel's one weakness is "did they see there's more?" — fixed with pagination dots, a "1 / 4" counter, and a <i>peek</i> of the next slide at the edge.</li>
-        <li><b>Zero context-loss.</b> Audio plays inline; image &amp; PDF pop to a full-screen viewer; a link opens a new tab. The task, timer &amp; draft never move. A ✓ dot marks what's opened.</li>
-        <li><b>Reference-while-answering.</b> The carousel's real limit — needing the passage <i>while</i> writing — is closed by a pinned <b>Materials</b> chip on the answer screen: one tap reopens it, no swipe-hunt.</li>
-        <li><b>Reuses what you ship.</b> The task gallery already runs Swiper (<span class="mono">swiper taskCarousel</span>), so this is a known, tested pattern — not new infra.</li>
+        <li><b>🎧 Podcast (Spotify)</b> → the <span class="mono">open.spotify.com/embed/episode/…</span> iframe plays <b>inline</b> in the slide. No leaving for the Spotify app.</li>
+        <li><b>📄 Reading / PDF</b> (self-hosted <span class="mono">tasks/…pdf</span>) → opens in an <b>in-app viewer sheet</b>; reuses the mini-timer passage the tasks already carry.</li>
+        <li><b>🎬 Video (YouTube)</b> → <span class="mono">youtube-nocookie</span> embed plays <b>inline</b>; no jump to the YouTube app.</li>
+        <li><b>🖼️ Passage image (Drive)</b> → the risky one: Drive links can hit a login/permission wall. We <b>proxy/preview</b> the image (or nudge authors to upload it), then full-screen pinch-zoom — never a raw Drive redirect.</li>
+        <li><b>🔗 Web link</b> → opens a new tab (the only true external), task/timer/draft preserved.</li>
+      </ul>
+      <div style="margin-top:10px;font-size:13px;color:#39414d"><b>And the carousel itself:</b> one thing at a time under a timer; discoverability solved with dots + "1/4" + next-slide peek; a ✓ marks what's opened; a pinned <b>Materials</b> chip on the answer screen reopens the passage while writing (reference-while-answering). Reuses the Swiper you already ship (<span class="mono">swiper taskCarousel</span>).</div>
+    </div>
+
+    <div class="why" style="border-left-color:var(--green)">
+      <b>Migration — no re-authoring for KMM</b>
+      <ul>
+        <li>Existing tasks embed material as numbered steps ("Step 1: Listen to the podcast: <span class="mono">spotify…</span>"). A one-time pass <b>auto-detects</b> Spotify / YouTube / Drive / <span class="mono">.pdf</span> URLs in the instructions and <b>lifts them into structured slides</b> — keeping the step wording as the slide title.</li>
+        <li>Authoring gets an <b>"Add learning material"</b> repeater (type · title · URL or upload) for new tasks; the auto-detect handles the back-catalogue.</li>
       </ul>
     </div>
 
@@ -281,7 +310,7 @@
       <p>Choice was (a) a link inside the description vs (b) a "Learning Material" section. For a student testing on a phone:</p>
       <div class="opt pick">
         <span class="b">B</span>
-        <div class="txt"><b>"Learning Material" as a swipeable, type-aware carousel</b> <span class="rec">Recommended</span><br>Complete the existing shell into a Swiper deck of tailored slides (audio inline · image/PDF full-screen · link new-tab) with dots + "1/4" + next-slide peek, plus a pinned <b>Materials</b> re-open chip on the answer screen. First-class, framed before the task, retires the fragile raw-HTML blob (closes an XSS foot-gun).</div>
+        <div class="txt"><b>"Learning Material" as a swipeable, type-aware carousel</b> <span class="rec">Recommended</span><br>Complete the existing shell into a Swiper deck of tailored slides (Spotify &amp; YouTube inline · PDF/image full-screen · link new-tab) with dots + "1/4" + next-slide peek, plus a pinned <b>Materials</b> re-open chip on the answer screen. Auto-migrates the back-catalogue, retires the fragile raw-HTML blob (closes an XSS foot-gun).</div>
       </div>
       <div class="opt">
         <span class="b">A</span>
