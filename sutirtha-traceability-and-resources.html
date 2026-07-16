@@ -167,6 +167,27 @@
   .pcard p{margin:0;font-size:12.5px;color:#39414d;line-height:1.5}
   .pcard ul{margin:7px 0 0;padding-left:17px;font-size:12.5px;color:#39414d}
   .pcard li{margin:4px 0}
+  /* faithful evaluation-atelier mock */
+  .atelier{background:#14161c;border-radius:11px;padding:13px;color:#e7e3d8;font-family:Georgia,"Times New Roman",serif}
+  .at-mast{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2d36;padding-bottom:9px;margin-bottom:10px}
+  .at-logo{font-size:14px;letter-spacing:.02em;color:#f3efe6}
+  .at-logo em{color:var(--saffron);font-style:italic}
+  .at-chip{font-family:var(--sans);font-size:10.5px;font-weight:700;background:#22252e;color:#c9c3b4;border:1px solid #333744;border-radius:999px;padding:3px 9px}
+  .at-eye{font-family:var(--sans);font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8b8674;margin:12px 0 6px;display:flex;align-items:center;gap:7px}
+  .at-eye:first-of-type{margin-top:0}
+  .newpill{font-size:8.5px;background:var(--saffron);color:#111;border-radius:4px;padding:1px 5px;letter-spacing:.05em}
+  .at-sheet{background:#1b1e26;border:1px solid #2a2d36;border-radius:9px;padding:10px}
+  .br{font-family:var(--sans);font-size:11.5px;color:#d7d2c4;padding:4px 0;border-bottom:1px solid #23262f;display:flex;gap:9px}
+  .br:last-child{border-bottom:0}
+  .br .bk{color:#8b8674;font-weight:700;min-width:78px;flex:0 0 auto}
+  .at-mat{background:#1a1f2b;border:1px solid #2b3550;border-radius:9px;padding:9px}
+  .at-mat .ectx{background:#20273a;border-color:#33405e}
+  .at-mat .ectx .en{color:#dbe3f5}
+  .at-mat .ectx .eo{color:#8fb0ff}
+  .at-spec{font-family:var(--sans);font-size:11.5px;color:#cfcabb;background:#1b1e26;border:1px solid #2a2d36;border-left:3px solid var(--saffron);border-radius:7px;padding:9px 11px;line-height:1.5}
+  .at-flag{font-family:var(--sans);font-size:11px;font-weight:600;margin-top:10px;padding:8px 10px;border-radius:8px;line-height:1.45}
+  .at-flag.bad{background:#2a1614;color:#f0a89c}
+  .at-flag.good{background:#13241a;color:#8fd6a6}
 
   .why{margin-top:18px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--saffron);border-radius:10px;padding:14px 16px}
   .why b{font-size:13px}
@@ -390,49 +411,53 @@
       </div>
     </div>
 
-    <!-- ===== evaluator surface: explicit before → after ===== -->
-    <h3 class="sync-h">Evaluator surface — before → after</h3>
-    <p class="sync-sub">The Yashodarshi already sees the task <i>brief</i> (that visibility gap was closed earlier). What's still missing is the <b>material the student was given</b> — you can't fairly grade a response <i>about</i> a podcast without hearing it. Same <span class="mono">learning_materials</span> model, rendered read-only &amp; blind.</p>
+    <!-- ===== evaluator surface: explicit before → after (faithful to the real atelier) ===== -->
+    <h3 class="sync-h">Yashodarshi surface — before → after (the real Evaluation Atelier)</h3>
+    <p class="sync-sub">Faithful to the live screen: the <b>Evaluation Atelier</b> masthead with the blind ◆ Candidate chip, then <b>The Brief</b> (task · objective · description · instructions · what to submit), then <b>The Specimen</b> (submission). The change adds one section — <b>Source Material</b> — between the brief and the specimen. Everything else is untouched, and it stays blind.</p>
 
     <div class="ba">
       <div class="panel before">
         <div class="tag">Before</div>
         <div class="body">
-          <div class="mock">
-            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp; yashodarshi · evaluation atelier</div>
-            <div class="screen">
-              <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px"><span class="blindchip">◆ Candidate 3F9C1</span><span style="font-size:11px;color:var(--sub)">blind · age/board/stream only</span></div>
-              <div style="font-size:11px;color:var(--sub);border:1px solid var(--line);border-radius:9px;padding:9px">
-                <div style="font-weight:700;color:var(--ink);margin-bottom:3px">Brief</div>
-                Objective · Description · Instructions · What to submit ✓<br>
-                <span style="color:var(--ink)">Submission:</span> "…what I learnt from the podcast…"
-              </div>
-              <div style="font-size:11.5px;color:var(--bad);margin-top:10px;font-weight:600">✗ The brief says "Listen to the podcast, then answer."<br>✗ The evaluator can't hear that podcast — grading blind to the very stimulus being assessed.</div>
+          <div class="atelier">
+            <div class="at-mast"><span class="at-logo">Evaluation <em>Atelier</em></span><span class="at-chip">◆ Candidate 3F9C1</span></div>
+            <div class="at-eye">The Brief</div>
+            <div class="at-sheet">
+              <div class="br"><span class="bk">The task</span>Reflect on the podcast &amp; apply it</div>
+              <div class="br"><span class="bk">Objective</span>Test listening comprehension + transfer</div>
+              <div class="br"><span class="bk">Instructions</span>Step 1: Listen to the podcast shared with you. Step 2: Answer below.</div>
+              <div class="br"><span class="bk">What to submit</span>One written response</div>
             </div>
+            <div class="at-eye">The Specimen · Text</div>
+            <div class="at-spec">"From the podcast I learnt that a leader must stay calm under pressure…"</div>
+            <div class="at-flag bad">✗ The brief says "Listen to the podcast" — but the podcast is nowhere on the screen. The Yashodarshi grades fidelity to a source they can't hear.</div>
           </div>
         </div>
-        <div class="cap"><span class="mono">CockpitPresenter</span> passes title/objective/prompt/instructions/deliverable — but no materials. Fidelity to the source can't be judged.</div>
+        <div class="cap"><span class="mono">CockpitPresenter</span> passes title/objective/prompt/instructions/deliverable + the submission — but <b>no materials</b>.</div>
       </div>
 
       <div class="panel after">
         <div class="tag">After</div>
         <div class="body">
-          <div class="mock">
-            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp; yashodarshi · evaluation atelier</div>
-            <div class="screen">
-              <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px"><span class="blindchip">◆ Candidate 3F9C1</span><span style="font-size:11px;color:var(--sub)">still blind — unchanged</span></div>
-              <div style="font-size:11px;color:var(--sub);border:1px solid var(--line);border-radius:9px;padding:9px;margin-bottom:10px">
-                <div style="font-weight:700;color:var(--ink);margin-bottom:3px">Brief</div>
-                Objective · Description · Instructions · What to submit ✓
-              </div>
-              <div style="font-weight:800;font-size:11.5px;margin-bottom:6px;color:#31518f">📎 What the candidate was given</div>
-              <div class="ectx"><div class="ei ic pod">🎧</div><div class="en">Listen: the podcast</div><span class="eo">Play</span></div>
+          <div class="atelier">
+            <div class="at-mast"><span class="at-logo">Evaluation <em>Atelier</em></span><span class="at-chip">◆ Candidate 3F9C1</span></div>
+            <div class="at-eye">The Brief</div>
+            <div class="at-sheet">
+              <div class="br"><span class="bk">The task</span>Reflect on the podcast &amp; apply it</div>
+              <div class="br"><span class="bk">Instructions</span>Step 1: Listen to the podcast. Step 2: Answer below.</div>
+            </div>
+            <div class="at-eye" style="color:var(--saffron-ink)">Source Material · what the candidate was given <span class="newpill">NEW</span></div>
+            <div class="at-mat">
+              <div class="ectx"><div class="ei ic pod">🎧</div><div class="en">Listen: the podcast</div><span class="eo">▶ Play</span></div>
               <div class="ectx"><div class="ei ic pdf">📄</div><div class="en">Comprehension passage</div><span class="eo">View</span></div>
               <div class="ectx"><div class="ei ic img">🖼️</div><div class="en">Scene to observe</div><span class="eo">View</span></div>
             </div>
+            <div class="at-eye">The Specimen · Text</div>
+            <div class="at-spec">"From the podcast I learnt that a leader must stay calm under pressure…"</div>
+            <div class="at-flag good">✓ The exact podcast/passage sits right above the specimen — play it, then score fidelity. Task-level material = non-PII, so ◆ Candidate stays blind.</div>
           </div>
         </div>
-        <div class="cap">A read-only materials panel beside the brief — open the exact podcast/passage, then score fidelity. Materials are <b>task-level, non-PII</b>, so blindness is fully preserved.</div>
+        <div class="cap">One new <b>Source Material</b> section between The Brief and The Specimen. No PII added; the abilities-scoring grid below is unchanged.</div>
       </div>
     </div>
 
