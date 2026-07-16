@@ -125,6 +125,48 @@
   .chip2 b{color:#fff;font-family:var(--mono)}
   .chip2.hot{border-color:var(--saffron);background:#2a2013}
   .datanote{margin-top:10px;font-size:12px;color:#b9c1cf}
+  /* three-surfaces-in-sync */
+  .sync-h{margin:26px 0 4px;font-size:16px;font-weight:800}
+  .sync-sub{color:var(--sub);font-size:13.5px;margin:0 0 16px;max-width:74ch}
+  .trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:start}
+  @media(max-width:820px){.trio{grid-template-columns:1fr}}
+  .surface{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .surface>.sh{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--line)}
+  .surface>.sh .bdg{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;border-radius:6px;padding:2px 7px}
+  .bdg.a{background:#5b6675}.bdg.s{background:var(--saffron)}.bdg.e{background:#2f6bf0}
+  .surface>.sh .who{font-size:11px;color:var(--sub)}
+  .surface .sbd{padding:12px}
+  .single-note{font-size:11px;color:var(--sub);background:#f7f8fa;border:1px dashed #cfd4dc;border-radius:9px;padding:8px 10px;margin-bottom:10px}
+  .rep{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff}
+  .rep+.rep{margin-top:7px}
+  .rep .drag{color:#c4cad4;font-size:13px}
+  .rep .rt{font-weight:700;font-size:12px}
+  .rep .ru{font-size:10.5px;color:var(--sub);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+  .rep .tp{font-size:10px;font-weight:700;border-radius:6px;padding:2px 6px;background:#f1f3f6;color:var(--sub);white-space:nowrap}
+  .addbtn{margin-top:9px;width:100%;border:1.5px dashed var(--saffron);color:var(--saffron-ink);background:#fff8f0;border-radius:10px;padding:8px;font-size:12px;font-weight:700;text-align:center}
+  .mini-phone{max-width:190px;margin:0 auto;border:7px solid #11151c;border-radius:24px;overflow:hidden;background:#fff}
+  .mini-phone .mn{height:14px;background:#11151c}
+  .mini-phone .mv{padding:9px}
+  .ectx{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:#f8faff}
+  .ectx+.ectx{margin-top:6px}
+  .ectx .ei{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex:0 0 auto}
+  .ectx .en{font-weight:700;font-size:11.5px}
+  .ectx .eo{margin-left:auto;font-size:10px;font-weight:700;color:var(--blue)}
+  .blindchip{font-size:10px;background:#eef0f4;color:var(--sub);border-radius:6px;padding:2px 7px;font-weight:700}
+  .flowline{display:flex;align-items:center;justify-content:center;gap:8px;margin:12px 0 2px;color:var(--sub);font-size:12px;font-weight:700}
+  .flowline .pel{background:var(--ink);color:#fff;border-radius:999px;padding:3px 11px;font-size:11px}
+  /* build plan */
+  .plan{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 18px}
+  .plan-h{font-size:15px;font-weight:800;margin-bottom:12px}
+  .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:760px){.plan-grid{grid-template-columns:1fr}}
+  .pcard{border:1px solid var(--line);border-radius:11px;padding:12px 13px;background:#fbfcfd;position:relative}
+  .pcard.span2{grid-column:1 / -1}
+  .pcard .pn{position:absolute;top:12px;right:12px;font-family:var(--mono);font-weight:800;font-size:12px;color:#fff;background:var(--saffron);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .pcard .pt2{font-weight:800;font-size:13px;margin-bottom:5px;padding-right:26px}
+  .pcard p{margin:0;font-size:12.5px;color:#39414d;line-height:1.5}
+  .pcard ul{margin:7px 0 0;padding-left:17px;font-size:12.5px;color:#39414d}
+  .pcard li{margin:4px 0}
 
   .why{margin-top:18px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--saffron);border-radius:10px;padding:14px 16px}
   .why b{font-size:13px}
@@ -225,8 +267,71 @@
         <span class="chip2">🖼️ Passage image — <b>Drive</b> ×4 ("Picture: drive.google.com/…")</span>
         <span class="chip2">🔗 Web link ×few · only <b>4</b> real &lt;a&gt; tags · <b>0</b> iframes</span>
       </div>
-      <div class="datanote"><b>The failure, precisely:</b> material is buried as plain-text numbered steps inside the instructions (median ~321 chars). On a phone that's an <b>untappable URL</b> — and Spotify / YouTube / Drive throw the student out of the test (Drive can even hit a login/permission wall). That's why they "can't open" it.</div>
+      <div class="datanote"><b>The failure, precisely:</b> material is buried as plain-text numbered steps inside the instructions (median ~321 chars). On a phone that's an <b>untappable URL</b> — and Spotify / YouTube / Drive throw the student out of the test (Drive can even hit a login/permission wall). That's why they "can't open" it. <b style="color:#ffd8ad">Drive is being retired</b> — those 4 "Picture:" links convert to uploaded images.</div>
     </div>
+
+    <!-- ===== one model, three surfaces in sync ===== -->
+    <h3 class="sync-h">One model → three surfaces, in sync</h3>
+    <p class="sync-sub">A single <span class="mono">learning_materials</span> list on the task is authored once and rendered three ways. Change it in authoring → the student's carousel and the evaluator's context both update. No drift possible.</p>
+
+    <div class="flowline">
+      <span class="pel">✍️ Author it once</span> →
+      <span class="pel">📱 Student consumes</span> →
+      <span class="pel">🧑‍⚖️ Evaluator references</span>
+    </div>
+
+    <div class="trio">
+      <!-- AUTHORING -->
+      <div class="surface">
+        <div class="sh"><span class="bdg a">Author</span><span class="who">superadmin · task setup</span></div>
+        <div class="sbd">
+          <div class="single-note">Replaces the single "Media" picker (one URL/upload) with a <b>repeater</b>. Gallery &amp; mini-timer PDF stay.</div>
+          <div class="rep"><span class="drag">⠿</span><div><div class="rt">Listen: the podcast</div><div class="ru">open.spotify.com/episode/0o5…</div></div><span class="tp">🎧 Podcast</span></div>
+          <div class="rep"><span class="drag">⠿</span><div><div class="rt">Comprehension passage</div><div class="ru">↑ passage.pdf · uploaded</div></div><span class="tp">📄 Reading</span></div>
+          <div class="rep"><span class="drag">⠿</span><div><div class="rt">Situation clip</div><div class="ru">youtu.be/YLslsZuEaNE</div></div><span class="tp">🎬 Video</span></div>
+          <div class="rep"><span class="drag">⠿</span><div><div class="rt">Scene to observe</div><div class="ru">↑ scene.jpg · uploaded</div></div><span class="tp">🖼️ Image</span></div>
+          <div class="addbtn">＋ Add learning material</div>
+          <div style="font-size:10.5px;color:var(--green);margin-top:8px">🖼️ Images &amp; 📄 PDFs are <b>uploaded &amp; self-hosted</b> — no Drive links.</div>
+        </div>
+      </div>
+
+      <!-- STUDENT -->
+      <div class="surface">
+        <div class="sh"><span class="bdg s">Student</span><span class="who">mobile · during the task</span></div>
+        <div class="sbd">
+          <div class="mini-phone">
+            <div class="mn"></div>
+            <div class="mv">
+              <div class="lm-card">
+                <div class="lm-top" style="padding:8px 10px"><span>📚</span><span class="h" style="font-size:12px">Learning Material</span><span class="n">swipe·4</span></div>
+                <div style="padding:8px">
+                  <div class="player" style="margin:0;padding:9px">
+                    <div class="row"><div class="play" style="width:28px;height:28px;font-size:13px">▶</div><div><div class="pt" style="font-size:11px">Podcast · Spotify</div><div class="ps">plays inline</div></div></div>
+                    <div class="bar2"><i></i></div>
+                  </div>
+                  <div class="dots" style="padding:8px 0 2px"><i class="on"></i><i></i><i class="done"></i><i></i></div>
+                </div>
+              </div>
+              <div style="font-size:9.5px;color:var(--sub);text-align:center;margin-top:7px">inline players · full-screen viewers · never leaves the test</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EVALUATOR -->
+      <div class="surface">
+        <div class="sh"><span class="bdg e">Evaluator</span><span class="who">yashodarshi · blind</span></div>
+        <div class="sbd">
+          <div class="single-note" style="border-style:solid;border-color:#dbe6ff;background:#f5f8ff;color:#31518f"><b>New:</b> "What the candidate was given" — so a fair mark on <i>"what did you learn from the podcast?"</i> is possible. Read-only.</div>
+          <div class="ectx"><div class="ei ic pod">🎧</div><div class="en">Listen: the podcast</div><span class="eo">Play</span></div>
+          <div class="ectx"><div class="ei ic pdf">📄</div><div class="en">Comprehension passage</div><span class="eo">View</span></div>
+          <div class="ectx"><div class="ei ic img">🖼️</div><div class="en">Scene to observe</div><span class="eo">View</span></div>
+          <div style="margin-top:9px;display:flex;align-items:center;gap:7px"><span class="blindchip">◆ Candidate 3F9C1</span><span style="font-size:10.5px;color:var(--sub)">still blind — no student PII</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="sync-sub" style="margin-top:14px">The mobile student view — the surface that matters most — zoomed in below.</p>
 
     <div class="ba">
       <div class="panel before">
@@ -291,18 +396,46 @@
         <li><b>🎧 Podcast (Spotify)</b> → the <span class="mono">open.spotify.com/embed/episode/…</span> iframe plays <b>inline</b> in the slide. No leaving for the Spotify app.</li>
         <li><b>📄 Reading / PDF</b> (self-hosted <span class="mono">tasks/…pdf</span>) → opens in an <b>in-app viewer sheet</b>; reuses the mini-timer passage the tasks already carry.</li>
         <li><b>🎬 Video (YouTube)</b> → <span class="mono">youtube-nocookie</span> embed plays <b>inline</b>; no jump to the YouTube app.</li>
-        <li><b>🖼️ Passage image (Drive)</b> → the risky one: Drive links can hit a login/permission wall. We <b>proxy/preview</b> the image (or nudge authors to upload it), then full-screen pinch-zoom — never a raw Drive redirect.</li>
+        <li><b>🖼️ Image</b> → <b>uploaded &amp; self-hosted</b>, opened in an in-app full-screen pinch-zoom viewer — exactly like the PDF. No external redirect.</li>
         <li><b>🔗 Web link</b> → opens a new tab (the only true external), task/timer/draft preserved.</li>
       </ul>
+      <div style="margin-top:10px;font-size:12.5px;color:var(--bad);font-weight:600">🚫 Google Drive links are <u>not a supported type</u>. Authoring rejects a Drive URL and asks for a PDF or image upload instead — so nothing depends on Drive sharing/permissions and nothing ejects the student.</div>
       <div style="margin-top:10px;font-size:13px;color:#39414d"><b>And the carousel itself:</b> one thing at a time under a timer; discoverability solved with dots + "1/4" + next-slide peek; a ✓ marks what's opened; a pinned <b>Materials</b> chip on the answer screen reopens the passage while writing (reference-while-answering). Reuses the Swiper you already ship (<span class="mono">swiper taskCarousel</span>).</div>
     </div>
 
-    <div class="why" style="border-left-color:var(--green)">
-      <b>Migration — no re-authoring for KMM</b>
-      <ul>
-        <li>Existing tasks embed material as numbered steps ("Step 1: Listen to the podcast: <span class="mono">spotify…</span>"). A one-time pass <b>auto-detects</b> Spotify / YouTube / Drive / <span class="mono">.pdf</span> URLs in the instructions and <b>lifts them into structured slides</b> — keeping the step wording as the slide title.</li>
-        <li>Authoring gets an <b>"Add learning material"</b> repeater (type · title · URL or upload) for new tasks; the auto-detect handles the back-catalogue.</li>
-      </ul>
+    <div class="plan">
+      <div class="plan-h">The whole build — end-to-end &amp; complete</div>
+      <div class="plan-grid">
+        <div class="pcard">
+          <div class="pn">1</div><div class="pt2">Data model</div>
+          <p>New <span class="mono">tasks.learning_materials</span> JSON column: an ordered list of <span class="mono">{type, title, url|path}</span> where <span class="mono">type ∈ podcast·video·pdf·image·link</span>. One source of truth. Old <span class="mono">task_multimedia</span> kept &amp; auto-folded in as item&nbsp;1 (back-compat), then deprecated.</p>
+        </div>
+        <div class="pcard">
+          <div class="pn">2</div><div class="pt2">Authoring</div>
+          <p>The single Media picker becomes a drag-orderable <b>repeater</b>: pick type → paste URL (Spotify/YouTube/web) <i>or</i> upload (PDF/image, via <span class="mono">UploadPolicy</span>). <b>Drive URLs are rejected inline</b> — "upload the PDF/image instead". Gallery &amp; mini-timer PDF untouched.</p>
+        </div>
+        <div class="pcard">
+          <div class="pn">3</div><div class="pt2">Student (mobile)</div>
+          <p>Swiper carousel of typed slides — Spotify/YouTube inline embeds, in-app PDF &amp; image viewers, links new-tab — dots + "1/4" + peek + ✓-seen, plus the pinned <b>Materials</b> re-open chip on the answer screen. Reuses <span class="mono">swiper taskCarousel</span>.</p>
+        </div>
+        <div class="pcard">
+          <div class="pn">4</div><div class="pt2">Evaluator</div>
+          <p><span class="mono">CockpitPresenter</span> gains <span class="mono">materials</span> (task-level, non-PII). The atelier shows a read-only "What the candidate was given" list beside the brief — open the exact podcast/passage to grade fidelity. Stays blind.</p>
+        </div>
+        <div class="pcard span2">
+          <div class="pn">5</div><div class="pt2">Data migration — <span class="mono">tasks:extract-learning-materials</span></div>
+          <p>Idempotent, reversible, dry-run-first console command over every task:</p>
+          <ul>
+            <li><b>Parse</b> instructions/description + <span class="mono">task_multimedia</span> for URLs. <b>Spotify → podcast</b>, <b>YouTube → video</b>, <b>self-hosted <span class="mono">.pdf</span> → pdf</b>, other <span class="mono">http(s)</span> → link. Title = the step wording ("Listen to the podcast…").</li>
+            <li><b>Google Drive → NOT imported.</b> Each Drive <span class="mono">Picture:/file/d/…</span> (the 4 today) is written to a <b>conversion report</b> (task id · url · surrounding text) for KMM to re-upload as an image/PDF. Where the Drive file is public &amp; fetchable, an optional <span class="mono">--rehost</span> pass pulls it into our storage; anything gated is left in the report — never a broken slide.</li>
+            <li><b>Leaves the prose intact</b> (materials become the structured layer; the step text stays as guidance) and records a per-task before/after so nothing is silently dropped.</li>
+          </ul>
+        </div>
+        <div class="pcard span2">
+          <div class="pn">6</div><div class="pt2">Rollout &amp; tests</div>
+          <p><b>Flag</b> <span class="mono">task_learning_materials_enabled</span> — old blob renders until a task is migrated, so no flip-day risk. <b>Tests:</b> authoring (repeater save · Drive-reject · upload) · migration (each URL→type, Drive→report, idempotent, dry-run) · student render per type · evaluator context present + still blind. Then a real mobile browser E2E on one task of each media type before deploy.</p>
+        </div>
+      </div>
     </div>
 
     <div class="decide">
