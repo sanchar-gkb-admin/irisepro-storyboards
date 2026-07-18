@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cohort Scoreboard — Admin — Storyboard</title>
+<style>
+  :root{
+    --weak:#3f93e0; --average:#D99A00; --strong:#4E9A5F; --excellent:#F5821F;
+    --p0:#2F6BF0; --p1:#E0A100; --p2:#178A45; --p3:#F5821F;
+    --wash1:#FFF9F5; --wash2:#FFF1E6; --accent:#FF8A3D; --accent2:#F9A949;
+    --ink:#2b2b30; --muted:#6b7280; --line:#efe7de; --card:#fff; --page:#faf7f3; --nodata:#eef0f2;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--font);color:var(--ink);background:var(--page)}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 18px 70px}
+  .ribbon{background:#111827;color:#fff;font-size:12.5px;padding:8px 18px;text-align:center}
+  .ribbon b{color:#FDBA74}
+  header.bar{background:linear-gradient(135deg,var(--wash1),var(--wash2));border-bottom:1px solid var(--line)}
+  .bar-in{max-width:1280px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{font-weight:800;font-size:15px}.logo .pro{color:var(--accent)}
+  .crumb{color:var(--muted);font-size:13px;font-weight:500}
+
+  /* institution strip */
+  .inst{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:20px;background:linear-gradient(135deg,var(--wash1),var(--wash2));border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .inst .badge{width:48px;height:48px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px}
+  .inst h1{margin:0;font-size:20px}
+  .inst .sub{color:var(--muted);font-size:13px;margin-top:3px}
+  .inst .prog{margin-left:auto;text-align:right}
+  .inst .prog b{font-size:20px}
+  .inst .prog .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+
+  /* filter panel */
+  .filters{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:20px}
+  .fgrp{display:flex;flex-direction:column;gap:5px}
+  .fgrp label{font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .fgrp select,.fgrp input{font:inherit;font-size:13px;font-weight:600;color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff}
+  .fpresets{display:inline-flex;gap:6px}
+  .fpresets button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer}
+  .fpresets button.on{background:#FFF1E6;color:#B5541A;border-color:#F6D8BF}
+  .fspacer{flex:1}
+  .btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:700;font-size:13px;cursor:pointer}
+  .fnote{font-size:11px;color:#9aa0a8;margin-top:8px}
+  .fnote code{background:#f3f1ee;padding:1px 5px;border-radius:4px}
+  /* challenge autocomplete */
+  .ac{position:absolute;top:100%;left:0;right:0;z-index:30;background:#fff;border:1px solid var(--line);border-radius:10px;margin-top:4px;box-shadow:0 10px 30px rgba(0,0,0,.12);max-height:260px;overflow:auto;display:none}
+  .ac.open{display:block}
+  .ac .item{padding:9px 12px;font-size:13px;cursor:pointer;border-bottom:1px solid #f4f0ea;display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .ac .item:last-child{border-bottom:0}
+  .ac .item:hover,.ac .item.hi{background:#FFF1E6}
+  .ac .tier{color:#b0894a;font-weight:800;font-size:11px;background:#faf3ea;border:1px solid #eadfce;border-radius:999px;padding:1px 8px;white-space:nowrap}
+  .ac .empty{padding:11px 12px;color:var(--muted);font-style:italic}
+  /* task tabs */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .tab{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 15px;font-size:13px;font-weight:700;color:#555;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-width:96px}
+  .tab .t{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+  .tab.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+  .tab.on .t{color:#ffe8d6}
+  .tab.pending{opacity:.5;cursor:not-allowed;border-style:dashed}
+  .tab.overall{border-color:#111;}
+  .tab.overall.on{background:#111827;color:#fff}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:12px;color:#555;margin:16px 0 10px}
+  .legend .dot{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:-1px}
+
+  /* scoreboard matrix */
+  .scroller{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff;max-height:74vh}
+  table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
+  th,td{padding:0;text-align:center;white-space:nowrap}
+  thead th{position:sticky;top:0;z-index:3;background:#fbf7f2;border-bottom:2px solid var(--line);padding:11px 12px;font-size:12px;font-weight:800}
+  thead th.rowhead{left:0;z-index:4;text-align:left;min-width:210px}
+  th.rowhead,td.rowhead{position:sticky;left:0;background:#fff;z-index:2;text-align:left;padding:9px 14px;border-right:2px solid var(--line);font-weight:600;min-width:210px}
+  .cell{margin:4px;padding:8px 6px;border-radius:8px;color:#fff;font-weight:800;font-size:13px;min-width:56px;display:inline-block}
+  .cell.nd{background:var(--nodata);color:#aab}
+  .cellb{display:inline-flex;align-items:center;gap:7px;margin:4px;padding:5px 9px;border-radius:8px;min-width:82px;font-weight:800;font-size:12.5px}
+  .cellb .cbar{flex:1;height:7px;border-radius:4px;background:#0000000f;position:relative;overflow:hidden;min-width:30px}
+  .cellb .cbar i{position:absolute;left:0;top:0;height:100%;border-radius:4px}
+  .cellb.nd{background:var(--nodata);color:#aab;justify-content:center;min-width:56px}
+  tr.pillar td, tr.pillar th{background:#fbfaf8}
+  tr.pillar .rowhead{font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;border-left:5px solid}
+  tr.overallrow td,tr.overallrow th{background:#20242e;color:#fff}
+  tr.overallrow .rowhead{background:#20242e;color:#fff;font-weight:800;border-right-color:#333}
+  tr.ability td{border-bottom:1px solid #f4f0ea}
+  tr.ability .rowhead{border-bottom:1px solid #f4f0ea;color:#3a3a40;font-weight:500;padding-left:26px}
+  .star{color:var(--accent);margin-right:3px}
+  .note{font-size:11.5px;color:var(--muted);margin-top:10px}
+  .scrollhint{display:none}
+  /* ---- mobile-first: phone layout ---- */
+  @media(max-width:640px){
+    .wrap{padding:0 10px 60px}
+    .ribbon{font-size:11px;padding:7px 12px}
+    .bar-in{padding:12px 12px}
+    .inst{padding:13px 14px;gap:10px;margin-top:16px}
+    .inst .badge{width:42px;height:42px;font-size:21px}
+    .inst h1{font-size:16px}
+    .inst .prog{margin-left:0;text-align:left}
+    .filters{padding:12px;gap:11px;margin-top:16px}
+    .fgrp{flex:1 1 100%;min-width:0 !important}
+    .fgrp select,.fgrp input{width:100%}
+    .fpresets{width:100%}.fpresets button{flex:1}
+    .fspacer{display:none}.btn{width:100%}
+    .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;scroll-snap-type:x proximity}
+    .tab{min-width:auto;flex:0 0 auto;scroll-snap-align:start;padding:8px 13px}
+    .legend{font-size:11px;gap:9px;margin:12px 0 8px}
+    .scrollhint{display:block;font-size:11px;color:var(--accent);font-weight:700;margin:0 0 6px}
+    .scroller{max-height:none;border-radius:12px}
+    th.rowhead,td.rowhead{min-width:130px;padding:8px 10px;font-size:12px}
+    thead th.rowhead{min-width:130px}
+    thead th{padding:9px 7px;font-size:11px}
+    tr.pillar .rowhead{border-left-width:4px}
+    tr.ability .rowhead{padding-left:18px;font-size:12px}
+    .cell{min-width:42px;padding:6px 3px;font-size:12px;margin:3px}
+    .cellb{min-width:62px;padding:4px 7px;font-size:11.5px;margin:3px;gap:5px}
+    .cellb .cbar{min-width:18px;height:6px}
+  }
+  @media(max-width:380px){ .cellb{min-width:54px} .cellb .cbar{display:none} }
+</style>
+</head>
+<body>
+<div class="ribbon">STORYBOARD · sample data · <b>Admin Cohort Scoreboard</b> (to Sutirtha's sketch) · students × pillars→abilities, per task + overall · fills as each task is evaluated · abilities pulled per task from DB (5/15/64)</div>
+
+<header class="bar"><div class="bar-in">
+  <div class="logo">iRise<span class="pro">Pro</span> <span class="crumb">· Superadmin · Cohort Scoreboard</span></div>
+</div></header>
+
+<div class="wrap">
+  <!-- FILTER PANEL — cohort = the batch(es) matching Challenge + date(+institution) -->
+  <div class="filters">
+    <div class="fgrp" style="position:relative;min-width:290px"><label>Challenge</label>
+      <input type="text" id="fChal" autocomplete="off" placeholder="Type to search a challenge…" value="DEMO: NEET Booster — Champion 64">
+      <div class="ac" id="fChalAC"></div></div>
+    <div class="fgrp"><label>From</label><input type="date" id="fFrom"></div>
+    <div class="fgrp"><label>To</label><input type="date" id="fTo"></div>
+    <div class="fgrp"><label>Range</label>
+      <div class="fpresets"><button data-preset="0" class="on">Today</button><button data-preset="7">7d</button><button data-preset="30">30d</button></div></div>
+    <div class="fgrp"><label>Institution <span style="text-transform:none;font-weight:600;color:#b0b0b0">(optional)</span></label>
+      <select id="fInst"><option>All institutions</option><option>Delhi Public School</option><option>Sunrise Academy</option></select></div>
+    <div class="fspacer"></div>
+    <button class="btn" id="fApply">Apply</button>
+  </div>
+  <div class="fnote">Cohort = the <b>batch(es)</b> matching Challenge + date (default <b>Today</b>)[ + institution]. Batch = <code>batches.challenge_id + start_date</code>; institution = <code>students.partner_institution</code> / Institutions list (#62, optional).</div>
+
+  <div class="inst">
+    <div class="badge">🏫</div>
+    <div>
+      <h1 id="instName">Delhi Public School · Class 11</h1>
+      <div class="sub">NEET Booster (demo) · Batch NB-07 · 16 Jul 2026 · 6 students</div>
+    </div>
+    <div class="prog"><div class="l">Tasks evaluated</div><b id="prog">5 / 7</b></div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="legend">
+    <span><span class="dot" style="background:var(--weak)"></span>Weak &lt;50%</span>
+    <span><span class="dot" style="background:var(--average)"></span>Average 50–70%</span>
+    <span><span class="dot" style="background:var(--strong)"></span>Strong 70–90%</span>
+    <span><span class="dot" style="background:var(--excellent)"></span>Excellent ≥90%</span>
+    <span style="margin-left:auto">cells = score / 5</span>
+  </div>
+
+  <div class="scrollhint">← swipe the board sideways to see all students →</div>
+  <div class="scroller"><table id="board"></table></div>
+  <div class="note" id="note"></div>
+</div>
+
+<script>
+  const BANDS=[{k:'weak',l:'Weak',min:0,c:'#3f93e0'},{k:'average',l:'Average',min:50,c:'#D99A00'},{k:'strong',l:'Strong',min:70,c:'#4E9A5F'},{k:'excellent',l:'Excellent',min:90,c:'#F5821F'}];
+  const band=v5=>BANDS.reduce((m,b)=>(v5/5*100)>=b.min?b:m,BANDS[0]);
+  const PILL=[['Attitude','#2F6BF0'],['Aptitude','#E0A100'],['Communication','#178A45'],['Execution','#F5821F']];
+  const AB=[
+    [1,'Critical & Analytical'],[1,'Comprehension'],[1,'Memory'],
+    [0,'Steadfastness'],[0,'Confidence'],[0,'Discipline'],[0,'Empathy'],
+    [2,'Structure (Written)'],[2,'Clarity'],[2,'Active Listening'],
+    [3,'Decision-Making'],[3,'Problem-Solving'],[3,'Time Management'],
+  ];
+  // students (columns): name + pillar means
+  const S=[
+    ['Aarav S.',[3.0,4.5,3.1,3.6]],['Diya N.',[4.6,3.3,4.5,3.9]],['Meera K.',[3.7,3.9,3.7,3.6]],
+    ['Rohan D.',[2.9,4.1,3.1,4.2]],['Sara M.',[4.4,3.2,4.2,3.5]],['Ishaan P.',[4.7,3.4,4.4,3.9]],
+  ];
+  // tasks: name, ability indices, evaluated?
+  const TASKS=[
+    ['Biology in Real-Life',[0,1,3,7],true],['Chemistry in Context',[0,2,10,11],true],
+    ['Physics in Analysis',[1,2,11,12],true],['NEET Pressure Drill',[3,4,5,10,12],true],
+    ['Notice, Help & Reflect',[4,6,8,9],true],['My Dream & My Plan',[3,4,7,10],false],['One-Word Recall',[0,1,2,12],false],
+  ];
+  const clampv=v=>Math.max(1,Math.min(5,v));
+  const cellScore=(si,ti,ai)=>clampv(S[si][1][AB[ai][0]]+((ai*5+si*3+ti)%5-2)*0.2);
+  const evaluated=TASKS.map((t,i)=>t[2]);
+
+  // ---- tabs ----
+  const tabsEl=document.getElementById('tabs');
+  let view='overall';
+  function renderTabs(){
+    tabsEl.innerHTML='';
+    tabsEl.insertAdjacentHTML('beforeend',`<div class="tab overall ${view==='overall'?'on':''}" onclick="setView('overall')"><span class="t">Cumulative</span>Overall</div>`);
+    TASKS.forEach((t,i)=>{
+      const cls=!t[2]?'pending':(view===i?'on':'');
+      tabsEl.insertAdjacentHTML('beforeend',`<div class="tab ${cls}" ${t[2]?`onclick="setView(${i})"`:''}><span class="t">Task ${i+1}${t[2]?'':' · pending'}</span>${t[0].split(' ').slice(0,2).join(' ')}</div>`);
+    });
+  }
+  function setView(v){view=v;renderTabs();renderBoard();}
+
+  // which abilities + score fn for the current view
+  function viewModel(){
+    if(view==='overall'){
+      const idx=[];AB.forEach((a,ai)=>{if(TASKS.some((t,ti)=>t[2]&&t[1].includes(ai)))idx.push(ai)});
+      const score=(si,ai)=>{const ts=TASKS.map((t,ti)=>t[2]&&t[1].includes(ai)?cellScore(si,ti,ai):null).filter(v=>v!=null);return ts.length?ts.reduce((x,y)=>x+y,0)/ts.length:null};
+      return {idx,score,title:'Overall — all evaluated tasks'};
+    }
+    const t=TASKS[view];
+    return {idx:t[1],score:(si,ai)=>cellScore(si,view,ai),title:`Task ${view+1}: ${t[0]}`};
+  }
+
+  function chip(v){ if(v==null) return `<span class="cell nd">–</span>`; const b=band(v); return `<span class="cell" style="background:${b.c}">${v.toFixed(1)}</span>`; }
+  // mini-bar cell — you SEE the level, number for precision
+  function cellBar(v){ if(v==null) return `<span class="cellb nd">–</span>`; const b=band(v); return `<span class="cellb" style="background:${b.c}1a"><span class="cbar"><i style="width:${Math.round(v/5*100)}%;background:${b.c}"></i></span><b style="color:${b.c}">${v.toFixed(1)}</b></span>`; }
+
+  function renderBoard(){
+    const {idx,score,title}=viewModel();
+    // header
+    let head=`<thead><tr><th class="rowhead">${title}</th>${S.map(s=>`<th>${s[0]}</th>`).join('')}</tr></thead>`;
+    let body='<tbody>';
+    // overall row (this view)
+    body+=`<tr class="overallrow"><th class="rowhead">▲ Overall</th>${S.map((s,si)=>{
+      const vs=idx.map(ai=>score(si,ai)).filter(v=>v!=null);const ov=vs.length?vs.reduce((x,y)=>x+y,0)/vs.length:null;
+      return `<td>${ov==null?'<span class="cell nd">–</span>':`<span class="cell" style="background:${band(ov).c}">${ov.toFixed(1)}</span>`}</td>`;
+    }).join('')}</tr>`;
+    // per pillar
+    PILL.forEach((p,pi)=>{
+      const pAbil=idx.filter(ai=>AB[ai][0]===pi);
+      if(!pAbil.length) return;
+      // pillar header row = pillar mean per student
+      body+=`<tr class="pillar"><th class="rowhead" style="border-left-color:${p[1]};color:${p[1]}">${p[0]}</th>${S.map((s,si)=>{
+        const vs=pAbil.map(ai=>score(si,ai)).filter(v=>v!=null);const pm=vs.length?vs.reduce((x,y)=>x+y,0)/vs.length:null;
+        return `<td>${cellBar(pm)}</td>`;
+      }).join('')}</tr>`;
+      // ability rows
+      pAbil.forEach(ai=>{
+        body+=`<tr class="ability"><th class="rowhead">${AB[ai][1]}</th>${S.map((s,si)=>`<td>${cellBar(score(si,ai))}</td>`).join('')}</tr>`;
+      });
+    });
+    body+='</tbody>';
+    document.getElementById('board').innerHTML=head+body;
+    document.getElementById('note').textContent=view==='overall'
+      ? 'Overall = each ability averaged across the evaluated tasks that measured it. Pending tasks are excluded until evaluated.'
+      : 'This task’s grid appears the moment its evaluations are reviewed. Rows = the abilities THIS task measured (pulled per task from the DB).';
+  }
+
+  document.getElementById('prog').textContent=`${evaluated.filter(Boolean).length} / ${TASKS.length}`;
+  renderTabs();renderBoard();
+
+  // ---- filter panel (defaults: demo challenge · today · all institutions) ----
+  (function(){
+    const pad=n=>String(n).padStart(2,'0');const isoOf=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    const from=document.getElementById('fFrom'),to=document.getElementById('fTo');const today=new Date();
+    from.value=isoOf(today);to.value=isoOf(today);
+    function setPreset(days){const t=new Date();to.value=isoOf(t);from.value=isoOf(new Date(t.getTime()-days*864e5))}
+    document.querySelectorAll('.fpresets button').forEach(b=>b.addEventListener('click',()=>{
+      document.querySelectorAll('.fpresets button').forEach(x=>x.classList.remove('on'));b.classList.add('on');setPreset(+b.dataset.preset);apply();}));
+    function apply(){
+      const ct=document.getElementById('fChal').value || 'All challenges';
+      const inst=document.getElementById('fInst').value;
+      const range=from.value===to.value?from.value:`${from.value} → ${to.value}`;
+      if(inst!=='All institutions')document.getElementById('instName').textContent=inst+' · Class 11';
+      document.querySelector('.inst .sub').innerHTML=`${ct} · 📅 ${range}${inst==='All institutions'?'':' · '+inst} · 6 students`;
+    }
+    ['fApply','fInst'].forEach(id=>document.getElementById(id).addEventListener(id==='fApply'?'click':'change',apply));
+
+    // challenge autocomplete (type to search; real build queries challenges by title)
+    const CH=[
+      {t:'DEMO: NEET Booster — Champion 64',tier:'Demo'},{t:'DEMO: Class 5–7 — Champion 64',tier:'Demo'},
+      {t:'DEMO: Class 8–10 Board Booster — Champion 64',tier:'Demo'},
+      {t:'Class 5-7 Marks Booster',tier:'₹4999'},{t:'Class 8-10 Board Exam Booster',tier:'₹1999'},
+      {t:'NEET Booster',tier:'₹4999'},{t:'JEE Booster',tier:'₹1999'},
+      {t:'IAS Prelims Qualifier',tier:'₹4999'},{t:'KAS Qualifier',tier:'₹1999'},
+      {t:'Corporate Career Readiness',tier:'₹999'},
+    ];
+    const inp=document.getElementById('fChal'),ac=document.getElementById('fChalAC');let items=[],hi=-1;
+    function draw(q){items=CH.filter(c=>c.t.toLowerCase().includes(q.trim().toLowerCase()));hi=-1;
+      ac.innerHTML=items.length?items.map((c,i)=>`<div class="item" data-i="${i}"><span>${c.t}</span><span class="tier">${c.tier}</span></div>`).join(''):'<div class="empty">No challenge found</div>';
+      ac.classList.add('open');}
+    function paint(){[...ac.querySelectorAll('.item')].forEach((d,i)=>d.classList.toggle('hi',i===hi));}
+    function pick(c){inp.value=c.t;ac.classList.remove('open');apply();}
+    inp.addEventListener('input',()=>draw(inp.value));
+    inp.addEventListener('focus',()=>draw(inp.value));
+    inp.addEventListener('keydown',e=>{ if(!ac.classList.contains('open'))return;
+      if(e.key==='ArrowDown'){hi=Math.min(items.length-1,hi+1);paint();e.preventDefault();}
+      else if(e.key==='ArrowUp'){hi=Math.max(0,hi-1);paint();e.preventDefault();}
+      else if(e.key==='Enter'){if(hi>=0&&items[hi])pick(items[hi]);e.preventDefault();}
+      else if(e.key==='Escape')ac.classList.remove('open'); });
+    ac.addEventListener('mousedown',e=>{const d=e.target.closest('[data-i]');if(d)pick(items[+d.dataset.i]);});
+    document.addEventListener('click',e=>{if(!e.target.closest('.fgrp'))ac.classList.remove('open');});
+
+    apply();
+  })();
+</script>
+</body>
+</html>
