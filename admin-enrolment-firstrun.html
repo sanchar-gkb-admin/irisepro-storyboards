@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Storyboard — Admin enrolment form &amp; student first-run</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Matches the iRisePro app theme: primary #FF8A3D (orange), Montserrat, orange×blue brand. */
+  :root{
+    --ink:#1f2733;--muted:#6b7684;--line:#ece7e1;--bg:#faf7f4;--card:#fff;
+    --primary:#FF8A3D;--primary-dark:#E67E35;--primary-light:#FFB380;--primary-bg:#fff3ea;
+    --blue:#2b5f8a;
+    --green:#137a43;--green-bg:#e7f5ec;--amber:#8a5a00;--amber-bg:#fdf3dd;--red:#a11;--red-bg:#fdecec;
+    --grey:#6b7684;--grey-bg:#f1ede8;--waive:#a15200;--waive-bg:#fff1e2;--ext:#2b5f8a;--ext-bg:#e8f0f6;
+  }
+  .brand{text-transform:none}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:16px}
+  .wrap{max-width:1200px;margin:0 auto;padding:30px 22px 80px}
+  h1{font-size:29px;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:17px;margin:0 0 16px}
+  .pill{display:inline-block;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--grey-bg);color:var(--grey);margin-right:6px}
+  .sec{margin-top:44px}
+  .sec-h{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--line);padding-bottom:8px;margin-bottom:22px}
+  .sec-h .n{font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:7px;padding:2px 10px}
+  .sec-h h2{font-size:21px;margin:0}
+  .sec-h .note{color:var(--muted);font-size:14px;margin-left:auto}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+  @media(max-width:880px){.row{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:13px;overflow:hidden;box-shadow:0 1px 2px rgba(20,32,43,.04)}
+  .card.hl{border-color:#bfe3cd;box-shadow:0 2px 12px rgba(19,122,67,.08)}
+  .bar{background:#f8fafc;border-bottom:1px solid var(--line);padding:9px 14px;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between}
+  .body{padding:18px}
+  .cap{font-size:13px;color:var(--muted);margin:8px 2px 0;padding-left:12px;border-left:3px solid var(--line)}
+  .fld{margin-bottom:13px}
+  .fld label{display:block;font-size:12.5px;font-weight:600;color:#33404d;margin-bottom:5px}
+  .req{color:var(--red)}
+  .inp{border:1px solid #cfd8e2;border-radius:7px;padding:8px 11px;font-size:13.5px;color:#33404d;background:#fff;display:block;width:100%}
+  .inp.sel{position:relative}.inp.sel::after{content:'▾';position:absolute;right:11px;color:#8595a5}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+  .hintline{font-size:12px;color:#8595a5;margin-top:4px}
+  .fund{border:1px solid var(--line);border-radius:10px;padding:13px;margin-bottom:13px;background:#fbfcfe}
+  .fund .opt{display:flex;gap:9px;align-items:flex-start;padding:9px;border-radius:8px;cursor:default}
+  .fund .opt.on{background:var(--waive-bg)}
+  .fund .opt.on.ext{background:var(--ext-bg)}
+  .fund .rd{width:16px;height:16px;border-radius:50%;border:1.5px solid #9db0c2;flex:none;margin-top:2px}
+  .fund .opt.on .rd{border-color:var(--waive);border-width:5px}
+  .fund .opt.on.ext .rd{border-color:var(--ext)}
+  .fund .t{font-size:13.5px;font-weight:600}
+  .fund .d{font-size:12px;color:var(--muted)}
+  .subsel{margin:8px 0 2px 25px;display:flex;gap:7px;flex-wrap:wrap}
+  .chip{font-size:12px;border:1px solid #cfd8e2;border-radius:999px;padding:3px 11px;color:#33404d;background:#fff}
+  .chip.on{background:var(--waive);color:#fff;border-color:var(--waive)}
+  .stu{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:130px;overflow:hidden;border:1px solid var(--line);border-radius:8px;padding:10px;background:#fbfcfe}
+  .stu .s{display:flex;align-items:center;gap:8px;font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+  .stu .s .ck{width:14px;height:14px;border:1.5px solid #9db0c2;border-radius:3px;flex:none}
+  .stu .s.on .ck{background:var(--primary);border-color:var(--primary);position:relative}
+  .stu .s.on .ck::after{content:'✓';color:#fff;font-size:10px;position:absolute;top:-3px;left:1px}
+  .btn{display:inline-block;background:var(--primary);color:#fff;font-weight:600;font-size:14px;padding:10px 20px;border-radius:8px;margin-top:6px}
+  .flash{border-radius:9px;padding:11px 13px;font-size:13.5px;font-weight:600;background:var(--green-bg);color:var(--green);display:flex;gap:8px;align-items:center}
+  .summary{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:13px}
+  .summary .head{padding:10px 13px;background:#f8fafc;border-bottom:1px solid var(--line);font-weight:700;font-size:13px}
+  .srow{display:flex;gap:11px;padding:11px 13px;border-bottom:1px solid var(--line);font-size:13px;align-items:flex-start}
+  .srow:last-child{border-bottom:none}
+  .srow .n{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex:none}
+  .n.green{background:var(--green-bg);color:var(--green)}.n.amber{background:var(--amber-bg);color:var(--amber)}.n.red{background:var(--red-bg);color:var(--red)}
+  .srow .d{color:var(--muted);font-size:12px}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+  .b-waive{background:var(--waive-bg);color:var(--waive)}.b-ext{background:var(--ext-bg);color:var(--ext)}
+  /* email */
+  .mail{border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  .mail .subj{background:#f8fafc;border-bottom:1px solid var(--line);padding:9px 13px;font-size:12.5px;color:var(--muted)}
+  .mail .mbody{padding:18px}
+  .mail h3{font-size:17px;margin:0 0 8px}
+  .mail p{font-size:13px;color:#33404d;margin:0 0 10px;line-height:1.55}
+  .mbtn{display:inline-block;background:var(--primary);color:#fff;font-weight:600;font-size:13px;padding:9px 18px;border-radius:7px}
+  .fine{font-size:11px;color:#8595a5;margin-top:8px}
+  /* phone */
+  .phones{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+  .phone{width:250px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 3px 14px rgba(20,32,43,.07)}
+  .phone .notch{background:#111;color:#fff;font-size:10px;text-align:center;padding:4px}
+  .phone .pb{padding:18px 16px;min-height:340px}
+  .phcap{text-align:center;font-size:12.5px;font-weight:600;color:var(--muted);margin-top:8px}
+  .pf-title{font-size:16px;font-weight:700;margin:2px 0 3px}
+  .pf-sub{font-size:12px;color:var(--muted);margin:0 0 14px}
+  .pf{margin-bottom:10px}
+  .pf label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px}
+  .pf .v{border:1px solid var(--line);border-radius:7px;padding:8px 10px;font-size:12.5px;background:#f4f6f9;color:#33404d;display:flex;justify-content:space-between;align-items:center}
+  .pf .v.ask{background:#fff;border-color:var(--primary);color:var(--primary)}
+  .pf .tag{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#9db0c2}
+  .pf .tag.ask{color:var(--primary)}
+  .pbtn{background:var(--primary);color:#fff;border-radius:8px;padding:10px;font-weight:700;font-size:13px;text-align:center;margin-top:6px}
+  .otpbox{display:flex;gap:6px;justify-content:center;margin:14px 0}
+  .otpbox span{width:30px;height:38px;border:1px solid #cfd8e2;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#33404d}
+  .consent{background:var(--waive-bg);border-radius:10px;padding:13px;font-size:12px;color:#3f1d78;margin-bottom:12px}
+  .task{display:flex;gap:9px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-bottom:8px;font-size:12.5px}
+  .task .ic{width:26px;height:26px;border-radius:7px;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+  .decisions{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 22px;margin:20px 0 6px}
+  .decisions h4{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 10px}
+  .decisions ul{margin:0;padding-left:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 26px}
+  .decisions li{padding-left:24px;position:relative;font-size:14px}
+  .decisions li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:800}
+  @media(max-width:880px){.decisions ul{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Admin enrolment form &amp; student first-run — storyboard</h1>
+  <p class="sub">For sign-off before folding in. Backend is built + green (332 tests); these are the screens on top of it.</p>
+  <div>
+    <span class="pill">superadmin form</span><span class="pill">student first-run</span>
+    <span class="pill">adult + minor</span><span class="pill">waiver + paid-externally</span>
+  </div>
+
+  <div class="decisions">
+    <h4>What these screens deliver</h4>
+    <ul>
+      <li><b>Funding choice</b> on the batch: fee <b>Waived</b> (reason) or <b>Paid externally</b> (untracked).</li>
+      <li><b>Manual Yashodarshi</b> — dropdown filtered to those <b>eligible</b> for the tier (senior for ₹4999).</li>
+      <li><b>Honest result</b>: placed / awaiting-onboarding / errored — no green-washed "done".</li>
+      <li><b>Invitation</b> auto-sent (adult → student, minor → guardian) — no more silent enrolment.</li>
+      <li><b>One-tap magic-link</b> → straight into onboarding; OTP fallback if expired.</li>
+      <li><b>Pre-filled onboarding</b> (name/phone/class/DOB/<b>language</b>) — only the missing bits are asked.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION A -->
+  <section class="sec">
+    <div class="sec-h"><span class="n">A</span><h2>Admin — Create manual batch</h2><span class="note">superadmin › Batches › Create</span></div>
+    <div class="row">
+      <div>
+        <div class="card hl">
+          <div class="bar"><span>Create New Batch</span><span>Superadmin</span></div>
+          <div class="body">
+            <div class="two">
+              <div class="fld"><label>Title <span class="req">*</span></label><span class="inp">Deshpande School — Aug</span></div>
+              <div class="fld"><label>Challenge <span class="req">*</span></label><span class="inp sel">Champion 15 · Marks&nbsp;Booster (₹1999)</span></div>
+            </div>
+            <div class="three">
+              <div class="fld"><label>Yashodarshi <span class="req">*</span></label><span class="inp sel">Anita (Senior)</span>
+                <div class="hintline">Only mentors eligible for this tier are shown</div></div>
+              <div class="fld"><label>Start date <span class="req">*</span></label><span class="inp">01 Aug 2026</span></div>
+              <div class="fld"><label>End date</label><span class="inp">Default (25 days)</span></div>
+            </div>
+
+            <div class="fld"><label>How is this cohort funded? <span class="req">*</span></label>
+              <div class="fund">
+                <div class="opt on">
+                  <span class="rd"></span>
+                  <span><span class="t">Fee waived (100%)</span><br><span class="d">Free — a comp. Not counted as revenue.</span>
+                    <div class="subsel"><span class="chip">Demo</span><span class="chip on">Institutional</span><span class="chip">Promo</span><span class="chip">Goodwill</span></div>
+                  </span>
+                </div>
+                <div class="opt ext">
+                  <span class="rd"></span>
+                  <span><span class="t">Paid externally</span><br><span class="d">Institution/parent paid us directly (bank/cheque/UPI) — untracked by us, not a comp.</span></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="two">
+              <div class="fld"><label>Cohort language (optional)</label><span class="inp sel">Ask each student at onboarding</span>
+                <div class="hintline">Set here to pre-fill, or leave students to choose</div></div>
+              <div class="fld"><label>Status <span class="req">*</span></label><span class="inp sel">Active</span></div>
+            </div>
+
+            <div class="fld"><label>Select students</label>
+              <div class="stu">
+                <div class="s on"><span class="ck"></span>Aarav K. · Cl 9</div>
+                <div class="s on"><span class="ck"></span>Diya P. · Cl 9</div>
+                <div class="s on"><span class="ck"></span>Ishaan R. · Cl 10</div>
+                <div class="s"><span class="ck"></span>Meera S. · Cl 9</div>
+              </div>
+            </div>
+            <span class="btn">Enrol 3 students · fee waived</span>
+          </div>
+        </div>
+        <p class="cap"><b>A1 — the form.</b> New: the <b>funding choice</b> (+ reason for waived), the <b>eligibility-filtered mentor</b>, and an optional cohort language. The button states exactly what will happen.</p>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="bar"><span>Batches › Deshpande School — Aug</span><span>Superadmin</span></div>
+          <div class="body">
+            <div class="flash">✓ 3 students enrolled — fee waived (Institutional).</div>
+            <div class="summary">
+              <div class="head">What happens next</div>
+              <div class="srow"><span class="n amber">3</span><span><b>Awaiting onboarding</b> · <span class="badge b-waive">Waived</span><br><span class="d">Invitations sent — Aarav &amp; Ishaan to the student, Diya to her guardian (minor). They join this batch the moment they log in &amp; onboard.</span></span></div>
+              <div class="srow"><span class="n green">0</span><span><b>Placed now</b><br><span class="d">(none were already onboarded)</span></span></div>
+              <div class="srow"><span class="n red">0</span><span><b>Errored</b><br><span class="d">None — any failure would be named here, never hidden.</span></span></div>
+            </div>
+          </div>
+        </div>
+        <p class="cap"><b>A2 — honest result.</b> The old "0 students / is it broken?" is replaced by explicit buckets + confirmation that <b>invitations went out</b> (guardian for minors). "Awaiting" is expected, not a failure.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION B -->
+  <section class="sec">
+    <div class="sec-h"><span class="n">B</span><h2>Student first-run — the invitation</h2><span class="note">adult → student · minor → guardian</span></div>
+    <div class="row">
+      <div>
+        <div class="mail">
+          <div class="subj">To: aarav@… · Subject: You’re enrolled on <span class="brand">iRisePro</span> — let’s get started</div>
+          <div class="mbody">
+            <p style="font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#8595a5;margin:0 0 6px"><span class="brand">iRisePro</span></p>
+            <h3>Welcome, Aarav 👋</h3>
+            <p>You’ve been enrolled in <b>Champion 15 · Marks Booster</b> by your school. Let’s finish setting up your account — it only takes a minute.</p>
+            <span class="mbtn">Get started</span>
+            <p class="fine">The button signs you in automatically. If it expires, log in with your email and we’ll send a one-time code.</p>
+          </div>
+        </div>
+        <p class="cap"><b>B1a — adult invite</b> → the student, addressed by name.</p>
+      </div>
+      <div>
+        <div class="mail">
+          <div class="subj">To: parent@… · Subject: You’re enrolled on <span class="brand">iRisePro</span> — let’s get started</div>
+          <div class="mbody">
+            <p style="font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#8595a5;margin:0 0 6px"><span class="brand">iRisePro</span></p>
+            <h3>Hello, Diya has been enrolled</h3>
+            <p><b>Diya</b> has been enrolled in <b>Champion 15 · Marks Booster</b>. To get started, please set up her account and provide your consent — it only takes a minute.</p>
+            <span class="mbtn">Get started</span>
+            <p class="fine">Sent to you as Diya’s guardian — your consent is required before she begins.</p>
+          </div>
+        </div>
+        <p class="cap"><b>B1b — minor invite</b> → the <b>guardian</b> (consent is theirs).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION C -->
+  <section class="sec">
+    <div class="sec-h"><span class="n">C</span><h2>Student first-run — from tap to challenge</h2><span class="note">30-second flow</span></div>
+    <div class="phones">
+      <div>
+        <div class="phone"><div class="notch"><span class="brand">iRisePro</span></div>
+          <div class="pb" style="display:flex;flex-direction:column;justify-content:center;gap:12px;text-align:center">
+            <div style="font-size:34px">🎓</div>
+            <div class="pf-title" style="font-size:18px">Welcome!</div>
+            <p style="font-size:12.5px;color:var(--muted);margin:0">Deshpande School enrolled you in<br><b style="color:var(--ink)">Champion 15 · Marks Booster</b>. Let’s set up your profile.</p>
+            <div class="pbtn">Let’s go</div>
+          </div>
+        </div>
+        <p class="phcap">C1 · Magic-link landing<br>(contextual welcome — no payment wall)</p>
+      </div>
+
+      <div>
+        <div class="phone"><div class="notch"><span class="brand">iRisePro</span></div>
+          <div class="pb">
+            <div class="pf-title">Confirm your details</div>
+            <p class="pf-sub">We’ve pre-filled what your school gave us.</p>
+            <div class="pf"><label>Name</label><div class="v">Aarav Kulkarni <span class="tag">Pre-filled</span></div></div>
+            <div class="pf"><label>Class</label><div class="v">Class 9 <span class="tag">Pre-filled</span></div></div>
+            <div class="pf"><label>Date of birth</label><div class="v">14 Mar 2011 <span class="tag">Pre-filled</span></div></div>
+            <div class="pf"><label>Preferred language</label><div class="v ask">Choose… <span class="tag ask">Pick</span></div></div>
+            <div class="pf"><label>Challenge mode</label><div class="v ask">Choose… <span class="tag ask">Pick</span></div></div>
+            <div class="pbtn">Continue</div>
+          </div>
+        </div>
+        <p class="phcap">C2 · Pre-filled onboarding<br>(only <b>language + mode</b> to pick)</p>
+      </div>
+
+      <div>
+        <div class="phone"><div class="notch"><span class="brand">iRisePro</span></div>
+          <div class="pb">
+            <div class="pf-title">Guardian consent</div>
+            <p class="pf-sub">For Diya (minor) — one quick step.</p>
+            <div class="consent">We’ll send a one-time code to the guardian’s phone to confirm consent for Diya to start. This is required once.</div>
+            <div class="otpbox"><span>4</span><span>1</span><span>9</span><span>2</span><span></span><span></span></div>
+            <div class="pbtn">Verify &amp; continue</div>
+            <p class="fine" style="text-align:center">The one deliberate step we keep — DPDPA guardian consent.</p>
+          </div>
+        </div>
+        <p class="phcap">C3 · Minor only · Guardian consent<br>(single OTP → child placed)</p>
+      </div>
+
+      <div>
+        <div class="phone"><div class="notch"><span class="brand">iRisePro</span></div>
+          <div class="pb">
+            <div class="pf-title">Champion 15</div>
+            <p class="pf-sub">You’re all set — start your first task.</p>
+            <div class="task"><span class="ic">1</span><span>Set your goals</span></div>
+            <div class="task"><span class="ic">2</span><span>Success Scan</span></div>
+            <div class="task"><span class="ic">3</span><span>Study plan</span></div>
+            <div class="task" style="opacity:.5"><span class="ic" style="background:var(--grey-bg);color:var(--grey)">4</span><span>Locked until step 3</span></div>
+            <div class="pbtn">Start task 1</div>
+          </div>
+        </div>
+        <p class="phcap">C4 · Land in the challenge<br>(paid access — no paywall, no limbo)</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="cap" style="margin-top:34px">Adult path skips C3. Everything after onboarding is identical for waiver &amp; paid-externally students. Guardian consent (C3) is the only deliberate step for minors and is unchanged/hardened.</p>
+</div>
+</body>
+</html>
