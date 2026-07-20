@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero A — The Summit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#081325; --forest-2:#112644; --accent:#f5821f; --accent-strong:#ff9b3d;
+    --accent-bright:#ffb259; --ink:#140a02; --paper:#f7f2e8; --paper-2:#efe7d6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink)}
+  .disp{font-family:"Anton",sans-serif;font-weight:400;letter-spacing:.005em}
+  .mono{font-family:"Geist Mono",monospace}
+  .brand{text-transform:none}
+
+  /* ── TOP: summit-sunrise band ── */
+  .summit{position:relative;overflow:hidden;isolation:isolate}
+  .summit svg.bg{position:absolute;inset:0;width:100%;height:100%;z-index:-2;object-fit:cover}
+  .scrim{position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(105deg, rgba(247,242,232,.92) 0%, rgba(247,242,232,.66) 34%, rgba(247,242,232,.12) 56%, transparent 72%)}
+  .wrap{max-width:1180px;margin:0 auto;padding:clamp(28px,5vw,64px) clamp(20px,5vw,56px)}
+  .eyebrow{font-family:"Geist Mono",monospace;font-weight:600;text-transform:uppercase;
+    letter-spacing:.22em;font-size:clamp(10px,1.5vw,13px);color:#c15a12}
+  h1.hd{margin-top:14px;color:var(--forest);line-height:.94;
+    font-size:clamp(46px,10.5vw,116px)}
+  h1.hd .l2{display:block;margin-top:.06em;font-size:.66em;color:var(--forest)}
+  h1.hd .reach{color:var(--accent)}
+  .rule{display:flex;align-items:center;gap:12px;margin:clamp(20px,3vw,30px) 0 18px;max-width:640px}
+  .rule .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 4px rgba(245,130,31,.18)}
+  .rule .ln{height:2px;background:linear-gradient(90deg,var(--accent),rgba(245,130,31,0));flex:1}
+  .sub{max-width:560px;font-size:clamp(16px,2.1vw,21px);font-weight:600;line-height:1.42;color:#2a2318}
+  .sub b{color:#c15a12}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(22px,3vw,30px)}
+  .btn{display:inline-flex;align-items:center;gap:9px;border-radius:12px;padding:14px 22px;font-weight:800;
+    font-size:15px;text-decoration:none;transition:.2s}
+  .btn.primary{background:var(--accent);color:#1a0e02;box-shadow:0 10px 26px -10px rgba(245,130,31,.7)}
+  .btn.primary:hover{background:var(--accent-bright)}
+  .btn.ghost{border:1.5px solid rgba(20,10,2,.24);color:var(--ink)}
+  .btn.ghost:hover{background:rgba(20,10,2,.05)}
+
+  /* ── BOTTOM: manifesto on paper ── */
+  .manifesto{background:var(--paper);padding-bottom:clamp(30px,5vw,56px)}
+  .mgrid{max-width:1180px;margin:0 auto;padding:clamp(8px,3vw,20px) clamp(20px,5vw,56px) 0;
+    display:grid;gap:clamp(18px,3vw,30px)}
+  .block{display:grid;grid-template-columns:auto 1fr;gap:16px;padding-bottom:clamp(18px,3vw,28px);
+    border-bottom:1px solid rgba(20,10,2,.12)}
+  .block:last-child{border-bottom:0}
+  .block .bl{width:14px;height:14px;border-radius:50%;background:var(--accent);margin-top:8px;
+    box-shadow:0 0 0 5px rgba(245,130,31,.14)}
+  .block p{font-size:clamp(17px,2.3vw,23px);font-weight:700;line-height:1.4;color:#241d13}
+  .block p .soft{color:#6a5c48;font-weight:600}
+  .block.big p{font-weight:800}
+
+  /* ── lockup ── */
+  .lockup{max-width:1180px;margin:0 auto;padding:clamp(24px,3vw,36px) clamp(20px,5vw,56px) clamp(10px,2vw,20px);
+    text-align:center}
+  .word{font-family:"Archivo",sans-serif;font-weight:800;text-transform:none;
+    font-size:clamp(40px,8vw,74px);letter-spacing:-.02em;line-height:1}
+  .word .i{color:var(--accent)} .word .p{color:var(--forest)} .word .chev{color:var(--accent);font-weight:800}
+  .doc{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px}
+  .doc .beat{width:clamp(30px,7vw,58px);height:14px;flex:none;
+    background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='14' viewBox='0 0 60 14'%3E%3Cpath d='M0 7h14l4-6 5 12 4-9 3 3h27' fill='none' stroke='%23f5821f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+  .doc .beat.r{transform:scaleX(-1)}
+  .doc .dtxt{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(16px,3vw,26px);color:#241d13}
+  .tag{margin-top:8px;font-family:"Geist Mono",monospace;font-weight:600;font-size:clamp(11px,1.6vw,14px);
+    letter-spacing:.06em;color:#c15a12}
+  .contact{margin-top:clamp(18px,3vw,26px);background:var(--forest);color:#dfe7f2;border-radius:14px;
+    display:flex;flex-wrap:wrap;gap:8px 26px;align-items:center;justify-content:center;
+    padding:14px 20px;font-family:"Geist Mono",monospace;font-size:clamp(12px,1.7vw,15px);font-weight:500}
+  .contact b{color:#fff;font-weight:600}
+  .contact .sep{opacity:.4}
+
+  @media (max-width:720px){
+    .scrim{background:linear-gradient(180deg, rgba(247,242,232,.9) 0%, rgba(247,242,232,.7) 46%, rgba(247,242,232,.25) 100%)}
+    h1.hd{font-size:clamp(44px,13vw,72px)}
+  }
+</style>
+</head>
+<body>
+  <section class="summit">
+    <svg class="bg" viewBox="0 0 1200 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0" stop-color="#0b1830"/><stop offset=".4" stop-color="#3a2540"/>
+          <stop offset=".72" stop-color="#b8551d"/><stop offset=".9" stop-color="#f2953a"/>
+          <stop offset="1" stop-color="#ffc061"/>
+        </linearGradient>
+        <radialGradient id="sun" cx="82%" cy="60%" r="42%">
+          <stop offset="0" stop-color="#fff4d6"/><stop offset=".3" stop-color="#ffd27a" stop-opacity=".9"/>
+          <stop offset="1" stop-color="#ffd27a" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1200" height="620" fill="url(#sky)"/>
+      <rect width="1200" height="620" fill="url(#sun)"/>
+      <circle cx="985" cy="372" r="46" fill="#fff3cf"/>
+      <!-- far ridges -->
+      <path d="M0 470 L230 402 L430 452 L640 388 L860 448 L1050 400 L1200 452 L1200 620 L0 620 Z" fill="#5a3a34" opacity=".55"/>
+      <path d="M0 512 L260 452 L520 508 L770 446 L1000 506 L1200 470 L1200 620 L0 620 Z" fill="#301e2c" opacity=".8"/>
+      <!-- near summit -->
+      <path d="M0 620 L360 512 L560 566 L720 470 L720 470 L900 560 L1200 520 L1200 620 Z" fill="#0d1424"/>
+      <!-- figure, arms raised, on the 720/470 peak -->
+      <g fill="#0b1120" transform="translate(712,430)">
+        <circle cx="0" cy="0" r="5.4"/>
+        <path d="M-2.4 6 h4.8 v20 h-4.8 z"/>
+        <path d="M-2 24 l-4 20 h3.4 l3-16 M2 24 l4 20 h-3.4 l-3-16" />
+        <path d="M-2.6 9 l-14 -12 2 -3 15 11 z M2.6 9 l14 -12 -2 -3 -15 11 z"/>
+      </g>
+    </svg>
+    <div class="scrim"></div>
+    <div class="wrap">
+      <p class="eyebrow">The world-changing Kannadiga invention</p>
+      <h1 class="hd disp">SUCCESS IS WITHIN YOU.<span class="l2">AND, <span class="reach">WITHIN YOUR REACH.</span></span></h1>
+      <div class="rule"><span class="dot"></span><span class="ln"></span></div>
+      <p class="sub">World&rsquo;s First, <b class="brand">Kannadiga-invented iRisePro</b> ensures you rise, progress, and succeed&mdash;scientific, stress-free, personalized.</p>
+      <div class="cta">
+        <a class="btn primary" href="#">▸ Start Your Success Scan</a>
+        <a class="btn ghost" href="#">WA 93640 88500</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="manifesto">
+    <div class="mgrid">
+      <div class="block">
+        <span class="bl"></span>
+        <p>Success is no more a miracle.<br>It is not available in the stars.<br>It is not luck.<br>It is not an accident.</p>
+      </div>
+      <div class="block big">
+        <span class="bl"></span>
+        <p>Now, world&rsquo;s first, <span class="brand">Kannadiga-invented iRisePro</span> has scientifically decoded success, scans it, shows it, strengthens it.</p>
+      </div>
+      <div class="block">
+        <span class="bl"></span>
+        <p>No more fooling you.<br>No more trial and error.<br>No more worries for you.<br>No more wastage of money, time, years, and strain.</p>
+      </div>
+    </div>
+    <div class="lockup">
+      <div class="word brand"><span class="i">iRise</span><span class="p">Pro</span><span class="chev">&raquo;</span></div>
+      <div class="doc"><span class="beat"></span><span class="dtxt">World&rsquo;s First Success Doctor</span><span class="beat r"></span></div>
+      <p class="tag">— The world-changing Kannadiga invention —</p>
+      <div class="contact"><span>&#127760; <b>www.irisepro.in</b></span><span class="sep">|</span><span>&#128172; <b>WA 93640 88500</b></span></div>
+    </div>
+  </section>
+</body>
+</html>
