@@ -3,54 +3,51 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hero B — Proof meets Promise</title>
+<title>Hero B — The Summit + Proof</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --forest:#081325; --forest-2:#112644; --accent:#f5821f; --accent-strong:#ff9b3d;
-    --accent-bright:#ffb259; --ink:#140a02;
+    --forest:#081325; --forest-2:#112644; --bg:#0a1626; --accent:#f5821f; --accent-strong:#ff9b3d;
+    --accent-bright:#ffb259;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
   body{font-family:"Archivo",system-ui,sans-serif;background:var(--forest);color:#e7edf6}
   .disp{font-family:"Anton",sans-serif;font-weight:400;letter-spacing:.005em}
   .mono{font-family:"Geist Mono",monospace}
   .brand{text-transform:none}
 
-  .hero{position:relative;overflow:hidden;isolation:isolate;
-    background:radial-gradient(120% 90% at 78% 8%, rgba(245,130,31,.16), transparent 52%),
-               radial-gradient(90% 80% at 6% 100%, rgba(63,147,224,.14), transparent 55%), var(--forest)}
-  .grid{position:absolute;inset:0;z-index:-1;opacity:.5;
-    background:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
-    background-size:44px 44px;
-    -webkit-mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent);mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent)}
-  .wrap{max-width:1200px;margin:0 auto;padding:clamp(26px,4vw,54px) clamp(20px,5vw,56px)}
-
-  .eyebrow{font-family:"Geist Mono",monospace;font-weight:600;text-transform:uppercase;letter-spacing:.22em;
-    font-size:clamp(10px,1.4vw,13px);color:var(--accent-strong)}
-  .badge{display:inline-flex;align-items:center;gap:8px;margin-top:12px;border:1px solid rgba(255,255,255,.15);
-    background:rgba(255,255,255,.05);border-radius:999px;padding:6px 14px;font-family:"Geist Mono",monospace;
-    font-size:12px;font-weight:600;color:var(--accent-bright)}
-  .badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent-strong);
-    box-shadow:0 0 0 4px rgba(255,155,61,.2)}
-
-  .top{display:grid;gap:clamp(24px,4vw,52px);grid-template-columns:1.05fr .95fr;align-items:center}
-  h1.hd{margin-top:20px;color:#fff;line-height:.94;font-size:clamp(44px,6.6vw,92px)}
-  h1.hd .l2{display:block;margin-top:.06em;font-size:.62em}
+  /* ── TOP: summit-sunrise band, two columns ── */
+  .summit{position:relative;overflow:hidden;isolation:isolate}
+  .summit svg.bg{position:absolute;inset:0;width:100%;height:100%;z-index:-2;object-fit:cover}
+  .scrim{position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(100deg, rgba(6,13,28,.95) 0%, rgba(6,13,28,.82) 40%, rgba(6,13,28,.5) 62%, rgba(6,13,28,.25) 100%)}
+  .wrap{max-width:1200px;margin:0 auto;padding:clamp(28px,4.5vw,60px) clamp(20px,5vw,56px);
+    display:grid;grid-template-columns:1.06fr .94fr;gap:clamp(24px,4vw,48px);align-items:center}
+  .eyebrow{font-family:"Geist Mono",monospace;font-weight:600;text-transform:uppercase;
+    letter-spacing:.22em;font-size:clamp(10px,1.5vw,13px);color:var(--accent-strong)}
+  h1.hd{margin-top:14px;color:#fff;line-height:.94;font-size:clamp(44px,6.6vw,92px)}
+  h1.hd .l2{display:block;margin-top:.06em;font-size:.64em}
   h1.hd .reach{color:var(--accent-strong)}
-  .sub{margin-top:22px;max-width:520px;font-size:clamp(15px,1.7vw,20px);font-weight:600;line-height:1.44;color:#c4cfe0}
+  .rule{display:flex;align-items:center;gap:12px;margin:clamp(18px,2.6vw,26px) 0 16px;max-width:520px}
+  .rule .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 4px rgba(245,130,31,.22)}
+  .rule .ln{height:2px;background:linear-gradient(90deg,var(--accent),rgba(245,130,31,0));flex:1}
+  .sub{max-width:520px;font-size:clamp(15px,1.8vw,20px);font-weight:600;line-height:1.42;color:#c4cfe0}
   .sub b{color:#fff}
-  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-  .btn{display:inline-flex;align-items:center;gap:9px;border-radius:12px;padding:14px 22px;font-weight:800;font-size:15px;text-decoration:none;transition:.2s}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(20px,2.6vw,28px)}
+  .btn{display:inline-flex;align-items:center;gap:9px;border-radius:12px;padding:14px 22px;font-weight:800;
+    font-size:15px;text-decoration:none;transition:.2s}
   .btn.primary{background:var(--accent);color:#1a0e02;box-shadow:0 12px 30px -12px rgba(245,130,31,.75)}
   .btn.primary:hover{background:var(--accent-bright)}
   .btn.ghost{border:1.5px solid rgba(255,255,255,.22);color:#fff}
   .btn.ghost:hover{background:rgba(255,255,255,.06)}
 
-  /* success scan card */
-  .scan{background:rgba(17,38,68,.72);border:1px solid rgba(255,255,255,.12);border-radius:22px;
-    padding:20px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7);backdrop-filter:blur(8px)}
+  /* ── Success Scan proof card ── */
+  .scanwrap{position:relative}
+  .scan{background:rgba(10,20,38,.68);border:1px solid rgba(255,255,255,.14);border-radius:22px;
+    padding:20px;box-shadow:0 30px 60px -28px rgba(0,0,0,.75);backdrop-filter:blur(10px)}
   .scan .sh{display:flex;align-items:center;justify-content:space-between}
   .scan .lbl{font-family:"Geist Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.08em;
     text-transform:uppercase;color:var(--accent-bright)}
@@ -64,85 +61,122 @@
   .bar i{display:block;height:100%;border-radius:99px}
   .scan .foot{margin-top:16px;border-top:1px solid rgba(255,255,255,.1);padding-top:11px;
     font-family:"Geist Mono",monospace;font-size:11px;color:#93a3ba}
-  .big64{position:absolute;top:14px;right:14px;width:76px;height:76px;border-radius:50%;
-    border:1px solid rgba(245,130,31,.4);background:rgba(8,19,37,.9);display:flex;flex-direction:column;
-    align-items:center;justify-content:center;text-align:center}
-  .big64 b{font-family:"Anton",sans-serif;font-size:26px;color:var(--accent-bright);line-height:1}
+  .big64{position:absolute;top:-14px;right:-8px;width:78px;height:78px;border-radius:50%;
+    border:1px solid rgba(245,130,31,.45);background:rgba(8,19,37,.94);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
+  .big64 b{font-family:"Anton",sans-serif;font-size:27px;color:var(--accent-bright);line-height:1}
   .big64 span{font-family:"Geist Mono",monospace;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:#c4cfe0;margin-top:2px}
-  .scanwrap{position:relative}
 
-  /* manifesto triad */
-  .triad{margin-top:clamp(30px,5vw,58px);display:grid;gap:18px;grid-template-columns:repeat(3,1fr);
-    border-top:1px solid rgba(255,255,255,.12);padding-top:clamp(24px,4vw,40px)}
-  .mcell{position:relative;padding-left:20px}
-  .mcell::before{content:"";position:absolute;left:0;top:6px;width:11px;height:11px;border-radius:50%;
+  /* ── BOTTOM: manifesto on forest ── */
+  .manifesto{background:var(--forest);padding-bottom:clamp(30px,5vw,56px);
+    background-image:radial-gradient(90% 60% at 50% -10%, rgba(245,130,31,.08), transparent 60%)}
+  .mgrid{max-width:1200px;margin:0 auto;padding:clamp(10px,3vw,26px) clamp(20px,5vw,56px) 0;
+    display:grid;gap:18px;grid-template-columns:repeat(3,1fr)}
+  .block{position:relative;padding-left:20px}
+  .block::before{content:"";position:absolute;left:0;top:6px;width:12px;height:12px;border-radius:50%;
     background:var(--accent);box-shadow:0 0 0 4px rgba(245,130,31,.16)}
-  .mcell p{font-size:clamp(15px,1.5vw,18px);font-weight:700;line-height:1.42;color:#eef2f8}
-  .mcell.lead p{color:#fff}
-  .mcell .brand{color:var(--accent-bright)}
+  .block p{font-size:clamp(15px,1.5vw,18px);font-weight:700;line-height:1.42;color:#eef2f8}
+  .block.big p{color:#fff}
+  .block .brand{color:var(--accent-bright)}
 
-  /* lockup */
-  .lockup{margin-top:clamp(28px,4vw,44px);text-align:center}
-  .word{font-family:"Archivo",sans-serif;font-weight:800;text-transform:none;font-size:clamp(38px,7vw,66px);letter-spacing:-.02em;line-height:1}
-  .word .i{color:var(--accent)} .word .p{color:#fff} .word .chev{color:var(--accent)}
-  .doc{margin-top:8px;font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(15px,2.4vw,22px);color:#dfe7f2}
-  .tag{margin-top:6px;font-family:"Geist Mono",monospace;font-weight:600;font-size:clamp(11px,1.5vw,13px);letter-spacing:.06em;color:var(--accent-strong)}
+  /* ── lockup ── */
+  .lockup{max-width:1200px;margin:0 auto;padding:clamp(26px,3.5vw,40px) clamp(20px,5vw,56px) clamp(10px,2vw,20px);
+    text-align:center;border-top:1px solid rgba(255,255,255,.1);margin-top:clamp(24px,3.5vw,38px)}
+  .word{font-family:"Archivo",sans-serif;font-weight:800;text-transform:none;
+    font-size:clamp(40px,8vw,74px);letter-spacing:-.02em;line-height:1}
+  .word .i{color:var(--accent)} .word .p{color:#fff} .word .chev{color:var(--accent);font-weight:800}
+  .doc{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px}
+  .doc .beat{width:clamp(30px,7vw,58px);height:14px;flex:none;
+    background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='14' viewBox='0 0 60 14'%3E%3Cpath d='M0 7h14l4-6 5 12 4-9 3 3h27' fill='none' stroke='%23f5821f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+  .doc .beat.r{transform:scaleX(-1)}
+  .doc .dtxt{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(16px,3vw,26px);color:#dfe7f2}
+  .tag{margin-top:8px;font-family:"Geist Mono",monospace;font-weight:600;font-size:clamp(11px,1.6vw,14px);
+    letter-spacing:.06em;color:var(--accent-strong)}
 
   @media (max-width:860px){
-    .top{grid-template-columns:1fr}
-    .triad{grid-template-columns:1fr}
-    h1.hd{font-size:clamp(42px,12vw,74px)}
+    .wrap{grid-template-columns:1fr}
+    .mgrid{grid-template-columns:1fr;gap:22px}
+    .block{padding-bottom:4px}
+    h1.hd{font-size:clamp(44px,12vw,74px)}
+    .big64{right:8px}
+  }
+  @media (max-width:720px){
+    .scrim{background:linear-gradient(180deg, rgba(6,13,28,.86) 0%, rgba(6,13,28,.62) 46%, rgba(6,13,28,.34) 100%)}
   }
 </style>
 </head>
 <body>
-  <section class="hero">
-    <div class="grid"></div>
+  <section class="summit">
+    <svg class="bg" viewBox="0 0 1200 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0" stop-color="#081325"/><stop offset=".4" stop-color="#2f2138"/>
+          <stop offset=".72" stop-color="#a24a1a"/><stop offset=".9" stop-color="#e88a34"/>
+          <stop offset="1" stop-color="#ffb861"/>
+        </linearGradient>
+        <radialGradient id="sun" cx="82%" cy="60%" r="42%">
+          <stop offset="0" stop-color="#fff1cc"/><stop offset=".3" stop-color="#ffcf78" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#ffcf78" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1200" height="620" fill="url(#sky)"/>
+      <rect width="1200" height="620" fill="url(#sun)"/>
+      <circle cx="985" cy="372" r="46" fill="#fff0c6"/>
+      <path d="M0 470 L230 402 L430 452 L640 388 L860 448 L1050 400 L1200 452 L1200 620 L0 620 Z" fill="#4a2f30" opacity=".5"/>
+      <path d="M0 512 L260 452 L520 508 L770 446 L1000 506 L1200 470 L1200 620 L0 620 Z" fill="#1c1526" opacity=".82"/>
+      <path d="M0 620 L360 512 L560 566 L720 470 L900 560 L1200 520 L1200 620 Z" fill="#0a1120"/>
+      <g fill="#070d18" transform="translate(712,430)">
+        <circle cx="0" cy="0" r="5.4"/>
+        <path d="M-2.4 6 h4.8 v20 h-4.8 z"/>
+        <path d="M-2 24 l-4 20 h3.4 l3-16 M2 24 l4 20 h-3.4 l-3-16" />
+        <path d="M-2.6 9 l-14 -12 2 -3 15 11 z M2.6 9 l14 -12 -2 -3 -15 11 z"/>
+      </g>
+    </svg>
+    <div class="scrim"></div>
     <div class="wrap">
-      <div class="top">
-        <div>
-          <p class="eyebrow">The world-changing Kannadiga invention</p>
-          <span class="badge brand">World&rsquo;s First Success Doctor</span>
-          <h1 class="hd disp">SUCCESS IS WITHIN YOU.<span class="l2">AND, <span class="reach">WITHIN YOUR REACH.</span></span></h1>
-          <p class="sub">World&rsquo;s First, <b class="brand">Kannadiga-invented iRisePro</b> ensures you rise, progress, and succeed&mdash;scientific, stress-free, personalized.</p>
-          <div class="cta">
-            <a class="btn primary" href="#">▸ Start Your Success Scan</a>
-            <a class="btn ghost" href="#">WA 93640 88500</a>
+      <div>
+        <p class="eyebrow">The world-changing Kannadiga invention</p>
+        <h1 class="hd disp">SUCCESS IS WITHIN YOU.<span class="l2">AND, <span class="reach">WITHIN YOUR REACH.</span></span></h1>
+        <div class="rule"><span class="dot"></span><span class="ln"></span></div>
+        <p class="sub">World&rsquo;s First, <b class="brand">Kannadiga-invented iRisePro</b> ensures you rise, progress, and succeed&mdash;scientific, stress-free, personalized.</p>
+        <div class="cta">
+          <a class="btn primary" href="#">▸ Start Your Success Scan</a>
+          <a class="btn ghost" href="#">WA 93640 88500</a>
+        </div>
+      </div>
+      <div class="scanwrap">
+        <div class="scan">
+          <div class="sh"><span class="lbl">Success Scan&trade;</span><span class="scanning"><i></i>Scanning</span></div>
+          <p class="who">Sri Shakthi</p>
+          <div class="rows">
+            <div class="row"><div class="rl"><span>Concentration</span><b>64%</b></div><div class="bar"><i style="width:64%;background:#f5c451"></i></div></div>
+            <div class="row"><div class="rl"><span>Confidence</span><b>71%</b></div><div class="bar"><i style="width:71%;background:#54b06a"></i></div></div>
+            <div class="row"><div class="rl"><span>Communication</span><b>58%</b></div><div class="bar"><i style="width:58%;background:#f5c451"></i></div></div>
+            <div class="row"><div class="rl"><span>Career Clarity</span><b>40%</b></div><div class="bar"><i style="width:40%;background:#3f93e0"></i></div></div>
           </div>
+          <p class="foot">630+ ability observations &middot; 64 abilities</p>
         </div>
-        <div class="scanwrap">
-          <div class="scan">
-            <div class="sh"><span class="lbl">Success Scan&trade;</span><span class="scanning"><i></i>Scanning</span></div>
-            <p class="who">Sri Shakthi</p>
-            <div class="rows">
-              <div class="row"><div class="rl"><span>Concentration</span><b>64%</b></div><div class="bar"><i style="width:64%;background:#f5c451"></i></div></div>
-              <div class="row"><div class="rl"><span>Confidence</span><b>71%</b></div><div class="bar"><i style="width:71%;background:#54b06a"></i></div></div>
-              <div class="row"><div class="rl"><span>Communication</span><b>58%</b></div><div class="bar"><i style="width:58%;background:#f5c451"></i></div></div>
-              <div class="row"><div class="rl"><span>Career Clarity</span><b>40%</b></div><div class="bar"><i style="width:40%;background:#3f93e0"></i></div></div>
-            </div>
-            <p class="foot">630+ ability observations &middot; 64 abilities</p>
-          </div>
-          <div class="big64"><b>64</b><span>success<br>abilities</span></div>
-        </div>
+        <div class="big64"><b>64</b><span>success<br>abilities</span></div>
       </div>
+    </div>
+  </section>
 
-      <div class="triad">
-        <div class="mcell">
-          <p>Success is no more a miracle.<br>It is not available in the stars.<br>It is not luck.<br>It is not an accident.</p>
-        </div>
-        <div class="mcell lead">
-          <p>Now, world&rsquo;s first, <span class="brand">Kannadiga-invented iRisePro</span> has scientifically decoded success, scans it, shows it, strengthens it.</p>
-        </div>
-        <div class="mcell">
-          <p>No more fooling you.<br>No more trial and error.<br>No more worries for you.<br>No more wastage of money, time, years, and strain.</p>
-        </div>
+  <section class="manifesto">
+    <div class="mgrid">
+      <div class="block">
+        <p>Success is no more a miracle.<br>It is not available in the stars.<br>It is not luck.<br>It is not an accident.</p>
       </div>
-
-      <div class="lockup">
-        <div class="word brand"><span class="i">iRise</span><span class="p">Pro</span><span class="chev">&raquo;</span></div>
-        <div class="doc">World&rsquo;s First Success Doctor</div>
-        <p class="tag">— The world-changing Kannadiga invention —</p>
+      <div class="block big">
+        <p>Now, world&rsquo;s first, <span class="brand">Kannadiga-invented iRisePro</span> has scientifically decoded success, scans it, shows it, strengthens it.</p>
       </div>
+      <div class="block">
+        <p>No more fooling you.<br>No more trial and error.<br>No more worries for you.<br>No more wastage of money, time, years, and strain.</p>
+      </div>
+    </div>
+    <div class="lockup">
+      <div class="word brand"><span class="i">iRise</span><span class="p">Pro</span><span class="chev">&raquo;</span></div>
+      <div class="doc"><span class="beat"></span><span class="dtxt">World&rsquo;s First Success Doctor</span><span class="beat r"></span></div>
+      <p class="tag">— The world-changing Kannadiga invention —</p>
     </div>
   </section>
 </body>
