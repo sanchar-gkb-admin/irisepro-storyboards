@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Scorecard Copy — Two Voices (for review)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#F4EDDE;--paper2:#EEE6D3;--ink:#221E18;--ink2:#3B342A;--soft:#7A7060;--faint:#A99E88;--gold:#A9812E;--oxblood:#6E2A26;--line:rgba(34,30,24,.14);--gline:rgba(169,129,46,.42);--p-com:#3E6B4E;--disp:'Fraunces',Georgia,serif;--read:'Literata',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+*{box-sizing:border-box;margin:0}html,body{background:#2f2b23}
+body{font-family:var(--read);color:var(--ink);line-height:1.7}
+.wrap{max-width:720px;margin:0 auto;background:var(--paper);background-image:radial-gradient(rgba(120,100,60,.03) 1px,transparent 1.4px);background-size:4px 4px;box-shadow:0 40px 120px -30px rgba(0,0,0,.6)}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:500}
+header{padding:44px 30px 26px;text-align:center;border-bottom:1px solid var(--gline)}
+header h1{font-family:var(--disp);font-weight:400;font-size:34px;line-height:1.1;margin:12px 0 8px}
+header p{font-family:var(--read);font-style:italic;color:var(--ink2);font-size:16px;max-width:52ch;margin:0 auto}
+.think{padding:26px 30px;background:var(--paper2);border-bottom:1px solid var(--line)}
+.think h2{font-family:var(--disp);font-size:19px;font-weight:500;margin-bottom:10px}
+.think p{font-size:15.5px;color:var(--ink2);margin:9px 0}.think b{color:var(--oxblood)}
+.toggle{position:sticky;top:0;z-index:10;display:flex;gap:0;justify-content:center;padding:14px;background:rgba(244,237,222,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--gline)}
+.toggle button{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:11px 20px;border:1px solid var(--gline);background:transparent;color:var(--soft);cursor:pointer}
+.toggle button:first-child{border-radius:999px 0 0 999px}.toggle button:last-child{border-radius:0 999px 999px 0;border-left:0}
+.toggle button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+/* mini report preview */
+.preview{padding:34px 30px 40px}
+.pv-cover{text-align:center;border:1px solid var(--gline);padding:30px 20px;margin-bottom:30px}
+.pv-cover .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft)}
+.pv-cover h3{font-family:var(--disp);font-weight:300;font-size:44px;line-height:1;margin:12px 0}
+.pv-cover .num{font-family:var(--disp);font-weight:300;font-size:56px;color:var(--oxblood);margin-top:14px}
+.pv-cover .num small{font-size:20px;color:var(--gold)}
+.pv-cover .zn{font-family:var(--disp);font-style:italic;font-size:15px;margin-top:4px}.pv-cover .zn b{color:var(--p-com);font-style:normal}
+.sblock{border-top:1px solid var(--line);padding:22px 0}
+.sblock .st{font-family:var(--disp);font-weight:500;font-size:23px;line-height:1.15}
+.sblock .sb{font-family:var(--read);font-size:16px;color:var(--ink2);margin-top:8px}
+.chg{background:var(--paper2);color:#fff}
+.changes{padding:30px}
+.changes h2{font-family:var(--disp);font-size:22px;font-weight:500;text-align:center;margin-bottom:6px}
+.changes .sub{text-align:center;color:var(--soft);font-size:14px;margin-bottom:22px}
+.crow{border-top:1px solid var(--line);padding:18px 0}
+.crow .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:6px}
+.crow .old{font-family:var(--read);color:var(--soft);text-decoration:line-through;text-decoration-color:var(--faint)}
+.crow .new{font-family:var(--disp);font-size:18px;color:var(--oxblood);margin:4px 0}
+.crow .arrow{color:var(--gold);font-family:var(--mono)}
+.crow .why{font-size:14.5px;color:var(--ink2);margin-top:6px;line-height:1.6}
+.crow.keep .new{color:var(--p-com)}
+.guard{padding:26px 30px 46px;background:var(--paper2);border-top:1px solid var(--gline)}
+.guard h2{font-family:var(--disp);font-size:18px;font-weight:500;margin-bottom:12px}
+.guard ul{margin:0;padding-left:18px}.guard li{font-size:15px;color:var(--ink2);margin:6px 0}
+.guard .seal{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gline);border-radius:999px;padding:6px 12px;margin-top:14px}
+</style></head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">For Review · KMM &amp; Sutirtha</div>
+    <h1>The Scorecard, in Two Voices</h1>
+    <p>Same report, same numbers, same science — two ways of *speaking* it. Flip the toggle to compare. You decide which voice we ship.</p>
+  </header>
+
+  <div class="think">
+    <h2>Our thinking</h2>
+    <p>The current copy is accurate, but it's written from the <b>system's</b> point of view — section labels ("Part A", "Benchmark Gap Analysis"), branded jargon, and "The student" instead of the child's name. It reads like a report <i>generator</i>.</p>
+    <p>The editorial voice keeps <b>every fact, number, claim, benchmark, plan and the Declaration exactly as-is</b> — it only changes the <b>framing</b>: parent-facing headings, the child's name, and a plain-language handle for the jargon. Nothing scientific is reworded or reinvented.</p>
+    <p>We're not asking you to accept it — we're asking you to <b>choose</b>, heading by heading if you like.</p>
+  </div>
+
+  <div class="toggle">
+    <button id="bV" class="on" onclick="setMode('v')">Current wording</button>
+    <button id="bE" onclick="setMode('e')">Proposed · editorial</button>
+  </div>
+
+  <div class="preview">
+    <div class="pv-cover">
+      <div class="k fr" data-v="AACE64™ Success Scorecard" data-e="Success-Readiness Assessment"></div>
+      <h3>Aarav Sharma</h3>
+      <div class="num">73<small>.54%</small></div>
+      <div class="zn">in the <b>Strong</b> zone</div>
+    </div>
+    <div class="sblock"><div class="st fr" data-v="Understanding the AACE64™© Framework" data-e="What We Measured — and Why It Matters"></div><div class="sb">The four pillars, the 64 abilities, and why they shape a lifetime of learning.</div></div>
+    <div class="sblock"><div class="st fr" data-v="Part A: Student's Performance Across 21 Challenge Tasks" data-e="How Aarav Performed, Task by Task"></div><div class="sb">Every task scored across all four pillars — 630 behavioural observations.</div></div>
+    <div class="sblock"><div class="st fr" data-v="Part B: National Benchmark Gap Analysis" data-e="Where Aarav Stands Against the Nation"></div><div class="sb">Each pillar beside the three All-India benchmarks — Developmental · ASLI Champion · Competitive.</div></div>
+    <div class="sblock"><div class="st fr" data-v="AACE64™© IntelliGraph Benchmark Positioning" data-e="The IntelliGraph™ — Aarav's Shape of Strengths"></div><div class="sb">A visual of the success architecture relative to the national benchmarks.</div></div>
+    <div class="sblock"><div class="st fr" data-v="Top 15 Essential Success Abilities™ Analysis" data-e="Aarav's 15 Key Abilities, Benchmarked"></div><div class="sb">The abilities that most drive academic success, ordered by priority.</div></div>
+    <div class="sblock"><div class="st fr" data-v="Your Next Step" data-e="Your Next Step"></div><div class="sb">STEM Pathway™ — benchmarked to Dr. A. P. J. Abdul Kalam.</div></div>
+    <div class="sblock"><div class="st fr" data-v="The student reaches an overall Success-Readiness of 73.54%…" data-e="Aarav reaches an overall Success-Readiness of 73.54%…"></div><div class="sb">Personalisation — the child by name, not "the student".</div></div>
+  </div>
+
+  <div class="changes">
+    <h2>Every change, and why</h2>
+    <div class="sub">Framing / voice only. Nothing below touches a number, claim, plan, or the Declaration.</div>
+    <div id="clist"></div>
+  </div>
+
+  <div class="guard">
+    <h2>What never changes — in either voice</h2>
+    <ul>
+      <li>Every number and percentage</li>
+      <li>Zone names (Weak · Average · Strong · Excellent)</li>
+      <li>Benchmark names (Developmental · ASLI Champion · Competitive)</li>
+      <li>The improvement-plan text (engine-generated, actionable)</li>
+      <li>The iRisePro Declaration — verbatim</li>
+      <li>All scientific claims and the AACE64™ / IntelliGraph™ / Essential Success Abilities™ marks</li>
+    </ul>
+    <div class="seal">Essence preserved · Voice elevated</div>
+  </div>
+</div>
+<script>
+var CH=[
+ {"where":"Cover, above the name","verbatim":"AACE64™ Success Scorecard","proposed":"Success-Readiness Assessment","why":"Tells the parent what they're holding in plain words; 'Success-Readiness' is already the engine's own metric name — no new concept."},
+ {"where":"Section 1 heading","verbatim":"Understanding the AACE64™© Framework","proposed":"What We Measured — and Why It Matters","why":"Speaks to the parent's actual question instead of naming the system. The framework name still appears in the body; essence unchanged."},
+ {"where":"Section 2 · Part A heading","verbatim":"Part A: Student's Performance Across 21 Challenge Tasks","proposed":"How Aarav Performed, Task by Task","why":"Drops the 'Part A' machinery label; uses the child's name. Same content (per-task performance across 21 tasks)."},
+ {"where":"Section 2 · Part B heading","verbatim":"Part B: National Benchmark Gap Analysis","proposed":"Where Aarav Stands Against the Nation","why":"Warmer, clearer; 'national benchmark' meaning fully preserved. The how-to-read line still explains the gap analysis."},
+ {"where":"Section 3 heading","verbatim":"AACE64™© IntelliGraph Benchmark Positioning","proposed":"The IntelliGraph™ — Aarav's Shape of Strengths","why":"Keeps the IntelliGraph™ brand asset; adds a plain-language handle so the parent knows what the visual shows."},
+ {"where":"Section 4 heading","verbatim":"Top 15 Essential Success Abilities™ Analysis","proposed":"Aarav's 15 Key Abilities, Benchmarked","why":"Personalised and plainer; the '15 Essential Success Abilities™' concept is intact."},
+ {"where":"Section 7 heading (career pathways)","verbatim":"Your Next Step","proposed":"Your Next Step","why":"NO CHANGE — already parent-facing and warm. Kept exactly as-is."},
+ {"where":"Summary narrative + throughout","verbatim":"The student reaches an overall Success-Readiness of 73.54%…","proposed":"Aarav reaches an overall Success-Readiness of 73.54%…","why":"Personalisation — arguably a fix. 'The student' is a generic fallback; the report should address the child by name. Sentence and numbers untouched."},
+ {"where":"Declaration","verbatim":"iRisePro Declaration: Analysis of the AACE64™© Scorecard","proposed":"iRisePro Declaration: Analysis of the AACE64™© Scorecard","why":"NO CHANGE — formal / brand / legal. Verbatim in both voices."}
+];
+function setMode(m){
+  document.getElementById('bV').classList.toggle('on',m==='v');
+  document.getElementById('bE').classList.toggle('on',m==='e');
+  document.querySelectorAll('.fr').forEach(function(el){el.textContent=el.getAttribute(m==='v'?'data-v':'data-e');});
+}
+(function(){var h='';CH.forEach(function(c){var keep=c.verbatim===c.proposed;
+  h+='<div class="crow'+(keep?' keep':'')+'"><div class="lbl">'+c.where+'</div>'+
+     (keep?'<div class="new">'+c.proposed+' — kept as-is</div>':'<div class="old">'+c.verbatim+'</div><div class="new"><span class="arrow">→ </span>'+c.proposed+'</div>')+
+     '<div class="why">'+c.why+'</div></div>';});
+  document.getElementById('clist').innerHTML=h;})();
+setMode('v');
+</script>
+</body></html>
