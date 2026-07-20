@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero C2 — The Manifesto (refreshed · Anton headline)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#081325; --forest-2:#112644; --accent:#f5821f; --accent-strong:#ff9b3d; --accent-bright:#ffb259;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Montserrat",system-ui,sans-serif;color:#e7edf6;
+    background:linear-gradient(180deg,#060f1f 0%,#081325 45%,#081325 100%)}
+  .disp{font-family:"Montserrat",sans-serif;font-weight:900;letter-spacing:-.02em}
+  .brand{text-transform:none}
+  .hero{position:relative;overflow:hidden;isolation:isolate}
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(32px,5vw,64px) clamp(24px,5vw,56px) clamp(48px,6vw,80px)}
+
+  /* ── Sunflower: the symbolic anchor, at the top where nothing competes with it ── */
+  .flower{display:block;margin:0 auto;width:clamp(136px,19vw,200px);height:auto}
+  @media (prefers-reduced-motion:no-preference){
+    .flower{animation:bloom .8s cubic-bezier(.2,.7,.3,1) both}
+    @keyframes bloom{from{opacity:0;transform:scale(.88) translateY(16px)}to{opacity:1;transform:none}}
+  }
+
+  .eyebrow{font-weight:700;text-transform:uppercase;letter-spacing:.24em;
+    font-size:clamp(10px,1.4vw,13px);color:var(--accent-strong);text-align:center;margin-top:24px}
+
+  /* HYBRID: headline only in Anton (condensed → fits far more per line, so it can run
+     bigger and unbroken). Everything else stays Montserrat, so the ONLY variable
+     between this file and hero-C2.html is the headline typeface. */
+  h1.hd{margin-top:16px;text-align:center;color:#fff;line-height:.92;
+    font-family:"Anton",sans-serif;font-weight:400;letter-spacing:.005em;
+    font-size:clamp(40px,9vw,112px)}
+  h1.hd .l2{display:block;margin-top:.05em;font-size:.6em}
+  h1.hd .reach{color:var(--accent-strong)}
+  /* KMM: "Reduce just one point space between AND, WITHIN" */
+  h1.hd .reach{margin-left:-1pt}
+  .brk{display:none}
+
+  .sub{margin:24px auto 0;max-width:640px;text-align:center;font-size:clamp(15px,1.9vw,20px);
+    font-weight:500;line-height:1.5;color:#c4cfe0}
+  .sub b{color:#fff;font-weight:700}
+
+  /* three-beat manifesto */
+  .beats{margin-top:clamp(40px,6vw,72px);display:grid;gap:clamp(16px,2.4vw,24px)}
+  .beat{display:grid;grid-template-columns:auto 1fr;gap:clamp(16px,3vw,32px);align-items:start;
+    padding:clamp(16px,2.4vw,24px) clamp(16px,2.4vw,28px);border-radius:16px;
+    background:rgba(17,38,68,.4);border:1px solid rgba(255,255,255,.08)}
+  /* Solid, not outlined. Anton's blocky digits carried a hairline outline; Montserrat's
+     are narrower and the outline collapsed into an illegible wireframe (a "1" read as a
+     bracket). line-height:1 also stops the glyph clipping at the top. */
+  .beat .n{font-family:"Montserrat",sans-serif;font-weight:900;font-size:clamp(40px,5.2vw,56px);
+    line-height:1;color:var(--accent);opacity:.5}
+  .beat p{font-size:clamp(16px,2.1vw,23px);font-weight:600;line-height:1.42;color:#eef2f8}
+  .beat.lead{background:rgba(245,130,31,.1);border-color:rgba(245,130,31,.35)}
+  .beat.lead .n{color:var(--accent);opacity:1}
+  .beat.lead p{color:#fff}
+  .beat .brand{color:var(--accent-bright)}
+
+  /* full logo lockup */
+  .lockup{margin-top:clamp(40px,5.5vw,64px);text-align:center}
+  .word{font-weight:800;text-transform:none;font-size:clamp(40px,7.4vw,68px);letter-spacing:-.03em;line-height:1}
+  .word .i{color:var(--accent)} .word .p{color:#fff} .word .chev{color:var(--accent)}
+  .doc{margin-top:8px;font-weight:700;font-size:clamp(15px,2.4vw,22px);color:#dfe7f2}
+  .tag{margin-top:8px;font-weight:600;font-size:clamp(11px,1.6vw,13px);letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent-strong)}
+
+  /* KMM: CTAs moved to the bottom of the page, below the full logo */
+  .cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:clamp(32px,4vw,40px)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:16px 24px;
+    font-weight:800;font-size:15px;text-decoration:none;transition:.2s}
+  .btn.primary{background:var(--accent);color:#1a0e02;box-shadow:0 12px 30px -12px rgba(245,130,31,.75)}
+  .btn.primary:hover{background:var(--accent-bright)}
+  .btn.ghost{border:1.5px solid rgba(255,255,255,.22);color:#fff}
+  .btn.ghost:hover{background:rgba(255,255,255,.06)}
+  .btn:focus-visible{outline:2px solid var(--accent-bright);outline-offset:3px}
+
+  @media (max-width:720px){
+    /* Even condensed, Anton at hero scale orphans "YOU." on a phone — break it deliberately. */
+    .brk{display:block}
+    h1.hd{font-size:clamp(40px,12.4vw,72px)}
+    .beat{gap:14px;padding:16px}
+    .beat .n{font-size:40px}
+    .btn{flex:1 1 100%;justify-content:center}
+  }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <div class="wrap">
+
+      <!-- Fully blossomed sunflower — highest level of abilities -->
+      <svg class="flower" viewBox="0 0 240 240" role="img" aria-label="A fully blossomed sunflower">
+        <defs>
+          <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0"   stop-color="#f5821f" stop-opacity=".34"/>
+            <stop offset=".55" stop-color="#f5821f" stop-opacity=".10"/>
+            <stop offset="1"   stop-color="#f5821f" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="petalOuter" x1="0" y1="26" x2="0" y2="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ffcd7c"/>
+            <stop offset="1" stop-color="#ef7a12"/>
+          </linearGradient>
+          <linearGradient id="petalInner" x1="0" y1="54" x2="0" y2="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ffb259"/>
+            <stop offset="1" stop-color="#d1660a"/>
+          </linearGradient>
+          <radialGradient id="disc" cx="40%" cy="34%" r="72%">
+            <stop offset="0" stop-color="#6b4415"/>
+            <stop offset="1" stop-color="#2b1a08"/>
+          </radialGradient>
+          <pattern id="seeds" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+            <circle cx="4.5" cy="4.5" r="1.7" fill="#8a5a20" opacity=".5"/>
+          </pattern>
+          <!-- Broad, round-tipped petals — a blossomed sunflower, not a spiky sun.
+               Width is ~0.5x length; narrower than this and it reads as a starburst. -->
+          <path id="pOut" d="M120,120 C97,104 91,66 106,38 C112,25 128,25 134,38 C149,66 143,104 120,120 Z"/>
+          <path id="pIn"  d="M120,120 C104,110 99,84 110,64 C114,55 126,55 130,64 C141,84 136,110 120,120 Z"/>
+        </defs>
+
+        <circle cx="120" cy="120" r="120" fill="url(#sunGlow)"/>
+
+        <!-- back ring: 18 petals -->
+        <g fill="url(#petalOuter)" stroke="rgba(90,40,0,.18)" stroke-width=".7">
+          <use href="#pOut" transform="rotate(0 120 120)"/>
+          <use href="#pOut" transform="rotate(20 120 120)"/>
+          <use href="#pOut" transform="rotate(40 120 120)"/>
+          <use href="#pOut" transform="rotate(60 120 120)"/>
+          <use href="#pOut" transform="rotate(80 120 120)"/>
+          <use href="#pOut" transform="rotate(100 120 120)"/>
+          <use href="#pOut" transform="rotate(120 120 120)"/>
+          <use href="#pOut" transform="rotate(140 120 120)"/>
+          <use href="#pOut" transform="rotate(160 120 120)"/>
+          <use href="#pOut" transform="rotate(180 120 120)"/>
+          <use href="#pOut" transform="rotate(200 120 120)"/>
+          <use href="#pOut" transform="rotate(220 120 120)"/>
+          <use href="#pOut" transform="rotate(240 120 120)"/>
+          <use href="#pOut" transform="rotate(260 120 120)"/>
+          <use href="#pOut" transform="rotate(280 120 120)"/>
+          <use href="#pOut" transform="rotate(300 120 120)"/>
+          <use href="#pOut" transform="rotate(320 120 120)"/>
+          <use href="#pOut" transform="rotate(340 120 120)"/>
+        </g>
+
+        <!-- front ring: 18 petals, offset half a step -->
+        <g fill="url(#petalInner)" stroke="rgba(90,40,0,.18)" stroke-width=".7">
+          <use href="#pIn" transform="rotate(10 120 120)"/>
+          <use href="#pIn" transform="rotate(30 120 120)"/>
+          <use href="#pIn" transform="rotate(50 120 120)"/>
+          <use href="#pIn" transform="rotate(70 120 120)"/>
+          <use href="#pIn" transform="rotate(90 120 120)"/>
+          <use href="#pIn" transform="rotate(110 120 120)"/>
+          <use href="#pIn" transform="rotate(130 120 120)"/>
+          <use href="#pIn" transform="rotate(150 120 120)"/>
+          <use href="#pIn" transform="rotate(170 120 120)"/>
+          <use href="#pIn" transform="rotate(190 120 120)"/>
+          <use href="#pIn" transform="rotate(210 120 120)"/>
+          <use href="#pIn" transform="rotate(230 120 120)"/>
+          <use href="#pIn" transform="rotate(250 120 120)"/>
+          <use href="#pIn" transform="rotate(270 120 120)"/>
+          <use href="#pIn" transform="rotate(290 120 120)"/>
+          <use href="#pIn" transform="rotate(310 120 120)"/>
+          <use href="#pIn" transform="rotate(330 120 120)"/>
+          <use href="#pIn" transform="rotate(350 120 120)"/>
+        </g>
+
+        <!-- seed head -->
+        <circle cx="120" cy="120" r="40" fill="url(#disc)"/>
+        <circle cx="120" cy="120" r="40" fill="url(#seeds)"/>
+        <circle cx="120" cy="120" r="40" fill="none" stroke="#f5a24a" stroke-width="1.6" opacity=".55"/>
+      </svg>
+
+      <p class="eyebrow">The world-changing Kannadiga invention</p>
+
+      <h1 class="hd disp">SUCCESS IS<br class="brk"> WITHIN YOU.<span class="l2">AND,<span class="reach"> WITHIN<br class="brk"> YOUR REACH.</span></span></h1>
+
+      <p class="sub">World&rsquo;s First, <b class="brand">Kannadiga-invented iRisePro</b> ensures you rise, progress, and succeed&mdash;scientific, stress-free, personalized.</p>
+
+      <div class="beats">
+        <div class="beat">
+          <span class="n disp">1</span>
+          <p>Success is no more a miracle.<br>It is not available in the stars.<br>It is not luck.<br>It is not an accident.</p>
+        </div>
+        <div class="beat lead">
+          <span class="n disp">2</span>
+          <p>Now, world&rsquo;s first, <span class="brand">Kannadiga-invented iRisePro</span> has scientifically decoded success, scans it, shows it, strengthens it.</p>
+        </div>
+        <div class="beat">
+          <span class="n disp">3</span>
+          <p>No more fooling you.<br>No more trial and error.<br>No more worries for you.<br>No more wastage of money, time, years, and strain.</p>
+        </div>
+      </div>
+
+      <div class="lockup">
+        <div class="word brand"><span class="i">iRise</span><span class="p">Pro</span><span class="chev">&raquo;</span></div>
+        <div class="doc">World&rsquo;s First Success Doctor</div>
+        <p class="tag">&mdash; The world-changing Kannadiga invention &mdash;</p>
+      </div>
+
+      <div class="cta">
+        <a class="btn primary" href="#">&#9656; Start Your Success Scan</a>
+        <a class="btn ghost" href="#">WA 93640 88500</a>
+      </div>
+
+    </div>
+  </section>
+</body>
+</html>
