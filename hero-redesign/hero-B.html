@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero B — Proof meets Promise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#081325; --forest-2:#112644; --accent:#f5821f; --accent-strong:#ff9b3d;
+    --accent-bright:#ffb259; --ink:#140a02;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--forest);color:#e7edf6}
+  .disp{font-family:"Anton",sans-serif;font-weight:400;letter-spacing:.005em}
+  .mono{font-family:"Geist Mono",monospace}
+  .brand{text-transform:none}
+
+  .hero{position:relative;overflow:hidden;isolation:isolate;
+    background:radial-gradient(120% 90% at 78% 8%, rgba(245,130,31,.16), transparent 52%),
+               radial-gradient(90% 80% at 6% 100%, rgba(63,147,224,.14), transparent 55%), var(--forest)}
+  .grid{position:absolute;inset:0;z-index:-1;opacity:.5;
+    background:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent);mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent)}
+  .wrap{max-width:1200px;margin:0 auto;padding:clamp(26px,4vw,54px) clamp(20px,5vw,56px)}
+
+  .eyebrow{font-family:"Geist Mono",monospace;font-weight:600;text-transform:uppercase;letter-spacing:.22em;
+    font-size:clamp(10px,1.4vw,13px);color:var(--accent-strong)}
+  .badge{display:inline-flex;align-items:center;gap:8px;margin-top:12px;border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.05);border-radius:999px;padding:6px 14px;font-family:"Geist Mono",monospace;
+    font-size:12px;font-weight:600;color:var(--accent-bright)}
+  .badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent-strong);
+    box-shadow:0 0 0 4px rgba(255,155,61,.2)}
+
+  .top{display:grid;gap:clamp(24px,4vw,52px);grid-template-columns:1.05fr .95fr;align-items:center}
+  h1.hd{margin-top:20px;color:#fff;line-height:.94;font-size:clamp(44px,6.6vw,92px)}
+  h1.hd .l2{display:block;margin-top:.06em;font-size:.62em}
+  h1.hd .reach{color:var(--accent-strong)}
+  .sub{margin-top:22px;max-width:520px;font-size:clamp(15px,1.7vw,20px);font-weight:600;line-height:1.44;color:#c4cfe0}
+  .sub b{color:#fff}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+  .btn{display:inline-flex;align-items:center;gap:9px;border-radius:12px;padding:14px 22px;font-weight:800;font-size:15px;text-decoration:none;transition:.2s}
+  .btn.primary{background:var(--accent);color:#1a0e02;box-shadow:0 12px 30px -12px rgba(245,130,31,.75)}
+  .btn.primary:hover{background:var(--accent-bright)}
+  .btn.ghost{border:1.5px solid rgba(255,255,255,.22);color:#fff}
+  .btn.ghost:hover{background:rgba(255,255,255,.06)}
+
+  /* success scan card */
+  .scan{background:rgba(17,38,68,.72);border:1px solid rgba(255,255,255,.12);border-radius:22px;
+    padding:20px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7);backdrop-filter:blur(8px)}
+  .scan .sh{display:flex;align-items:center;justify-content:space-between}
+  .scan .lbl{font-family:"Geist Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--accent-bright)}
+  .scan .scanning{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--accent-strong)}
+  .scan .scanning i{width:7px;height:7px;border-radius:50%;background:var(--accent-strong);box-shadow:0 0 0 4px rgba(255,155,61,.25)}
+  .scan .who{margin-top:14px;font-weight:700;color:#fff;font-size:15px}
+  .rows{margin-top:14px;display:grid;gap:13px}
+  .row .rl{display:flex;justify-content:space-between;font-size:13px;color:#c4cfe0}
+  .row .rl b{font-family:"Geist Mono",monospace;color:#fff}
+  .bar{margin-top:6px;height:7px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:99px}
+  .scan .foot{margin-top:16px;border-top:1px solid rgba(255,255,255,.1);padding-top:11px;
+    font-family:"Geist Mono",monospace;font-size:11px;color:#93a3ba}
+  .big64{position:absolute;top:14px;right:14px;width:76px;height:76px;border-radius:50%;
+    border:1px solid rgba(245,130,31,.4);background:rgba(8,19,37,.9);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center}
+  .big64 b{font-family:"Anton",sans-serif;font-size:26px;color:var(--accent-bright);line-height:1}
+  .big64 span{font-family:"Geist Mono",monospace;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:#c4cfe0;margin-top:2px}
+  .scanwrap{position:relative}
+
+  /* manifesto triad */
+  .triad{margin-top:clamp(30px,5vw,58px);display:grid;gap:18px;grid-template-columns:repeat(3,1fr);
+    border-top:1px solid rgba(255,255,255,.12);padding-top:clamp(24px,4vw,40px)}
+  .mcell{position:relative;padding-left:20px}
+  .mcell::before{content:"";position:absolute;left:0;top:6px;width:11px;height:11px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 0 4px rgba(245,130,31,.16)}
+  .mcell p{font-size:clamp(15px,1.5vw,18px);font-weight:700;line-height:1.42;color:#eef2f8}
+  .mcell.lead p{color:#fff}
+  .mcell .brand{color:var(--accent-bright)}
+
+  /* lockup */
+  .lockup{margin-top:clamp(28px,4vw,44px);text-align:center}
+  .word{font-family:"Archivo",sans-serif;font-weight:800;text-transform:none;font-size:clamp(38px,7vw,66px);letter-spacing:-.02em;line-height:1}
+  .word .i{color:var(--accent)} .word .p{color:#fff} .word .chev{color:var(--accent)}
+  .doc{margin-top:8px;font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(15px,2.4vw,22px);color:#dfe7f2}
+  .tag{margin-top:6px;font-family:"Geist Mono",monospace;font-weight:600;font-size:clamp(11px,1.5vw,13px);letter-spacing:.06em;color:var(--accent-strong)}
+
+  @media (max-width:860px){
+    .top{grid-template-columns:1fr}
+    .triad{grid-template-columns:1fr}
+    h1.hd{font-size:clamp(42px,12vw,74px)}
+  }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <div class="grid"></div>
+    <div class="wrap">
+      <div class="top">
+        <div>
+          <p class="eyebrow">The world-changing Kannadiga invention</p>
+          <span class="badge brand">World&rsquo;s First Success Doctor</span>
+          <h1 class="hd disp">SUCCESS IS WITHIN YOU.<span class="l2">AND, <span class="reach">WITHIN YOUR REACH.</span></span></h1>
+          <p class="sub">World&rsquo;s First, <b class="brand">Kannadiga-invented iRisePro</b> ensures you rise, progress, and succeed&mdash;scientific, stress-free, personalized.</p>
+          <div class="cta">
+            <a class="btn primary" href="#">▸ Start Your Success Scan</a>
+            <a class="btn ghost" href="#">WA 93640 88500</a>
+          </div>
+        </div>
+        <div class="scanwrap">
+          <div class="scan">
+            <div class="sh"><span class="lbl">Success Scan&trade;</span><span class="scanning"><i></i>Scanning</span></div>
+            <p class="who">Sri Shakthi</p>
+            <div class="rows">
+              <div class="row"><div class="rl"><span>Concentration</span><b>64%</b></div><div class="bar"><i style="width:64%;background:#f5c451"></i></div></div>
+              <div class="row"><div class="rl"><span>Confidence</span><b>71%</b></div><div class="bar"><i style="width:71%;background:#54b06a"></i></div></div>
+              <div class="row"><div class="rl"><span>Communication</span><b>58%</b></div><div class="bar"><i style="width:58%;background:#f5c451"></i></div></div>
+              <div class="row"><div class="rl"><span>Career Clarity</span><b>40%</b></div><div class="bar"><i style="width:40%;background:#3f93e0"></i></div></div>
+            </div>
+            <p class="foot">630+ ability observations &middot; 64 abilities</p>
+          </div>
+          <div class="big64"><b>64</b><span>success<br>abilities</span></div>
+        </div>
+      </div>
+
+      <div class="triad">
+        <div class="mcell">
+          <p>Success is no more a miracle.<br>It is not available in the stars.<br>It is not luck.<br>It is not an accident.</p>
+        </div>
+        <div class="mcell lead">
+          <p>Now, world&rsquo;s first, <span class="brand">Kannadiga-invented iRisePro</span> has scientifically decoded success, scans it, shows it, strengthens it.</p>
+        </div>
+        <div class="mcell">
+          <p>No more fooling you.<br>No more trial and error.<br>No more worries for you.<br>No more wastage of money, time, years, and strain.</p>
+        </div>
+      </div>
+
+      <div class="lockup">
+        <div class="word brand"><span class="i">iRise</span><span class="p">Pro</span><span class="chev">&raquo;</span></div>
+        <div class="doc">World&rsquo;s First Success Doctor</div>
+        <p class="tag">— The world-changing Kannadiga invention —</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
