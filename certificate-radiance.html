@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iRisePro — Certificate · Radiance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600;1,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parch:#F6EBD2;--parch2:#EFE1C1;--ink:#231A21;--ink-soft:#463640;--muted:#8C7A72;
+    --maroon:#6E2A18;--maroon-lt:#8C3A22;--saffron:#E8892F;
+    --gold-solid:#B8862F;--gold-hi:#F1DA96;--gold-lo:#9A6F26;
+    --foil:linear-gradient(135deg,#F3DE9E 0%,#C79A3E 34%,#F4DC8C 50%,#A97C2C 74%,#EBCF86 100%);
+    --green:#2FA574;
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{min-height:100vh;font-family:Inter,system-ui,sans-serif;color:var(--ink);
+    background:#1d1712;background-image:radial-gradient(1100px 700px at 50% -8%,#3a2c20,#191410 62%);
+    display:flex;flex-direction:column;align-items:center;padding:22px 14px 60px}
+  .brand{text-transform:none}
+  .bar{width:100%;max-width:1040px;display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;justify-content:space-between;margin-bottom:14px;color:#f0e7db}
+  .bar h1{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;margin:0}
+  .grp{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .seg{display:inline-flex;background:#2c231b;border:1px solid #4a3a2c;border-radius:999px;padding:3px}
+  .seg button{border:0;background:transparent;color:#cdbba6;font:600 12px/1 Inter;padding:8px 12px;border-radius:999px;cursor:pointer}
+  .seg button[aria-pressed=true]{background:linear-gradient(180deg,var(--saffron),#CB6C21);color:#2a1403}
+  .btn{border:0;cursor:pointer;font:700 12.5px/1 Inter;padding:11px 17px;border-radius:10px;color:#2a1403;background:var(--foil);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+  .field{display:flex;flex-direction:column;gap:3px}.field label{font:600 9px/1 Inter;letter-spacing:1.4px;text-transform:uppercase;color:#a08c76}
+  .field input{background:#2c231b;border:1px solid #4a3a2c;color:#f2e9dd;border-radius:8px;padding:8px 10px;font:500 12px Inter;min-width:140px}
+
+  /* responsive shell — a fixed 1040×736 sheet scaled to fit */
+  #viewport{width:100%;max-width:1040px;display:flex;flex-direction:column;align-items:center}
+  #stage{position:relative;width:100%}
+  #sheet{position:absolute;top:0;left:0;width:1040px;height:736px;transform-origin:top left}
+
+  /* MOBILE view — phone frame like the app screen */
+  body.mobile #viewport{max-width:420px}
+  body.mobile #phone{width:100%;background:linear-gradient(180deg,#FCEFDD,#F6E2CB);border:10px solid #201812;border-radius:34px;
+    box-shadow:0 30px 70px rgba(0,0,0,.55);padding:12px 12px 20px;overflow:hidden}
+  body.mobile .apphdr{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--ink);font:700 13px Inter;padding:8px 0 12px}
+  body.mobile .apphdr .dot{width:6px;height:6px;border-radius:50%;background:var(--saffron)}
+  body.mobile .mtitle{font:700 13px Inter;color:var(--saffron-dp,#CB6C21);text-align:center;margin:2px 0 10px}
+  body.mobile #stage{border-radius:12px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+  body.mobile .dl{display:block;width:100%;margin-top:16px;border:0;border-radius:14px;padding:15px;color:#2a1403;background:var(--foil);font:800 14px Inter;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+  .dl{display:none}
+  body:not(.mobile) #phone{display:contents}
+  body:not(.mobile) .apphdr,body:not(.mobile) .mtitle{display:none}
+
+  /* ===== the certificate sheet ===== */
+  #sheet.rad{color:var(--ink);background:radial-gradient(120% 100% at 50% 40%,#FBF3E0,var(--parch) 52%,var(--parch2) 132%);box-shadow:0 40px 90px rgba(0,0,0,.6)}
+  .rad .wm{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.09}
+  .rad .rays{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.05}
+  .rad .fr{position:absolute;inset:16px;border:3px solid transparent;border-image:var(--foil) 1;z-index:1}
+  .rad .fr2{position:absolute;inset:23px;border:1px solid var(--maroon);opacity:.55;z-index:1}
+  .rad .fr3{position:absolute;inset:28px;border:1px solid rgba(184,134,47,.6);z-index:1}
+  .rad .corner{position:absolute;width:82px;height:82px;color:var(--maroon);z-index:2}.rad .corner svg{width:100%;height:100%}
+  .rad .c-tl{top:20px;left:20px}.rad .c-tr{top:20px;right:20px;transform:scaleX(-1)}.rad .c-bl{bottom:20px;left:20px;transform:scaleY(-1)}.rad .c-br{bottom:20px;right:20px;transform:scale(-1)}
+  .rad .in{position:absolute;left:80px;right:80px;top:40px;bottom:150px;display:flex;flex-direction:column;align-items:center;text-align:center;z-index:3}
+  .rad .crest{width:52px;height:52px;margin-bottom:5px}
+  .rad .eb{font:700 11px/1 Inter;letter-spacing:3.8px;text-transform:uppercase;color:var(--maroon)}
+  .rad .ac{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;letter-spacing:3px;text-transform:uppercase;color:var(--maroon);margin-top:9px}
+  .rad .wmk{font-family:'Playfair Display',serif;font-weight:800;font-size:36px;margin:1px 0 0;color:var(--ink);letter-spacing:.3px}
+  .rad .flourish{width:320px;height:18px;margin:8px 0 3px;color:var(--gold-solid)}
+  .rad .ti{font-family:'Playfair Display',serif;font-weight:600;font-size:27px;letter-spacing:6px;text-transform:uppercase;color:var(--maroon);margin:3px 0 0}
+  .rad .desg{font:700 12px/1 Inter;letter-spacing:2.8px;text-transform:uppercase;color:var(--gold-lo);margin-top:11px}
+  .rad .pr{font-family:'Fraunces',serif;font-style:italic;font-size:18px;color:var(--muted);margin:14px 0 0}
+  .rad .nm{font-family:'Playfair Display',serif;font-weight:700;font-size:60px;line-height:1.02;color:var(--maroon);margin:3px 0 0;letter-spacing:.3px}
+  .rad .un{width:340px;height:2px;background:linear-gradient(90deg,transparent,var(--gold-solid),transparent);margin:11px 0 0;position:relative}
+  .rad .un::after{content:"❧";position:absolute;left:50%;top:-14px;transform:translateX(-50%);color:var(--maroon);background:var(--parch);padding:0 12px;font-size:16px}
+  .rad .bd{max-width:720px;font-family:'Fraunces',serif;font-weight:400;font-size:18px;line-height:1.6;color:var(--ink-soft);margin:15px 0 0}
+  .rad .bd b{font-weight:600;color:var(--ink)}.rad .tg{color:var(--maroon);font-weight:600}
+
+  .rad .ft{position:absolute;left:88px;right:88px;bottom:44px;display:flex;align-items:flex-end;justify-content:space-between;z-index:3}
+  .rad .col{display:flex;flex-direction:column;align-items:center;gap:5px}
+  .rad .sig{width:220px;text-align:center}.rad .sig .line{height:26px;border-bottom:1.6px solid var(--maroon)}
+  .rad .sig .who{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--ink);margin-top:7px}
+  .rad .sig .role{font:600 10px/1 Inter;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .rad .seal{width:150px;height:172px;margin-bottom:-6px}
+  .rad .cred{font:500 10px/1.6 Inter;color:var(--muted);text-align:center}.rad .cred .k{color:var(--ink);font-weight:700}
+  .rad .cred .vf{display:inline-flex;align-items:center;gap:3px;color:var(--green);font-weight:700;font-size:10px;margin-top:2px}
+  .rad .stamp{width:132px;height:132px;opacity:.92}
+  .rad .grain{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.5;mix-blend-mode:multiply;background-image:radial-gradient(rgba(120,80,30,.06) 1px,transparent 1.4px);background-size:4px 4px}
+  .rad .vig{position:absolute;inset:0;z-index:5;pointer-events:none;box-shadow:inset 0 0 130px rgba(110,42,24,.12)}
+
+  @media print{@page{size:A4 landscape;margin:0}body{background:#fff;padding:0}.bar,.apphdr,.mtitle,.dl{display:none!important}
+    body.mobile #viewport{max-width:none}body.mobile #phone{border:0;border-radius:0;box-shadow:none;padding:0;background:#fff}
+    #viewport{max-width:none}#stage{width:100vw;height:100vh}#sheet{transform:none!important;width:100vw;height:100vh}
+    .rad{box-shadow:none!important}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body class="desktop">
+  <div class="bar">
+    <h1>iRisePro — Certificate <span style="color:#b7a998;font-size:13px">· Radiance</span></h1>
+    <div class="grp">
+      <div class="seg" id="viewSeg" role="group">
+        <button data-view="mobile" aria-pressed="false">📱 Mobile</button>
+        <button data-view="desktop" aria-pressed="true">🖥 Desktop</button>
+      </div>
+      <div class="seg" id="tierSeg" role="group">
+        <button data-aace="5" aria-pressed="false">AACE5</button>
+        <button data-aace="15" aria-pressed="false">AACE15</button>
+        <button data-aace="64" aria-pressed="true">AACE64</button>
+      </div>
+      <div class="field"><label>Recipient</label><input id="inName" value="Aarav Sharma"></div>
+      <div class="field"><label>Stream</label><input id="inStream" value="Class 5–7 Marks Booster"></div>
+      <button class="btn" onclick="window.print()">⬇ Download PDF</button>
+    </div>
+  </div>
+
+  <div id="viewport">
+    <div id="phone">
+      <div class="apphdr"><span class="dot"></span><span class="brand">iRisePro</span></div>
+      <div class="mtitle">🏅 Your Completion Certificate</div>
+      <div id="stage">
+        <div id="sheet" class="rad">
+          <div class="rays" id="rays"></div><div class="wm" id="wm"></div>
+          <div class="fr"></div><div class="fr2"></div><div class="fr3"></div>
+          <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+          <div class="in">
+            <div class="crest" id="crest"></div>
+            <div class="eb">The World's First Success Doctor</div>
+            <div class="ac brand">iRisePro Academy for Human Excellence</div>
+            <div class="wmk brand">iRisePro</div>
+            <div class="flourish" id="fl"></div>
+            <div class="ti">Certificate of Participation</div>
+            <div class="desg jsDesig">All-India · AACE64</div>
+            <div class="pr">This is to certify that</div>
+            <div class="nm jsName">Aarav Sharma</div><div class="un"></div>
+            <p class="bd">successfully participated in the <b class="brand">iRisePro</b> <b class="tg jsStream">Class 5–7 Marks Booster</b> Program. Through this scientific journey by <b class="brand">iRisePro</b> — The World's First Success Doctor, the recipient assessed their <b>Success Abilities</b> and gained insights into their personalized <b>Success Scorecard</b>. We wish them continued success in achieving their fullest potential.</p>
+          </div>
+          <div class="ft">
+            <div class="col"><div class="sig"><div class="line"></div><div class="who" id="founder">Krishnaraj M Manjunath</div><div class="role">Inventor &amp; Founder · iRisePro</div></div></div>
+            <div class="col">
+              <div class="seal" id="seal"></div>
+              <div class="cred"><div>Credential ID <span class="k jsCid">IRP-AACE64-2K7A9F</span> · Issued <span class="k">21 Jul 2026</span></div><div class="vf">✔ <span class="brand">Verify at irisepro.in/verify</span></div></div>
+            </div>
+            <div class="col"><div class="stamp" id="stamp"></div></div>
+          </div>
+          <div class="grain"></div><div class="vig"></div>
+        </div>
+      </div>
+      <button class="dl" onclick="window.print()">⬇ Download Certificate (PDF)</button>
+    </div>
+  </div>
+
+<script>
+  let AACE=64;
+  const GOLD=137.50776*Math.PI/180;
+  const S=(w,h,b)=>`<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">${b}</svg>`;
+  function bloom(n,o){const cx=o.cx,cy=o.cy,c=o.R/Math.sqrt(Math.max(n,1));
+    const sr=Math.max(o.seedMin,o.R*0.92/Math.sqrt(Math.max(n,4)));
+    let seeds='';for(let i=0;i<n;i++){const r=c*Math.sqrt(i+0.5),a=i*GOLD;seeds+=`<circle cx="${(cx+Math.cos(a)*r).toFixed(1)}" cy="${(cy+Math.sin(a)*r).toFixed(1)}" r="${sr.toFixed(1)}" fill="${o.seed}"/>`;}
+    let pet='';for(let ring=0;ring<2;ring++){const off=ring?(180/o.petals):0,dist=o.R*(ring?1.26:1.58),pw=o.R*(ring?0.22:0.17),ph=o.R*(ring?0.47:0.56),fill=ring?o.petal2:o.petal1;
+      for(let i=0;i<o.petals;i++){const a=(i/o.petals)*360+off;pet+=`<g transform="translate(${cx},${cy}) rotate(${a})"><path d="M0 ${(-dist+ph).toFixed(1)} C ${(-pw).toFixed(1)} ${(-dist).toFixed(1)} ${(-pw*.5).toFixed(1)} ${(-dist-ph).toFixed(1)} 0 ${(-dist-ph).toFixed(1)} C ${(pw*.5).toFixed(1)} ${(-dist-ph).toFixed(1)} ${pw.toFixed(1)} ${(-dist).toFixed(1)} 0 ${(-dist+ph).toFixed(1)} Z" fill="${fill}"/></g>`;}}
+    return `${pet}<circle cx="${cx}" cy="${cy}" r="${(o.R*1.04).toFixed(1)}" fill="${o.head}"/>${o.ring?`<circle cx="${cx}" cy="${cy}" r="${(o.R*1.04).toFixed(1)}" fill="none" stroke="${o.ring}" stroke-width="1.2"/>`:''}${seeds}`;}
+  const CORNER=`<svg viewBox="0 0 100 100" fill="none">
+    <path d="M4 52 V16 A12 12 0 0 1 16 4 H52" stroke="#B8862F" stroke-width="2"/>
+    <path d="M12 50 V20 A8 8 0 0 1 20 12 H50" stroke="#6E2A18" stroke-width="1" opacity=".6"/>
+    <path d="M4 4 C 30 6 44 20 46 46 M4 4 C 6 30 20 44 46 46" stroke="#B8862F" stroke-width="1.1" opacity=".9"/>
+    <path d="M20 20 c 10 -2 18 4 20 14 c -10 2 -18 -4 -20 -14 z" fill="#8C3A22" opacity=".85"/>
+    <circle cx="15" cy="15" r="3" fill="#B8862F"/><circle cx="42" cy="42" r="2.2" fill="#6E2A18"/></svg>`;
+  const FLOURISH=`<svg viewBox="0 0 320 18" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.2">
+    <path d="M2 9 H124"/><path d="M196 9 H318"/>
+    <path d="M124 9 c 9 -9 18 -9 25 0 c 7 9 16 9 22 0 c 7 -9 16 -9 25 0" stroke-width="1.4"/>
+    <circle cx="160" cy="9" r="3.8" fill="#E8892F" stroke="none"/></svg>`;
+  const CREST=`<svg viewBox="0 0 52 52">${(()=>{let r='';for(let i=0;i<16;i++){const a=i*22.5*Math.PI/180;r+=`<line x1="26" y1="26" x2="${(26+Math.cos(a)*24).toFixed(1)}" y2="${(26+Math.sin(a)*24).toFixed(1)}" stroke="#E8892F" stroke-width="2.2" stroke-linecap="round"/>`;}return r;})()}
+    <circle cx="26" cy="26" r="15" fill="#6E2A18"/><circle cx="26" cy="26" r="15" fill="none" stroke="#C79A3E" stroke-width="1.5"/>
+    <text x="26" y="31.5" text-anchor="middle" font-family="'Playfair Display',serif" font-weight="800" font-size="15" fill="#F1D79A">iR</text></svg>`;
+  const STAMP=(n)=>S(132,132,`<defs><path id="st" d="M22 66 A44 44 0 1 1 110 66"/><path id="sb" d="M22 66 A44 44 0 1 0 110 66"/></defs>
+    <circle cx="66" cy="66" r="58" fill="none" stroke="#6E2A18" stroke-width="2.6" opacity=".85"/>
+    <circle cx="66" cy="66" r="49" fill="none" stroke="#6E2A18" stroke-width="1" opacity=".7"/>
+    <text font-family="'Inter'" font-weight="800" font-size="9.2" letter-spacing="1.8" fill="#6E2A18" opacity=".9"><textPath href="#st" startOffset="50%" text-anchor="middle">★ iRisePro Academy ★</textPath></text>
+    <text font-family="'Inter'" font-weight="800" font-size="8.6" letter-spacing="1.6" fill="#6E2A18" opacity=".9"><textPath href="#sb" startOffset="50%" text-anchor="middle">for Human Excellence</textPath></text>
+    <text x="66" y="58" text-anchor="middle" font-family="'Playfair Display',serif" font-weight="800" font-size="15" fill="#6E2A18">OFFICIAL</text>
+    <text x="66" y="76" text-anchor="middle" font-family="'Playfair Display',serif" font-weight="700" font-size="12" letter-spacing="1" fill="#6E2A18" opacity=".9">CERTIFIED</text>
+    <text x="66" y="90" text-anchor="middle" font-family="'Inter'" font-weight="700" font-size="7.5" letter-spacing="1.4" fill="#8C3A22">AACE${n} · ALL-INDIA</text>`);
+  function qr(){let cells='';const seed=[[0,0],[1,0],[2,0],[0,1],[2,1],[0,2],[1,2],[2,2],[4,0],[5,0],[6,0],[4,1],[6,1],[4,2],[5,2],[6,2],[0,4],[1,4],[2,4],[0,5],[2,5],[0,6],[1,6],[2,6],[4,4],[5,5],[6,4],[6,6],[4,6],[3,3],[5,3],[3,5],[6,3],[3,6],[5,1],[1,5]];
+    seed.forEach(([x,y])=>cells+=`<rect x="${x*7+2}" y="${y*7+2}" width="7" height="7" fill="#231A21"/>`);return cells;}
+  function paint(){
+    document.querySelectorAll('.rad .corner').forEach(e=>e.innerHTML=CORNER);
+    document.getElementById('fl').innerHTML=FLOURISH;
+    document.getElementById('crest').innerHTML=CREST;
+    document.getElementById('stamp').innerHTML=STAMP(AACE);
+    let rays='';for(let i=0;i<48;i++){rays+=`<g transform="translate(520,368) rotate(${i*7.5})"><path d="M0 0 L 14 -560 L -14 -560 Z" fill="#B8862F"/></g>`;}
+    document.getElementById('rays').innerHTML=S(1040,736,rays);
+    document.getElementById('wm').innerHTML=S(1040,736,`<g transform="translate(520,360)">${bloom(AACE,{cx:0,cy:0,R:238,petals:32,petal1:'#7C3320',petal2:'#7C3320',head:'#6E2A18',seed:'#6E2A18',seedMin:1.6})}</g>`);
+    const defs=`<defs><radialGradient id="wax" cx="40%" cy="34%" r="72%"><stop offset="0" stop-color="#8C3A22"/><stop offset="1" stop-color="#521C10"/></radialGradient>
+      <linearGradient id="pC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B85C30"/><stop offset="1" stop-color="#8C3A22"/></linearGradient>
+      <linearGradient id="pC2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9A4526"/><stop offset="1" stop-color="#6E2A18"/></linearGradient>
+      <path id="arcT" d="M 26 70 A 44 44 0 0 1 118 70"/><path id="arcB" d="M 26 70 A 44 44 0 0 0 118 70"/></defs>`;
+    document.getElementById('seal').innerHTML=S(144,174,`${defs}
+      <path d="M54 118 L46 170 L64 152 L72 170 L80 152 L98 170 L90 118 Z" fill="#7C3320"/>
+      <circle cx="72" cy="70" r="56" fill="url(#wax)" stroke="#C79A3E" stroke-width="2.2"/>
+      <circle cx="72" cy="70" r="49" fill="none" stroke="#EBCF86" stroke-width=".9" opacity=".7"/>
+      <text font-family="'Playfair Display',serif" font-weight="700" font-size="9.2" letter-spacing="1.4" fill="#F1D79A"><textPath href="#arcT" startOffset="50%" text-anchor="middle">iRisePro Academy</textPath></text>
+      <text font-family="'Playfair Display',serif" font-weight="700" font-size="9.2" letter-spacing="1.4" fill="#F1D79A"><textPath href="#arcB" startOffset="50%" text-anchor="middle">Human Excellence</textPath></text>
+      <g transform="translate(72,66) scale(.74) translate(-72,-66)">${bloom(AACE,{cx:72,cy:62,R:27,petals:18,petal1:'url(#pC)',petal2:'url(#pC2)',head:'#5E2614',seed:'#E7C486',seedMin:1})}</g>
+      <text x="72" y="98" text-anchor="middle" font-family="'Playfair Display',serif" font-weight="700" font-size="10" fill="#F1D79A">AACE ${AACE}</text>`);
+  }
+  function refresh(){paint();
+    const nm=document.getElementById('inName').value||'[Recipient Name]', st=document.getElementById('inStream').value||'(stream)';
+    document.querySelectorAll('.jsName').forEach(e=>e.textContent=nm);
+    document.querySelectorAll('.jsStream').forEach(e=>e.textContent=st);
+    document.querySelectorAll('.jsDesig').forEach(e=>e.textContent=`All-India · AACE${AACE}`);
+    document.querySelectorAll('.jsCid').forEach(e=>e.textContent=`IRP-AACE${AACE}-2K7A9F`);
+  }
+  const stage=document.getElementById('stage'),sheet=document.getElementById('sheet');
+  function fit(){const w=stage.clientWidth,s=w/1040;sheet.style.transform=`scale(${s})`;stage.style.height=(736*s)+'px';}
+  new ResizeObserver(fit).observe(stage); window.addEventListener('resize',fit);
+  document.getElementById('viewSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    [...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b));
+    document.body.className=b.dataset.view; requestAnimationFrame(fit);});
+  document.getElementById('tierSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    [...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b));AACE=+b.dataset.aace;refresh();});
+  document.getElementById('inName').addEventListener('input',refresh);
+  document.getElementById('inStream').addEventListener('input',refresh);
+  refresh(); fit();
+</script>
+</body>
+</html>
