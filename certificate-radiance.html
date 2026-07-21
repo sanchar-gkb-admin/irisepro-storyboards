@@ -72,8 +72,9 @@
 
   .rad .ft{position:absolute;left:88px;right:88px;bottom:44px;display:flex;align-items:flex-end;justify-content:space-between;z-index:3}
   .rad .col{display:flex;flex-direction:column;align-items:center;gap:5px}
-  .rad .sig{width:220px;text-align:center}
-  .rad .sigmark{font-family:'Great Vibes',cursive;font-size:36px;line-height:.72;color:#4A2718;transform:rotate(-2deg);margin:0 0 -4px}
+  .rad .logo{width:366px;max-width:64%;height:auto;display:block;margin:2px auto 4px}
+  .rad .sig{width:230px;text-align:center}
+  .rad .sigimg{height:62px;width:auto;display:block;margin:0 auto -10px}
   .rad .sig .line{height:26px;border-bottom:1.6px solid var(--maroon)}
   .rad .sig .who{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--ink);margin-top:7px}
   .rad .sig .role{font:600 10px/1 Inter;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px}
@@ -119,10 +120,8 @@
           <div class="fr"></div><div class="fr2"></div><div class="fr3"></div>
           <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
           <div class="in">
-            <div class="crest" id="crest"></div>
-            <div class="eb">The World's First Success Doctor</div>
+            <img class="logo" src="cert-logo.png" alt="iRisePro — World's First Success Doctor">
             <div class="ac"><span class="brand">iRisePro</span> Academy for Human Excellence</div>
-            <div class="wmk brand">iRisePro</div>
             <div class="flourish" id="fl"></div>
             <div class="ti">Certificate of Participation</div>
             <div class="desg jsDesig">All-India · AACE64</div>
@@ -131,7 +130,7 @@
             <p class="bd">successfully participated in the <b class="brand">iRisePro</b> <b class="tg jsStream">Class 5–7 Marks Booster</b> Program. Through this scientific journey by <b class="brand">iRisePro</b> — The World's First Success Doctor, the recipient assessed their <b>Success Abilities</b> and gained insights into their personalized <b>Success Scorecard</b>. We wish them continued success in achieving their fullest potential.</p>
           </div>
           <div class="ft">
-            <div class="col"><div class="sig"><div class="sigmark">Krishnaraj M Manjunath</div><div class="line"></div><div class="who" id="founder">Krishnaraj M Manjunath</div><div class="role">Inventor &amp; Founder · <span class="brand">iRisePro</span></div></div></div>
+            <div class="col"><div class="sig"><img class="sigimg" src="cert-sign.png" alt="Signature of Krishnaraj M Manjunath"><div class="line"></div><div class="who" id="founder">Krishnaraj M Manjunath</div><div class="role">Inventor &amp; Founder · <span class="brand">iRisePro</span></div></div></div>
             <div class="col">
               <div class="seal" id="seal"></div>
               <div class="cred"><div>Credential ID <span class="k jsCid">IRP-AACE64-2K7A9F</span> · Issued <span class="k">21 Jul 2026</span></div><div class="vf">✔ <span class="brand">Verify at irisepro.in/verify</span></div></div>
@@ -181,7 +180,6 @@
   function paint(){
     document.querySelectorAll('.rad .corner').forEach(e=>e.innerHTML=CORNER);
     document.getElementById('fl').innerHTML=FLOURISH;
-    document.getElementById('crest').innerHTML=CREST;
     document.getElementById('stamp').innerHTML=STAMP(AACE);
     let rays='';for(let i=0;i<48;i++){rays+=`<g transform="translate(520,368) rotate(${i*7.5})"><path d="M0 0 L 14 -560 L -14 -560 Z" fill="#B8862F"/></g>`;}
     document.getElementById('rays').innerHTML=S(1040,736,rays);
