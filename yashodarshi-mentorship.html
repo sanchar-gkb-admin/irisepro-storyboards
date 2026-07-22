@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yashodarshi — reconcile old→new (Mentorship tab) · storyboard</title>
+<style>
+  :root{
+    --paper:#F5EFE3; --card:#FCFAF3; --ink:#241E14; --soft:#6B6152; --muted:#A0957F;
+    --line:#E6DDCB; --gold-soft:#D9BE86; --accent:#E8611F;
+    --due:#C4462F; --soon:#B7791F; --ok:#4E9A5F;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:"Montserrat",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:#efe6d4;color:var(--ink);font-family:var(--sans);font-size:15px;-webkit-font-smoothing:antialiased;padding:0 0 60px}
+  .band{max-width:1180px;margin:0 auto;padding:0 22px}
+  .top{padding:30px 22px 10px;max-width:1180px;margin:0 auto}
+  .top h1{font-family:var(--serif);font-size:30px;letter-spacing:-.02em}
+  .top .lede{color:var(--soft);margin-top:8px;max-width:760px;line-height:1.55}
+  .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .cols{display:grid;grid-template-columns:1fr;gap:18px;margin-top:22px}
+  @media(min-width:960px){.cols{grid-template-columns:1fr 1fr}}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 16px 20px;overflow:hidden}
+  .panel > .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--muted);padding:4px 9px;border-radius:6px;margin-bottom:12px}
+  .panel.after > .tag{background:var(--accent)}
+  /* ---- shared atelier bits (from desk.blade) ---- */
+  .mast{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:6px 0 12px;border-bottom:1px solid var(--line)}
+  .logo{font-family:var(--serif);font-size:18px;font-weight:600;margin-right:auto}.logo em{font-style:italic;color:var(--accent)}
+  .who{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600}
+  .who .av{width:26px;height:26px;border-radius:50%;background:#efe6d4;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:11px;color:var(--accent)}
+  .who .r{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .nav{display:flex;gap:6px;margin:12px 0 4px;flex-wrap:wrap}
+  .nav a{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);border:1px solid var(--line);background:var(--card);padding:6px 11px;border-radius:999px;text-decoration:none}
+  .nav a.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .nav a.new{border-style:dashed;border-color:var(--accent);color:var(--accent)}
+  .hi{font-family:var(--serif);font-weight:600;font-size:22px;letter-spacing:-.02em;margin:14px 0 3px}
+  .sub{color:var(--soft);font-size:12.5px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0 14px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+  .tile.warn{border-color:#E7CFA6;background:#FBF1DE}
+  .tile .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .tile .v{font-family:var(--serif);font-weight:600;font-size:26px;margin-top:7px}.tile.warn .v{color:var(--soon)}
+  .lh{display:flex;align-items:baseline;justify-content:space-between;margin:12px 0 8px}
+  .lh .t{font-family:var(--serif);font-size:16px;font-weight:600}.lh .c{font-family:var(--mono);font-size:10px;color:var(--muted)}
+  .row{display:grid;grid-template-columns:4px 1fr;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:8px}
+  .stripe{background:var(--ok)}.row.due .stripe{background:var(--due)}.row.soon .stripe{background:var(--soon)}
+  .rb{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:11px 13px}
+  .chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;font-weight:700;background:#F1EADB;border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 4px}
+  .chip .av{width:18px;height:18px;border-radius:50%;background:#efe6d4;border:1px solid var(--line);display:grid;place-items:center;font-size:8px;color:var(--accent)}
+  .meta{font-size:11px;color:var(--muted);margin-top:6px;font-family:var(--mono)}
+  .tt{font-family:var(--serif);font-size:14px;font-weight:600;margin-top:6px}
+  .sla .cd{font-family:var(--mono);font-weight:800;font-size:13px;color:var(--ok)}.row.due .sla .cd{color:var(--due)}.row.soon .sla .cd{color:var(--soon)}
+  .sla .lb{font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .go{border:none;background:var(--accent);color:#fff;border-radius:9px;padding:8px 13px;font:inherit;font-weight:700;font-size:12px;text-decoration:none;display:inline-block;white-space:nowrap}
+  .foot{font-size:11px;color:var(--muted);font-style:italic;border-top:1px solid var(--line);padding-top:11px;margin-top:12px;line-height:1.5}
+  /* ---- mentorship (non-blind) card ---- */
+  .mrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:9px}
+  .name{font-family:var(--serif);font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .ph{width:30px;height:30px;border-radius:50%;background:#efe6d4;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);color:var(--accent);font-size:13px}
+  .nm-meta{font-size:11px;color:var(--soft);margin-top:4px;font-family:var(--mono);letter-spacing:.03em}
+  .m-acts{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+  .join{border:none;background:var(--accent);color:#fff;border-radius:9px;padding:8px 12px;font:inherit;font-weight:700;font-size:12px;text-decoration:none;display:inline-flex;gap:6px;align-items:center}
+  .join.off{background:#efe6d4;color:var(--muted);border:1px dashed var(--line)}
+  .star{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;border:1px solid var(--gold-soft);color:#8a6912;background:#F7EFDC;border-radius:999px;padding:6px 11px;cursor:pointer}
+  .star.on{background:var(--gold-soft);color:#3d2f0b}
+  .hist{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-top:8px}
+  .callouts{max-width:1180px;margin:26px auto 0;padding:0 22px}
+  .co{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:13px 15px;margin-bottom:10px}
+  .co b{font-family:var(--serif)}
+  .co .g{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--ok);padding:2px 7px;border-radius:5px;margin-right:8px}
+  .co .g.keep{background:var(--accent)}
+  small.k{font-family:var(--mono);color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="eyebrow">Storyboard · Yashodarshi reconcile old→new · #116</div>
+    <h1>Retire the old dashboard — without losing the mentor + call features</h1>
+    <p class="lede">The evaluation <b>Desk stays exactly as it is</b> (blind, auto-allocated). The two features the old
+      purple dashboard had that the new desk didn't — <b>mark-as-peer-mentor</b> and the <b>Join-call link</b> — move to a
+      new <b>Mentorship</b> tab, which is deliberately <b>non-blind</b> (you can't mentor anonymously). Plus a small
+      <b>History</b> so evaluators can revisit finished work. Nothing is deleted until these live here.</p>
+  </div>
+
+  <div class="band">
+    <div class="cols">
+
+      <!-- BEFORE -->
+      <div class="panel">
+        <span class="tag">Now — the desk (unchanged)</span>
+        <div class="mast">
+          <div class="logo">Evaluation <em>Atelier</em></div>
+          <span class="who"><span class="av">AR</span><span>Asha Rao<br><span class="r">Yashodarshi · Senior</span></span></span>
+        </div>
+        <div class="hi">6 to read today.</div>
+        <div class="sub"><b>2</b> due within four hours · <b>4</b> finished today.</div>
+        <div class="stats">
+          <div class="tile"><div class="k">In queue</div><div class="v">6</div></div>
+          <div class="tile warn"><div class="k">Due soon</div><div class="v">2</div></div>
+          <div class="tile"><div class="k">Done today</div><div class="v">4</div></div>
+        </div>
+        <div class="lh"><span class="t">7-task lane</span><span class="c">3 in lane</span></div>
+        <div class="row due"><div class="stripe"></div><div class="rb">
+          <div><span class="chip"><span class="av">◆</span>SPARROW-42</span><div class="meta">Age 13 · CBSE · NEET</div><div class="tt">Know Me Before We Grow</div></div>
+          <div style="text-align:right"><div class="sla"><div class="cd">38m over</div><div class="lb">left of 72h set</div></div><a class="go" style="margin-top:8px">Start session →</a></div>
+        </div></div>
+        <div class="row soon"><div class="stripe"></div><div class="rb">
+          <div><span class="chip"><span class="av">◆</span>CEDAR-08</span><div class="meta">Age 15 · ICSE · JEE</div><div class="tt">My Origin Story</div></div>
+          <div style="text-align:right"><div class="sla"><div class="cd">3h 10m</div><div class="lb">left of 72h set</div></div><a class="go" style="margin-top:8px">Start session →</a></div>
+        </div></div>
+        <p class="foot"><b>Blind by design.</b> A pseudonym, age band, board, stream — never a name, photo or contact. This
+          screen does not change.</p>
+      </div>
+
+      <!-- AFTER -->
+      <div class="panel after">
+        <span class="tag">Proposed — same desk + a Mentorship tab</span>
+        <div class="mast">
+          <div class="logo">Evaluation <em>Atelier</em></div>
+          <span class="who"><span class="av">AR</span><span>Asha Rao<br><span class="r">Yashodarshi · Senior</span></span></span>
+        </div>
+        <div class="nav">
+          <a class="on" href="#">Desk</a>
+          <a class="new" href="#">Mentorship ✦ new</a>
+          <a class="new" href="#">History ✦ new</a>
+        </div>
+
+        <div class="lh" style="margin-top:14px"><span class="t">Mentorship</span><span class="c">your students · not blind</span></div>
+        <div class="mrow">
+          <div>
+            <div class="name"><span class="ph">A</span> Aarav Sharma</div>
+            <div class="nm-meta">Unit 277 · Marks Booster · session Thu 5:00pm</div>
+          </div>
+          <div class="m-acts">
+            <span class="star on">★ Peer mentor</span>
+            <a class="join" href="#">▶ Join call</a>
+          </div>
+        </div>
+        <div class="mrow">
+          <div>
+            <div class="name"><span class="ph">I</span> Isha Verma</div>
+            <div class="nm-meta">Unit 284 · NEET · no call link set</div>
+          </div>
+          <div class="m-acts">
+            <span class="star">☆ Mark as mentor</span>
+            <span class="join off">▶ No call link</span>
+          </div>
+        </div>
+
+        <div class="lh" style="margin-top:16px"><span class="t">History</span><span class="c">finished work</span></div>
+        <div class="hist">
+          <div><div class="tt" style="margin:0">Know Me Before We Grow — SPARROW-42</div><div class="meta">Released today · 7-task set</div></div>
+          <a class="go" href="#" style="background:#efe6d4;color:var(--soft)">View →</a>
+        </div>
+        <p class="foot"><b>Non-blind by nature.</b> Mentorship shows the real student (you're their mentor), the call link
+          and the peer-mentor tag. It never touches the blind evaluation queue.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="callouts">
+    <div class="eyebrow" style="margin-bottom:10px">What this closes (from the reconciliation)</div>
+    <div class="co"><span class="g keep">Keep · GAP-1</span><b>Mark-as-peer-mentor</b> moves here. It's the only place in the system that sets a student as a mentor (the mobile app still reads it) — so it must live on before the old dashboard goes. <small class="k">was: toggleMentorStatus on the old dashboard</small></div>
+    <div class="co"><span class="g keep">Keep · GAP-3</span><b>Join-call link</b> (the 1:1 mentorship video call) moves here, next to the student it belongs to. <small class="k">was: "Join Link" on the old dashboard</small></div>
+    <div class="co"><span class="g">Add · GAP-4</span><b>History</b> lets an evaluator revisit finalised work — the new desk otherwise drops it after release. <small class="k">replaces the old view-full-score</small></div>
+    <div class="co"><span class="g">Fixed · GAP-2</span>The premium "Save evaluation" no longer lands on the old purple screen — it returns to the Desk. <small class="k">already done in code</small></div>
+    <div class="co" style="border-left-color:var(--due)"><span class="g" style="background:var(--due)">Then delete</span>Old <b>dashboard</b>, <b>task/evaluate</b>, <b>batch/view</b>, <b>view-full-score</b> + routes. Login/verify-otp are kept (just restyled to this Atelier theme later).</div>
+  </div>
+</body>
+</html>
