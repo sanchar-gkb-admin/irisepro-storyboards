@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>#118 — Institution-attested consent: onboarding friction removed</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#171a21; --line:#262b36; --ink:#e8eaf0; --soft:#9aa3b2; --muted:#6b7482;
+    --old:#e0603a; --new:#37b26b; --accent:#4c8dff; --gold:#d9be86;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;padding:0 20px 80px}
+  .wrap{max-width:1080px;margin:0 auto}
+  header{padding:40px 0 8px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  h1{font-size:29px;font-weight:700;letter-spacing:-.02em;margin:8px 0 6px;text-wrap:balance}
+  .lede{color:var(--soft);font-size:15px;max-width:70ch}
+  h2{font-size:19px;margin:44px 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .phead{padding:11px 16px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+  .phead.old{color:var(--old)} .phead.new{color:var(--new)}
+  .dot{width:8px;height:8px;border-radius:50%}.dot.old{background:var(--old)}.dot.new{background:var(--new)}
+  .pbody{padding:16px}
+  /* faux form field */
+  .field{margin-bottom:11px}
+  .lbl{font-size:11.5px;color:var(--soft);margin-bottom:5px;font-weight:600}
+  .inp{background:#0c0e13;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px;color:var(--muted)}
+  .inp.req::after{content:" *";color:var(--old)}
+  .strike{position:relative;opacity:.5}
+  .strike .inp{text-decoration:line-through}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px}
+  .tag.gone{color:var(--old);border-color:rgba(224,96,58,.4)}
+  .tag.kept{color:var(--new);border-color:rgba(55,178,107,.4)}
+  .chk{display:flex;gap:10px;align-items:flex-start;background:rgba(55,178,107,.07);border:1px solid rgba(55,178,107,.35);border-radius:9px;padding:11px 13px;margin-top:4px}
+  .box{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--new);flex:0 0 auto;margin-top:1px;display:grid;place-items:center;color:var(--new);font-size:12px;font-weight:800}
+  .chk .t{font-size:12.5px}.chk .t b{color:var(--ink)} .chk .t span{color:var(--soft)}
+  .screen{background:#0c0e13;border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center}
+  .screen .big{font-size:15px;font-weight:700;margin-bottom:6px}
+  .screen .m{color:var(--soft);font-size:12.5px}
+  .otp{display:flex;gap:6px;justify-content:center;margin:12px 0}
+  .otp span{width:26px;height:32px;border:1px solid var(--line);border-radius:6px;display:grid;place-items:center;color:var(--muted);font-family:var(--mono)}
+  .callout{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:14px 16px;margin-top:30px;font-size:13.5px;color:var(--soft)}
+  .callout b{color:var(--ink)} .callout code{font-family:var(--mono);font-size:12px;color:var(--gold);background:#0c0e13;padding:1px 5px;border-radius:4px}
+  .legal{margin-top:14px;border-left-color:var(--gold)}
+  ul{margin:6px 0 0;padding-left:18px}li{margin:3px 0}
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">#118 · onboarding friction · institution-attested consent</div>
+  <h1>Village students onboard with no parent email and no OTP — consent still recorded, still auditable</h1>
+  <p class="lede">Schools give in-principle consent to onboard their students and send us the roster. Our admin
+  records that consent <b>once, at enrolment</b>, on the school's behalf — so each child skips the parent-email +
+  guardian-OTP step entirely. Nothing is faked: the consent is recorded honestly as <i>institution-attested</i>,
+  linked to the school, sealed in the tamper-evident ledger.</p>
+</header>
+
+<h2>1 · Admin enrolment screen</h2>
+<p class="sub">Superadmin → create / import students. One small addition to the guardian panel.</p>
+<div class="cols">
+  <div class="panel">
+    <div class="phead old"><span class="dot old"></span>Before</div>
+    <div class="pbody">
+      <div class="field"><div class="lbl">Student name</div><div class="inp">Asha K.</div></div>
+      <div class="field"><div class="lbl">Student email</div><div class="inp">asha.k@school.edu</div></div>
+      <div class="field"><div class="lbl">Date of birth</div><div class="inp">14 · minor</div></div>
+      <div style="border-top:1px dashed var(--line);margin:12px 0;padding-top:10px;font-size:11px;color:var(--muted);font-family:var(--mono)">GUARDIAN PANEL (shown for minors)</div>
+      <div class="field"><div class="lbl req">Guardian name</div><div class="inp">—</div></div>
+      <div class="field"><div class="lbl req">Guardian email</div><div class="inp">— (a SECOND email)</div></div>
+      <div class="field"><div class="lbl">Guardian phone</div><div class="inp">—</div></div>
+      <p style="font-size:12px;color:var(--old);margin-top:8px">…and the parent still has to receive + type an OTP later, at the child's onboarding.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="phead new"><span class="dot new"></span>After</div>
+    <div class="pbody">
+      <div class="field"><div class="lbl">Student name</div><div class="inp">Asha K.</div></div>
+      <div class="field"><div class="lbl">Student email</div><div class="inp">asha.k@school.edu <span class="tag kept">one email</span></div></div>
+      <div class="field"><div class="lbl">Date of birth</div><div class="inp">14 · minor</div></div>
+      <div style="border-top:1px dashed var(--line);margin:12px 0;padding-top:10px;font-size:11px;color:var(--muted);font-family:var(--mono)">GUARDIAN PANEL (shown for minors)</div>
+      <div class="field"><div class="lbl">School / institution</div><div class="inp">Govt. High School, Anantapur</div></div>
+      <div class="field">
+        <div class="lbl req">Attach school's consent (email / PDF)</div>
+        <div class="inp" style="display:flex;align-items:center;gap:9px;color:var(--new)">📎 GHS-Anantapur-consent-roster.pdf <span class="tag kept">stored privately</span></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px">The school's own email/PDF listing the students' names + emails — the real consent artifact. One doc covers the whole roster it names.</div>
+      </div>
+      <div class="chk">
+        <div class="box">✓</div>
+        <div class="t"><b>The school has given consent to onboard the students named in the attached document.</b>
+        <span>I'm recording this on the school's behalf; the attached document is their consent on file.</span></div>
+      </div>
+      <p style="font-size:12px;color:var(--new);margin-top:10px">Document + tick record the consent now. No guardian email, no OTP — for the child or the parent.</p>
+    </div>
+  </div>
+</div>
+
+<h2>2 · What the student sees at onboarding</h2>
+<p class="sub">The minor's first run in the app. The entire guardian-consent screen disappears.</p>
+<div class="cols">
+  <div class="panel">
+    <div class="phead old"><span class="dot old"></span>Before — the drop-off point</div>
+    <div class="pbody">
+      <div class="screen">
+        <div class="big">Parent / guardian consent</div>
+        <div class="m">We need a parent to approve. Enter their email:</div>
+        <div class="field" style="margin-top:12px"><div class="inp req">parent@… (a second email they often don't have)</div></div>
+        <div class="m">Code sent to the parent — enter it:</div>
+        <div class="otp"><span>·</span><span>·</span><span>·</span><span>·</span><span>·</span><span>·</span></div>
+        <div style="font-size:11px;color:var(--old)">Village families frequently have no second email → stuck here → drop off.</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="phead new"><span class="dot new"></span>After — nothing to do</div>
+    <div class="pbody">
+      <div class="screen">
+        <div class="big" style="color:var(--new)">You're all set 🎉</div>
+        <div class="m">Consent was recorded by your school. Just confirm your details and start.</div>
+        <div class="field" style="margin-top:12px;text-align:left"><div class="lbl">Class</div><div class="inp">Class 9</div></div>
+        <div class="field" style="text-align:left"><div class="lbl">Language</div><div class="inp">Telugu</div></div>
+        <div style="font-size:11px;color:var(--new);margin-top:6px">No parent email. No OTP. Straight into the challenge.</div>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:10px"><span class="tag gone">removed</span> parent email &nbsp; <span class="tag gone">removed</span> guardian OTP</p>
+    </div>
+  </div>
+</div>
+
+<div class="callout legal">
+  <b>How the consent is recorded (honest + auditable):</b>
+  <ul>
+    <li>The school's <b>consent email/PDF is attached</b> (naming the students) and stored in private, in-tenancy storage with signed access — the real evidence, never public.</li>
+    <li>A consent row is written with basis <code>institution_attested</code> — never a faked parent OTP — <b>linked to that document</b>.</li>
+    <li>The <b>school is the linked guardian</b> (relationship = institution); the attesting admin + timestamp are logged.</li>
+    <li>It's sealed into the same <b>WORM / hash-chained ledger</b> as every other consent — tamper-evident.</li>
+    <li>The onboarding gate accepts it <b>only when</b> <code>CONSENT_INSTITUTION_ATTESTED_ENABLED=true</code> — a deliberate, legally-owned switch. A self-serve minor with no consent is still blocked.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <b>One decision that stays with you + legal:</b> whether a school's blanket in-principle consent legally
+  stands in for each parent's verifiable consent under DPDPA §9. The build doesn't decide that — it records the
+  real chain truthfully so the decision is backed by evidence. Recommend a signed institutional-consent agreement
+  per school on file before flipping the switch live.
+</div>
+
+<div class="foot">#118 · institution-attested consent · storyboard for sign-off before merge · iRisePro</div>
+</div>
+</body>
+</html>
