@@ -152,17 +152,29 @@
         <div class="lh" style="margin-top:16px"><span class="t">History</span><span class="c">finished work</span></div>
         <div class="hist">
           <div><div class="tt" style="margin:0">Know Me Before We Grow — SPARROW-42</div><div class="meta">Released today · 7-task set</div></div>
-          <a class="go" href="#" style="background:#efe6d4;color:var(--soft)">View →</a>
+          <div style="display:flex;gap:8px;align-items:center">
+            <a class="star" href="#" style="border-style:dashed">＋ Take on as mentee</a>
+            <a class="go" href="#" style="background:#efe6d4;color:var(--soft)">View →</a>
+          </div>
         </div>
         <p class="foot"><b>Non-blind by nature.</b> Mentorship shows the real student (you're their mentor), the call link
-          and the peer-mentor tag. It never touches the blind evaluation queue.</p>
+          and the peer-mentor tag. It never touches the blind evaluation queue — the only crossing is the one-way
+          <b>“take on as mentee”</b> bridge below.</p>
       </div>
 
     </div>
   </div>
 
   <div class="callouts">
-    <div class="eyebrow" style="margin-bottom:10px">What this closes (from the reconciliation)</div>
+    <div class="co" style="border-left-color:var(--gold-soft);background:#F7EFDC">
+      <b>Why two surfaces, not one.</b> They run on different clocks and different rules:
+      <div style="display:grid;grid-template-columns:1fr;gap:6px;margin-top:9px;font-size:13px">
+        <div><span class="g" style="background:var(--accent)">Evaluation</span> per-task · <b>blind</b> · SLA-paced (12h / 72h) · auto-allocated · you never pick students.</div>
+        <div><span class="g" style="background:#8a6912">Mentorship</span> a <b>long-term ~1-year</b> 1:1 relationship · <b>named</b> (not blind) · you choose to take a student on · call link + peer-mentor tag.</div>
+      </div>
+      <div style="margin-top:9px;font-size:13px"><b>The bridge:</b> evaluation naturally leads into mentorship — a one-way <b>“take on as mentee”</b> step carries a just-evaluated student across, at which point identity is (rightly) revealed because it's now a named, year-long relationship.</div>
+    </div>
+    <div class="eyebrow" style="margin:16px 0 10px">What this closes (from the reconciliation)</div>
     <div class="co"><span class="g keep">Keep · GAP-1</span><b>Mark-as-peer-mentor</b> moves here. It's the only place in the system that sets a student as a mentor (the mobile app still reads it) — so it must live on before the old dashboard goes. <small class="k">was: toggleMentorStatus on the old dashboard</small></div>
     <div class="co"><span class="g keep">Keep · GAP-3</span><b>Join-call link</b> (the 1:1 mentorship video call) moves here, next to the student it belongs to. <small class="k">was: "Join Link" on the old dashboard</small></div>
     <div class="co"><span class="g">Add · GAP-4</span><b>History</b> lets an evaluator revisit finalised work — the new desk otherwise drops it after release. <small class="k">replaces the old view-full-score</small></div>
