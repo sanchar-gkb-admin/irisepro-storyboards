@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Onboarding consent wording — before / after | iRisePro</title>
+<title>Parent consent screen — before / after | iRisePro</title>
 <style>
   :root{--fg:#241f1b;--muted:#6b625b;--brand:#FF8A3D;--brand-d:#c9641f;--line:#ece3da;--bg:#fffaf4;--card:#fff;--ok:#3d7a4a;--okbg:#e9f4ec;--warnbg:#fdf3e3;--warnln:#f0dcc0;--phone:#fff;--phoneln:#e7ded4;}
   *{box-sizing:border-box}
@@ -18,7 +18,7 @@
   p{margin:8px 0}
   ul{margin:8px 0 8px 2px;padding-left:20px}li{margin:5px 0}
   .cols{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;justify-content:center}
-  .col{flex:1 1 320px;max-width:390px}
+  .col{flex:1 1 330px;max-width:400px}
   .caplabel{text-align:center;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
   .caplabel.b{color:#b23a3a}.caplabel.a{color:var(--ok)}
   .phone{border:1px solid var(--phoneln);background:var(--phone);border-radius:26px;padding:18px 16px 20px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
@@ -32,101 +32,107 @@
   .box.on:after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
   .consent-card{border:1px solid var(--phoneln);border-radius:12px;padding:12px 13px;margin-top:12px;background:#fffdfa}
   .consent-card .lead{font-weight:700;font-size:14px;margin:0 0 6px}
-  .consent-card ul{padding-left:18px;margin:6px 0 0}.consent-card li{font-size:12.7px;color:#4a443e}
   .lnk{color:var(--brand-d);font-weight:700;text-decoration:underline}
   .btn{margin-top:14px;text-align:center;background:linear-gradient(90deg,var(--brand),#FF6B57);color:#fff;font-weight:800;border-radius:12px;padding:12px;font-size:15px}
-  .flag{font-size:11px;color:#b23a3a;font-weight:700;margin-top:8px}
+  .flag{font-size:11.5px;color:#b23a3a;font-weight:700;margin-top:10px;line-height:1.5}
   .flag.a{color:var(--ok)}
   .lbl{font-size:12px;font-weight:800;color:var(--fg);opacity:.78;margin:10px 0 3px}
   .fld{border:1px solid var(--phoneln);border-radius:10px;padding:9px 11px;font-size:13px;color:var(--muted);background:var(--card)}
   .fld.val{color:var(--fg);font-weight:600}
   .sel{display:flex;justify-content:space-between;align-items:center}
   .hint{font-size:11px;color:var(--muted);margin-top:4px}
+  .hint.ok{color:var(--ok);font-weight:600}
   .otpbtn{border:2px solid var(--brand);color:var(--brand-d);border-radius:11px;padding:9px;text-align:center;font-weight:800;font-size:13px;margin-top:10px}
   .codebox{border:1px solid var(--phoneln);border-radius:10px;padding:9px 11px;text-align:center;letter-spacing:.3em;font-weight:800;color:var(--muted);font-size:15px;margin-top:8px}
-  .band{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:15px 0 3px}
+  .paybadge{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:700;color:var(--ok);background:var(--okbg);border-radius:10px;padding:9px 11px;margin-top:12px}
+  .band{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:16px 0 3px}
   .band.chg{color:var(--brand-d)}
-  .changed{border:1.5px dashed var(--brand);border-radius:12px;padding:11px 10px 12px;margin-top:4px;background:rgba(255,138,61,.06)}
+  .strike{position:relative}
+  .removed{border:1.5px dashed #d38a8a;border-radius:12px;padding:9px 10px;margin-top:6px;background:rgba(200,80,80,.05)}
+  .removed .tag2{display:inline-block;font-size:10px;font-weight:800;color:#fff;background:#c15b5b;border-radius:5px;padding:2px 7px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+  .changed{border:1.5px dashed var(--brand);border-radius:12px;padding:11px 10px 12px;margin-top:6px;background:rgba(255,138,61,.06)}
   .changed .tag2{display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--brand);border-radius:5px;padding:2px 7px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:9px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0}
-  .good{border-left:4px solid var(--ok);background:var(--okbg)}
   table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
   th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
   th{background:#faf2e9;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0}
+  .good{border-left:4px solid var(--ok);background:var(--okbg)}
+  .ask{border-left:4px solid var(--brand)}
   .foot{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:14px}
   @media (prefers-color-scheme:dark){
     :root{--fg:#ece6df;--muted:#a99f95;--line:#3a332c;--bg:#1c1815;--card:#251f1a;--phone:#221d18;--phoneln:#3a332c;--okbg:#22321f;--ok:#8fce9c;--warnbg:#2e2312;--warnln:#4a3a1f;--brand-d:#f0a35a}
-    .consent-card{background:#26201a}.consent-card li{color:#c9bfb4}.status{color:#e0b872}.caplabel.b{color:#e88}th{background:#2b241d}
+    .consent-card{background:#26201a}.status{color:#e0b872}.caplabel.b{color:#e88}th{background:#2b241d}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="eyebrow">iRisePro · Onboarding · UI sign-off</div>
-  <h1>Parent consent screen — wording, before &amp; after</h1>
-  <p class="sub">The screen a parent sees before their child's Success Scan. Same one tick, same one button — the words get clearer and honest to the law.</p>
-  <div class="status">For sign-off · draft · not live to children until approved</div>
+  <h1>Parent consent screen — before &amp; after</h1>
+  <p class="sub">Per the payment-corroborated §9 spec: one family email, no OTP to type, a clear named parental affirmation — backed by the parent's payment.</p>
+  <div class="status">For sign-off · draft · flag-gated OFF until KMM confirms (D2 · D6)</div>
 
   <h2>Why change it</h2>
-  <p>Today the parent ticks a single line that <em>bundles</em> two different things — “agree to the Terms” (a contract) and “approve for my child” (data consent) — and it says almost nothing about what they're approving. The law wants the child-data consent to stand on its own and to actually state what it covers. So we split the tick and give a <strong>lean, honest</strong> consent: the statement, one plain reassurance line, and a link to the full notice. <strong>The parent still does one tick and one button — the flow doesn't get longer.</strong></p>
+  <p>Today, approving for a child needs a <strong>separate</strong> guardian email and a <strong>6-digit code</strong> the parent has to fetch and type — which blocks the normal Indian family that shares <strong>one</strong> email. Per the spec, we drop the separate-email + code requirement and replace the check with something <strong>stronger and already there: the parent's payment</strong> (a real card/UPI charge is a far harder-to-fake adult signal than an email code). The parent gives a clear, <strong>named</strong> approval; the flow gets <em>shorter</em>, and the record is <em>more</em> defensible.</p>
 
   <div class="cols">
     <!-- BEFORE -->
     <div class="col">
-      <div class="caplabel b">Before — today</div>
+      <div class="caplabel b">Before — live today</div>
       <div class="phone">
         <div class="notch"></div>
         <div class="step-eyebrow">Step 2 · A parent approves</div>
         <div class="h">A parent approves 💛</div>
         <p class="muted">You just need a parent or guardian to approve. Takes a minute.</p>
 
-        <div class="band">Unchanged — same as today &amp; after</div>
+        <div class="band">Stays the same</div>
         <div class="lbl">Parent / guardian name</div>
         <div class="fld val">Meera Sharma</div>
         <div class="lbl">Relationship</div>
         <div class="fld sel">Parent <span>▾</span></div>
-        <div class="lbl">Parent / guardian email</div>
-        <div class="fld val">meera.sharma@gmail.com</div>
-        <div class="hint">We'll email a 6-digit code here to confirm. Must be a parent/guardian's inbox — different from yours.</div>
-        <div class="otpbtn">✈ Send verification code</div>
-        <div class="codebox">•••  •••</div>
 
-        <div class="band chg">The consent — today</div>
-        <div class="changed">
-          <div class="tag2">This is what changes</div>
-          <div class="tick" style="margin-top:0">
+        <div class="band chg">What changes</div>
+        <div class="removed">
+          <div class="tag2">Removed</div>
+          <div class="lbl" style="margin-top:0">Parent / guardian email</div>
+          <div class="fld">a DIFFERENT email…</div>
+          <div class="hint">We'll email a 6-digit code here to confirm. Must be a parent/guardian's inbox — different from yours.</div>
+          <div class="otpbtn">✈ Send verification code</div>
+          <div class="codebox">•••  •••</div>
+        </div>
+        <div class="removed" style="margin-top:8px">
+          <div class="tag2">Reworded</div>
+          <div class="tick" style="margin-top:0;border:none;padding:2px 0">
             <div class="box on"></div>
             <div>I'm <strong>Aarav</strong>'s parent/guardian. I've read &amp; agree to the <span class="lnk">Terms</span> &amp; <span class="lnk">Privacy Policy</span> and approve on their behalf.</div>
           </div>
         </div>
         <div class="btn">Approve &amp; continue →</div>
-        <div class="flag">✗ Bundles contract + child-data consent in one tick<br>✗ Doesn't say what the parent is approving<br>✗ Nothing recorded to prove the exact words shown</div>
+        <div class="flag">✗ Needs a second email — blocks one-email families<br>✗ Parent must fetch &amp; type a 6-digit code<br>✗ Bundles the contract with the child-data consent<br>✗ Nothing proves the exact words shown</div>
       </div>
     </div>
 
     <!-- AFTER -->
     <div class="col">
-      <div class="caplabel a">After — proposed</div>
+      <div class="caplabel a">After — per spec</div>
       <div class="phone">
         <div class="notch"></div>
         <div class="step-eyebrow">Step 2 · A parent approves</div>
         <div class="h">A parent approves 💛</div>
         <p class="muted">You just need a parent or guardian to approve. Takes a minute.</p>
 
-        <div class="band">Unchanged — same as today &amp; after</div>
+        <div class="band">Stays the same</div>
         <div class="lbl">Parent / guardian name</div>
         <div class="fld val">Meera Sharma</div>
         <div class="lbl">Relationship</div>
         <div class="fld sel">Parent <span>▾</span></div>
         <div class="lbl">Parent / guardian email</div>
         <div class="fld val">meera.sharma@gmail.com</div>
-        <div class="hint">We'll email a 6-digit code here to confirm. Must be a parent/guardian's inbox — different from yours.</div>
-        <div class="otpbtn">✈ Send verification code</div>
-        <div class="codebox">•••  •••</div>
+        <div class="hint ok">✓ Your own email is fine — no separate inbox, no code to type.</div>
 
-        <div class="band chg">The consent — proposed</div>
+        <div class="band chg">What changes</div>
         <div class="changed">
-          <div class="tag2">This is what changes</div>
+          <div class="tag2">Clear, named §9 consent</div>
           <div class="consent-card" style="margin-top:0">
             <p class="lead">I am Aarav's parent or guardian, and I'm agreeing on their behalf.</p>
             <p style="font-size:13px;margin:0">I allow iRisePro to use Aarav's answers in the Success Scan to work out their abilities and create their personal report and suggestions.</p>
@@ -138,27 +144,37 @@
             <div>I agree, as <strong>Aarav</strong>'s parent/guardian.</div>
           </div>
         </div>
+        <div class="paybadge">🔒 Verified by your payment — nothing else to enter.</div>
         <div class="btn">Approve &amp; continue →</div>
-        <div class="flag a">✓ Child-data consent stands on its own (Terms stay at checkout)<br>✓ Says exactly what it covers, in plain words<br>✓ Exact wording saved with a tamper-proof fingerprint</div>
+        <div class="flag a">✓ One family email works<br>✓ No OTP — the parent's payment is the check<br>✓ Consent stands on its own, in plain words<br>✓ Exact wording fingerprinted + bound to the payment as proof</div>
       </div>
     </div>
   </div>
 
   <h2>What actually changes</h2>
   <table>
-    <tr><th>Element</th><th>Before</th><th>After</th></tr>
-    <tr><td>Number of ticks / buttons</td><td>1 tick · 1 button</td><td><strong>1 tick · 1 button (same)</strong></td></tr>
-    <tr><td>What the tick means</td><td>Terms + child consent, bundled</td><td>Child-data consent only (Terms already accepted at checkout)</td></tr>
-    <tr><td>What the parent is told</td><td>“approve on their behalf”</td><td>purpose + one plain line (your choice · withdraw anytime · no ads/tracking); full detail one tap away in the notice</td></tr>
-    <tr><td>Link to full notice</td><td>generic Privacy Policy</td><td>deep-link to the Children's Data section</td></tr>
-    <tr><td>Proof of wording shown</td><td>none</td><td>exact text fingerprinted into the consent record</td></tr>
+    <tr><th>Element</th><th>Before (today)</th><th>After (spec)</th></tr>
+    <tr><td>Guardian email</td><td>must be <strong>different</strong> from the child's</td><td><strong>same family email is fine</strong></td></tr>
+    <tr><td>Verifying a real adult</td><td>a 6-digit OTP the parent types</td><td>the parent's <strong>completed payment</strong> (invisible)</td></tr>
+    <tr><td>The tick</td><td>Terms + child consent, bundled</td><td>child-data consent on its own (Terms stay at checkout)</td></tr>
+    <tr><td>What the parent is told</td><td>“approve on their behalf”</td><td>purpose + one plain line; full detail one tap away</td></tr>
+    <tr><td>Proof of consent</td><td>none</td><td>exact wording fingerprinted + bound to the payment id</td></tr>
+    <tr><td>Steps for the parent</td><td>name · email · send code · type code · tick</td><td><strong>name · email · tick</strong> (shorter)</td></tr>
   </table>
 
   <div class="card good">
-    <p style="margin:0"><strong>Net for the parent:</strong> the screen reads clearer and shorter-feeling, still one tap to agree and one to continue. No extra steps, no second email, no new friction — just honest, law-aligned words.</p>
+    <p style="margin:0"><strong>Net for the parent:</strong> one family email, no code to hunt for, one tap to approve — a shorter flow, and a <em>stronger</em> record (a named parent, an explicit consent, and a real payment behind it).</p>
   </div>
 
-  <p class="foot">Illustrative mock (“Aarav” is a sample name; real screen uses the child's actual name). Wording matches the archived, hashed consent text so the screen and the proof can't drift. Draft for sign-off — engineering implementation follows approval.</p>
+  <div class="card ask">
+    <p style="margin:0 0 4px"><strong>Legal gate (with KMM):</strong> this ships behind a switch and turns on only once counsel confirms:</p>
+    <ul style="margin:4px 0 0">
+      <li><strong>D2</strong> — named parent + explicit §9 affirmation (shown &amp; hashed) + payment corroboration meets “verifiable parental consent”.</li>
+      <li><strong>D6</strong> — the Success Scan is an <em>evaluation</em>, not §9(3)-prohibited profiling of a child.</li>
+    </ul>
+  </div>
+
+  <p class="foot">Illustrative mock (“Aarav” is a sample child; “Meera Sharma” a sample parent). The on-screen §9 wording matches the archived, hashed consent text so the screen and the proof can't drift. Draft for sign-off; the same-email + no-OTP behaviour is built flag-OFF and activates only after D2/D6.</p>
 </div>
 </body>
 </html>
