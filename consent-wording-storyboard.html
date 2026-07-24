@@ -45,6 +45,7 @@
   .otpbtn{border:2px solid var(--brand);color:var(--brand-d);border-radius:11px;padding:9px;text-align:center;font-weight:800;font-size:13px;margin-top:10px}
   .codebox{border:1px solid var(--phoneln);border-radius:10px;padding:9px 11px;text-align:center;letter-spacing:.3em;font-weight:800;color:var(--muted);font-size:15px;margin-top:8px}
   .paybadge{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:700;color:var(--ok);background:var(--okbg);border-radius:10px;padding:9px 11px;margin-top:12px}
+  .confirm{font-size:12.5px;color:var(--fg);background:var(--card);border:1px solid var(--phoneln);border-radius:10px;padding:9px 11px;margin-top:4px}
   .band{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:16px 0 3px}
   .band.chg{color:var(--brand-d)}
   .strike{position:relative}
@@ -121,14 +122,13 @@
         <div class="h">A parent approves 💛</div>
         <p class="muted">You just need a parent or guardian to approve. Takes a minute.</p>
 
-        <div class="band">Stays the same</div>
+        <div class="band">What we ask</div>
         <div class="lbl">Parent / guardian name</div>
         <div class="fld val">Meera Sharma</div>
+        <div class="hint">Prefilled from your order — edit if needed.</div>
         <div class="lbl">Relationship</div>
         <div class="fld sel">Parent <span>▾</span></div>
-        <div class="lbl">Parent / guardian email</div>
-        <div class="fld val">meera.sharma@gmail.com</div>
-        <div class="hint ok">✓ Your own email is fine — no separate inbox, no code to type.</div>
+        <div class="confirm">📧 We'll use <strong>meera.sharma@gmail.com</strong> (the email you paid with) to reach you about Aarav's data. <span class="lnk">Not you? Change it</span></div>
 
         <div class="band chg">What changes</div>
         <div class="changed">
@@ -154,12 +154,12 @@
   <h2>What actually changes</h2>
   <table>
     <tr><th>Element</th><th>Before (today)</th><th>After (spec)</th></tr>
-    <tr><td>Guardian email</td><td>must be <strong>different</strong> from the child's</td><td><strong>same family email is fine</strong></td></tr>
+    <tr><td>Guardian email</td><td>a <strong>different</strong> email, typed in</td><td>the <strong>email they paid with</strong> — shown read-only, never re-typed</td></tr>
     <tr><td>Verifying a real adult</td><td>a 6-digit OTP the parent types</td><td>the parent's <strong>completed payment</strong> (invisible)</td></tr>
     <tr><td>The tick</td><td>Terms + child consent, bundled</td><td>child-data consent on its own (Terms stay at checkout)</td></tr>
     <tr><td>What the parent is told</td><td>“approve on their behalf”</td><td>purpose + one plain line; full detail one tap away</td></tr>
     <tr><td>Proof of consent</td><td>none</td><td>exact wording fingerprinted + bound to the payment id</td></tr>
-    <tr><td>Steps for the parent</td><td>name · email · send code · type code · tick</td><td><strong>name · email · tick</strong> (shorter)</td></tr>
+    <tr><td>Steps for the parent</td><td>name · type a 2nd email · send code · type code · tick</td><td><strong>confirm name · tick</strong> (much shorter)</td></tr>
   </table>
 
   <div class="card good">
