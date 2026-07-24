@@ -37,6 +37,17 @@
   .btn{margin-top:14px;text-align:center;background:linear-gradient(90deg,var(--brand),#FF6B57);color:#fff;font-weight:800;border-radius:12px;padding:12px;font-size:15px}
   .flag{font-size:11px;color:#b23a3a;font-weight:700;margin-top:8px}
   .flag.a{color:var(--ok)}
+  .lbl{font-size:12px;font-weight:800;color:var(--fg);opacity:.78;margin:10px 0 3px}
+  .fld{border:1px solid var(--phoneln);border-radius:10px;padding:9px 11px;font-size:13px;color:var(--muted);background:var(--card)}
+  .fld.val{color:var(--fg);font-weight:600}
+  .sel{display:flex;justify-content:space-between;align-items:center}
+  .hint{font-size:11px;color:var(--muted);margin-top:4px}
+  .otpbtn{border:2px solid var(--brand);color:var(--brand-d);border-radius:11px;padding:9px;text-align:center;font-weight:800;font-size:13px;margin-top:10px}
+  .codebox{border:1px solid var(--phoneln);border-radius:10px;padding:9px 11px;text-align:center;letter-spacing:.3em;font-weight:800;color:var(--muted);font-size:15px;margin-top:8px}
+  .band{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:15px 0 3px}
+  .band.chg{color:var(--brand-d)}
+  .changed{border:1.5px dashed var(--brand);border-radius:12px;padding:11px 10px 12px;margin-top:4px;background:rgba(255,138,61,.06)}
+  .changed .tag2{display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--brand);border-radius:5px;padding:2px 7px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:9px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0}
   .good{border-left:4px solid var(--ok);background:var(--okbg)}
   table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
@@ -57,7 +68,7 @@
   <div class="status">For sign-off · draft · not live to children until approved</div>
 
   <h2>Why change it</h2>
-  <p>Today the parent ticks a single line that <em>bundles</em> two different things — “agree to the Terms” (a contract) and “approve for my child” (data consent) — and it says almost nothing about what they're approving. The law wants the child-data consent to stand on its own and to actually state what it covers. So we split the tick and restore the fuller (but still plain) wording. <strong>The parent still does one tick and one button — the flow doesn't get longer.</strong></p>
+  <p>Today the parent ticks a single line that <em>bundles</em> two different things — “agree to the Terms” (a contract) and “approve for my child” (data consent) — and it says almost nothing about what they're approving. The law wants the child-data consent to stand on its own and to actually state what it covers. So we split the tick and give a <strong>lean, honest</strong> consent: the statement, one plain reassurance line, and a link to the full notice. <strong>The parent still does one tick and one button — the flow doesn't get longer.</strong></p>
 
   <div class="cols">
     <!-- BEFORE -->
@@ -65,12 +76,28 @@
       <div class="caplabel b">Before — today</div>
       <div class="phone">
         <div class="notch"></div>
-        <div class="step-eyebrow">Step 2 · Approve for your child</div>
-        <div class="h">Almost there</div>
-        <p class="muted">One tick approves everything at once.</p>
-        <div class="tick">
-          <div class="box on"></div>
-          <div>I'm <strong>Aarav</strong>'s parent/guardian. I've read &amp; agree to the <span class="lnk">Terms</span> &amp; <span class="lnk">Privacy Policy</span> and approve on their behalf.</div>
+        <div class="step-eyebrow">Step 2 · A parent approves</div>
+        <div class="h">A parent approves 💛</div>
+        <p class="muted">You just need a parent or guardian to approve. Takes a minute.</p>
+
+        <div class="band">Unchanged — same as today &amp; after</div>
+        <div class="lbl">Parent / guardian name</div>
+        <div class="fld val">Meera Sharma</div>
+        <div class="lbl">Relationship</div>
+        <div class="fld sel">Parent <span>▾</span></div>
+        <div class="lbl">Parent / guardian email</div>
+        <div class="fld val">meera.sharma@gmail.com</div>
+        <div class="hint">We'll email a 6-digit code here to confirm. Must be a parent/guardian's inbox — different from yours.</div>
+        <div class="otpbtn">✈ Send verification code</div>
+        <div class="codebox">•••  •••</div>
+
+        <div class="band chg">The consent — today</div>
+        <div class="changed">
+          <div class="tag2">This is what changes</div>
+          <div class="tick" style="margin-top:0">
+            <div class="box on"></div>
+            <div>I'm <strong>Aarav</strong>'s parent/guardian. I've read &amp; agree to the <span class="lnk">Terms</span> &amp; <span class="lnk">Privacy Policy</span> and approve on their behalf.</div>
+          </div>
         </div>
         <div class="btn">Approve &amp; continue →</div>
         <div class="flag">✗ Bundles contract + child-data consent in one tick<br>✗ Doesn't say what the parent is approving<br>✗ Nothing recorded to prove the exact words shown</div>
@@ -82,23 +109,34 @@
       <div class="caplabel a">After — proposed</div>
       <div class="phone">
         <div class="notch"></div>
-        <div class="step-eyebrow">Step 2 · Your permission for Aarav</div>
-        <div class="h">Your permission</div>
-        <p class="muted">This is only about using Aarav's Success Scan — separate from the Terms you already accepted.</p>
-        <div class="consent-card">
-          <p class="lead">I am Aarav's parent or guardian, and I'm agreeing on their behalf.</p>
-          <p style="font-size:13px;margin:0">I allow iRisePro to use Aarav's answers in the Success Scan to work out their abilities and create their personal report and suggestions.</p>
-          <ul>
-            <li>This is my choice — I don't have to agree.</li>
-            <li>I can change my mind and withdraw any time; then you stop using Aarav's data for this.</li>
-            <li>It won't be held against Aarav, and won't affect anything already done.</li>
-            <li>You'll <strong>never</strong> use Aarav's data for ads, tracking, or profiling.</li>
-          </ul>
-          <p style="font-size:12.5px;margin:8px 0 0"><span class="lnk">Read how we handle your child's data →</span></p>
-        </div>
-        <div class="tick">
-          <div class="box on"></div>
-          <div>I agree, as <strong>Aarav</strong>'s parent/guardian.</div>
+        <div class="step-eyebrow">Step 2 · A parent approves</div>
+        <div class="h">A parent approves 💛</div>
+        <p class="muted">You just need a parent or guardian to approve. Takes a minute.</p>
+
+        <div class="band">Unchanged — same as today &amp; after</div>
+        <div class="lbl">Parent / guardian name</div>
+        <div class="fld val">Meera Sharma</div>
+        <div class="lbl">Relationship</div>
+        <div class="fld sel">Parent <span>▾</span></div>
+        <div class="lbl">Parent / guardian email</div>
+        <div class="fld val">meera.sharma@gmail.com</div>
+        <div class="hint">We'll email a 6-digit code here to confirm. Must be a parent/guardian's inbox — different from yours.</div>
+        <div class="otpbtn">✈ Send verification code</div>
+        <div class="codebox">•••  •••</div>
+
+        <div class="band chg">The consent — proposed</div>
+        <div class="changed">
+          <div class="tag2">This is what changes</div>
+          <div class="consent-card" style="margin-top:0">
+            <p class="lead">I am Aarav's parent or guardian, and I'm agreeing on their behalf.</p>
+            <p style="font-size:13px;margin:0">I allow iRisePro to use Aarav's answers in the Success Scan to work out their abilities and create their personal report and suggestions.</p>
+            <p style="font-size:12.7px;margin:9px 0 0;color:var(--muted)">I understand this is my choice, I can withdraw any time, and iRisePro will never use Aarav's data for ads or tracking.</p>
+            <p style="font-size:12.5px;margin:9px 0 0"><span class="lnk">Read how we handle your child's data →</span></p>
+          </div>
+          <div class="tick">
+            <div class="box on"></div>
+            <div>I agree, as <strong>Aarav</strong>'s parent/guardian.</div>
+          </div>
         </div>
         <div class="btn">Approve &amp; continue →</div>
         <div class="flag a">✓ Child-data consent stands on its own (Terms stay at checkout)<br>✓ Says exactly what it covers, in plain words<br>✓ Exact wording saved with a tamper-proof fingerprint</div>
@@ -111,7 +149,7 @@
     <tr><th>Element</th><th>Before</th><th>After</th></tr>
     <tr><td>Number of ticks / buttons</td><td>1 tick · 1 button</td><td><strong>1 tick · 1 button (same)</strong></td></tr>
     <tr><td>What the tick means</td><td>Terms + child consent, bundled</td><td>Child-data consent only (Terms already accepted at checkout)</td></tr>
-    <tr><td>What the parent is told</td><td>“approve on their behalf”</td><td>purpose · voluntary · withdrawable · not held against child · no ads/tracking</td></tr>
+    <tr><td>What the parent is told</td><td>“approve on their behalf”</td><td>purpose + one plain line (your choice · withdraw anytime · no ads/tracking); full detail one tap away in the notice</td></tr>
     <tr><td>Link to full notice</td><td>generic Privacy Policy</td><td>deep-link to the Children's Data section</td></tr>
     <tr><td>Proof of wording shown</td><td>none</td><td>exact text fingerprinted into the consent record</td></tr>
   </table>
