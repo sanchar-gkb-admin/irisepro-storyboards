@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Profile page — before / after | iRisePro</title>
+<style>
+  :root{--fg:#241f1b;--muted:#6b625b;--brand:#FF8A3D;--brand-d:#c9641f;--line:#ece3da;--bg:#fffaf4;--card:#fff;--ok:#3d7a4a;--okbg:#e9f4ec;--warnbg:#fdf3e3;--warnln:#f0dcc0;--phone:#fff;--phoneln:#e7ded4;--rowln:#f1eae1;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg);line-height:1.6}
+  .wrap{max-width:980px;margin:0 auto;padding:38px 20px 90px}
+  .eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:var(--brand-d)}
+  h1{font-size:27px;line-height:1.2;margin:.3em 0 .1em}
+  .sub{color:var(--muted);font-size:15px;margin-bottom:8px}
+  .status{display:inline-block;font-size:12px;font-weight:700;color:#8a6d3b;background:var(--warnbg);border:1px solid var(--warnln);border-radius:999px;padding:3px 10px;margin-top:6px}
+  h2{font-size:19px;margin:34px 0 6px;padding-top:16px;border-top:1px solid var(--line)}
+  .cols{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;justify-content:center}
+  .col{flex:1 1 330px;max-width:400px}
+  .caplabel{text-align:center;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+  .caplabel.b{color:#b23a3a}.caplabel.a{color:var(--ok)}
+  .phone{border:1px solid var(--phoneln);background:var(--phone);border-radius:26px;padding:18px 16px 22px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+  .notch{width:96px;height:5px;border-radius:5px;background:#e2d8cd;margin:0 auto 14px}
+  .avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#F9A949);color:#fff;font-weight:800;font-size:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;position:relative}
+  .cam{position:absolute;right:-2px;bottom:-2px;width:24px;height:24px;border-radius:50%;background:var(--brand);border:2px solid var(--phone);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center}
+  .pname{text-align:center;font-weight:800;font-size:17px;margin-bottom:12px}
+  .card{border:1px solid var(--rowln);border-radius:14px;padding:4px 12px;background:#fffdfa}
+  .row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--rowln);font-size:13px}
+  .row:last-child{border-bottom:none}
+  .row .k{color:var(--muted)}.row .v{font-weight:600;text-align:right}
+  .row.new{background:#fff4e9;margin:0 -12px;padding:8px 12px;border-radius:8px}
+  .row.new .k{color:var(--brand-d)}
+  .pill{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;background:var(--okbg);color:var(--ok)}
+  .note{font-size:11px;color:var(--muted);text-align:center;margin:9px 0 2px}
+  .btn{margin-top:10px;text-align:center;border-radius:11px;padding:10px;font-size:13.5px;font-weight:800}
+  .btn.ghost{border:1.5px solid var(--brand);color:var(--brand-d);background:#fff}
+  .btn.red{background:#dc2626;color:#fff}
+  .btn.editbtn{border:1.5px solid var(--brand);color:var(--brand-d);background:#fff}
+  .btn.withdraw{border:1.5px solid #f0a3a3;color:#c23b3b;background:#fff}
+  .consent{margin-top:14px;padding-top:12px;border-top:1px solid var(--rowln);text-align:left}
+  .consent h4{font-size:13px;font-weight:800;margin:0 0 3px}
+  .consent p{font-size:11.5px;color:var(--muted);margin:0 0 8px}
+  .modaltag{margin-top:8px;font-size:10.5px;color:#b23a3a;text-align:center;font-style:italic}
+  .flag{font-size:11.5px;font-weight:700;margin-top:10px;line-height:1.5}
+  .flag.b{color:#b23a3a}.flag.a{color:var(--ok)}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#faf2e9;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  .lnk{color:var(--brand-d);font-weight:700;text-decoration:underline}
+  .foot{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:14px}
+  @media (prefers-color-scheme:dark){
+    :root{--fg:#ece6df;--muted:#a99f95;--line:#3a332c;--bg:#1c1815;--card:#251f1a;--phone:#221d18;--phoneln:#3a332c;--rowln:#332c25;--okbg:#22321f;--ok:#8fce9c;--warnbg:#2e2312;--warnln:#4a3a1f;--brand-d:#f0a35a}
+    .card{background:#26201a}.row.new{background:#33280f}.status{color:#e0b872}.caplabel.b{color:#e88}th{background:#2b241d}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">iRisePro · Profile page · UI sign-off</div>
+  <h1>Profile — view-only, with consent controls</h1>
+  <p class="sub">Locking the profile to view-only (no self-edits; changes go through support), surfacing what onboarding captures, and adding a self-serve consent control.</p>
+  <div class="status">For sign-off · draft</div>
+
+  <div class="cols">
+    <!-- BEFORE -->
+    <div class="col">
+      <div class="caplabel b">Before — today</div>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="avatar">A<span class="cam">✎</span></div>
+        <div class="pname">Aarav Sharma</div>
+        <div class="card">
+          <div class="row"><span class="k">Email</span><span class="v">meera.sharma@gmail.com</span></div>
+          <div class="row"><span class="k">Phone</span><span class="v">98••••••10</span></div>
+          <div class="row"><span class="k">Class</span><span class="v">Class 8</span></div>
+          <div class="row"><span class="k">Date of Birth</span><span class="v">14 March 2012</span></div>
+          <div class="row"><span class="k">Gender</span><span class="v">Male</span></div>
+          <div class="row"><span class="k">Status</span><span class="v"><span class="pill">Active</span></span></div>
+          <div class="row"><span class="k">Joined</span><span class="v">02 July 2026</span></div>
+        </div>
+        <div class="btn ghost">Switch child</div>
+        <div class="btn editbtn">Edit Profile</div>
+        <div class="btn red">Delete Profile</div>
+        <div class="modaltag">“Edit Profile” opens a pop-up to change Name / DOB / Gender</div>
+        <div class="flag b">✗ Name, DOB, Gender self-editable (DOB edit silently discarded — write-once)<br>✗ Stream not shown · Preferred language not shown<br>✗ No way to withdraw consent (only delete the whole account)</div>
+      </div>
+    </div>
+
+    <!-- AFTER -->
+    <div class="col">
+      <div class="caplabel a">After — proposed</div>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="avatar">A<span class="cam">✎</span></div>
+        <div class="pname">Aarav Sharma</div>
+        <div class="card">
+          <div class="row"><span class="k">Email</span><span class="v">meera.sharma@gmail.com</span></div>
+          <div class="row"><span class="k">Phone</span><span class="v">98••••••10</span></div>
+          <div class="row"><span class="k">Class</span><span class="v">Class 8</span></div>
+          <div class="row new"><span class="k">Stream</span><span class="v">Class 8–10 · Board Booster</span></div>
+          <div class="row"><span class="k">Date of Birth</span><span class="v">14 March 2012</span></div>
+          <div class="row"><span class="k">Gender</span><span class="v">Male</span></div>
+          <div class="row new"><span class="k">Preferred language</span><span class="v">English</span></div>
+          <div class="row"><span class="k">Status</span><span class="v"><span class="pill">Active</span></span></div>
+          <div class="row"><span class="k">Joined</span><span class="v">02 July 2026</span></div>
+        </div>
+        <div class="note">To change your details, please contact support.</div>
+        <div class="btn ghost">Switch child</div>
+
+        <div class="consent">
+          <h4>Data &amp; consent</h4>
+          <p>You can withdraw consent for the Success Scan at any time. Your existing report stays available. Withdrawing stops any new evaluation — no new scans, tasks, or reports. <span class="lnk">Learn more</span>.</p>
+          <div class="btn withdraw" style="margin-top:0">Withdraw consent</div>
+        </div>
+
+        <div class="btn red">Delete Profile</div>
+        <div class="flag a">✓ All details view-only (no silent-discard; changes via support)<br>✓ Stream + Preferred language now visible (captured at onboarding)<br>✓ One-tap Withdraw consent — keeps the report, stops future use<br>✓ Withdraw (stop use) is distinct from Delete (erase everything)</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>What changes</h2>
+  <table>
+    <tr><th>Element</th><th>Before</th><th>After</th></tr>
+    <tr><td>Name / DOB / Gender</td><td>editable (DOB edit silently ignored)</td><td><strong>view-only</strong> — “contact support to change”</td></tr>
+    <tr><td>Stream (program)</td><td>not shown</td><td><strong>shown</strong> (e.g. Class 8–10 · Board Booster)</td></tr>
+    <tr><td>Preferred language</td><td>not shown</td><td><strong>shown</strong> (English / Kannada)</td></tr>
+    <tr><td>“Edit Profile” button + pop-up</td><td>present</td><td><strong>removed</strong> (nothing to edit)</td></tr>
+    <tr><td>Withdraw consent</td><td>none</td><td><strong>one-tap control</strong> (keeps report, stops future use)</td></tr>
+    <tr><td>Delete Profile</td><td>present (erase everything)</td><td>unchanged (the erase path — distinct from withdraw)</td></tr>
+    <tr><td>Profile photo</td><td>changeable</td><td>unchanged — still changeable</td></tr>
+  </table>
+
+  <p class="foot">Illustrative mock (sample data). Backend already enforces the view-only lock (a crafted request can't change identity fields either). Photo stays editable per your note; say the word if it should be locked too.</p>
+</div>
+</body>
+</html>
