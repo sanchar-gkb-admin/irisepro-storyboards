@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Parental Consent — Design Summary | iRisePro</title>
+<style>
+  :root{--fg:#241f1b;--muted:#6b625b;--brand:#E67E35;--brand-d:#c9641f;--line:#ece3da;--bg:#fffaf4;--card:#fff;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:40px 22px 80px}
+  .eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:var(--brand-d)}
+  h1{font-size:30px;line-height:1.2;margin:.3em 0 .1em}
+  .sub{color:var(--muted);font-size:15px;margin-bottom:8px}
+  .status{display:inline-block;font-size:12px;font-weight:700;color:#8a6d3b;background:#fdf3e3;border:1px solid #f0dcc0;border-radius:999px;padding:3px 10px;margin-top:6px}
+  h2{font-size:20px;margin:34px 0 8px;padding-top:18px;border-top:1px solid var(--line)}
+  h3{font-size:16px;margin:20px 0 4px}
+  p{margin:8px 0}
+  ul{margin:8px 0 8px 2px;padding-left:20px}
+  li{margin:5px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+  .good{border-left:4px solid #4CAF50}
+  .ask{border-left:4px solid var(--brand)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#faf2e9;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .tag{font-size:12px;font-weight:700;border-radius:6px;padding:2px 7px}
+  .tag.minor{background:#fdeede;color:var(--brand-d)}
+  .tag.adult{background:#e8f0 e8;color:#3d7a4a;background:#e9f4ec}
+  .tag.mix{background:#eef1f6;color:#556}
+  .foot{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:16px}
+  strong{font-weight:700}
+  @media (prefers-color-scheme:dark){
+    :root{--fg:#ece6df;--muted:#a99f95;--line:#3a332c;--bg:#1c1815;--card:#251f1a;--brand-d:#f0a35a}
+    th{background:#2b241d}.status{background:#2e2312;border-color:#4a3a1f;color:#e0b872}
+    .card.good{border-left-color:#4CAF50}.tag.minor{background:#3a2a15;color:#f0a35a}.tag.mix{background:#2a2d34;color:#c3c9d4}.tag.adult{background:#22321f;color:#8fce9c}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">iRisePro · Product &amp; Consent Design</div>
+  <h1>Parental consent — without needing a second email</h1>
+  <p class="sub">How a parent consents for a school-age child to take the AACE64 Success Scan, designed for how Indian families actually sign up.</p>
+  <div class="status">Design summary · pending legal sign-off · updated 24 Jul 2026</div>
+
+  <h2>The problem we're solving</h2>
+  <p>When a parent enrols a school-age child today, the flow asks the parent to give a <em>different</em> email from the child's, then verify a one-time code sent to it. But most Indian families have <strong>one email — the parent's</strong>; the child has none. That blocks the normal family at the consent step.</p>
+
+  <h2>The change (and what the parent actually sees)</h2>
+  <div class="card good">
+  <p><strong>For the parent, the flow stays basically the same — actually simpler.</strong> We remove the "separate email + one-time code" hoop. The parent just:</p>
+  <ul>
+    <li>enters their <strong>name</strong> and relationship, and</li>
+    <li>ticks an explicit <strong>"I am the parent/guardian of [child] and I consent to processing their Success Scan data"</strong> box.</li>
+  </ul>
+  <p>The family's single email is fine. No second email, no code to type.</p>
+  </div>
+
+  <h3>What backs the consent up (invisible to the user)</h3>
+  <p>The parent has already <strong>paid</strong> (a real card/UPI payment) before the child can start — a genuine adult signal that's far harder to fake than an email code. The consent is linked to that payment as evidence a real adult was involved. Net result: a <em>stronger</em>, more defensible record than the email code it replaces.</p>
+
+  <h2>Who sees the parental-consent step</h2>
+  <p>The programme stream already tells us who is a child, so most people are routed automatically with no extra question:</p>
+  <table>
+    <tr><th>Stream</th><th>Who</th><th>Consent</th></tr>
+    <tr><td>Class 5–7 · Class 8–10</td><td><span class="tag minor">Minor</span></td><td>Parental consent (as above)</td></tr>
+    <tr><td>NEET · JEE · UG/PG readiness</td><td><span class="tag mix">Mixed 16–22</span></td><td>One "is the student 18+?" question decides parent vs. self</td></tr>
+    <tr><td>Civil services (IAS/KAS)</td><td><span class="tag adult">Adult</span></td><td>Self-consent</td></tr>
+  </table>
+  <p>The one small addition is a single "is the student 18+?" question, and only on the mixed streams — so adults are never wrongly asked for a guardian's consent, and it appears <em>after</em> payment, never blocking the sale.</p>
+
+  <h2>Why this is the right balance</h2>
+  <ul>
+    <li><strong>No conversion cost</strong> — checkout is untouched; the consent lives at onboarding as it does today.</li>
+    <li><strong>Fits the market</strong> — one family email, one paying parent, no OTP friction.</li>
+    <li><strong>Stronger evidence</strong> — a named parent, an explicit consent, and a real payment behind it.</li>
+    <li><strong>Not over-built</strong> — we deliberately avoid heavier verification (e.g. DigiLocker) as disproportionate for this stage.</li>
+  </ul>
+
+  <h2>What still needs a decision (legal)</h2>
+  <div class="card ask">
+  <p>Two rulings are with KMM / counsel before this activates:</p>
+  <ul>
+    <li><strong>Is it "verifiable" enough?</strong> — does <em>named parent + explicit written consent + backed by their payment</em> meet the DPDPA §9 standard for verifiable parental consent.</li>
+    <li><strong>Scope confirmation</strong> — confirming the Success Scan sits within what parental consent can permit for children under §9.</li>
+  </ul>
+  <p>Engineering builds it behind a switch; it turns on only after these are confirmed.</p>
+  </div>
+
+  <p class="foot">Internal design summary for the iRisePro team. Product/consent design only — implementation detail and the engineering plan live in the private repository. Not for external distribution.</p>
+</div>
+</body>
+</html>
