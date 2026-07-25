@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iRisePro — New Stream / Audience Playbook (+ Acharya requirements)</title>
+<style>
+  :root{--orange:#FF8A3D;--orange-d:#C25E17;--cream:#F1E6D9;--cream-l:#FFF9F5;--ink:#2a2622;--red:#E5544B;--green:#1f9d55;--amber:#b26a00;--paper:#fff;--bg:#faf6f1}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  header.page{background:linear-gradient(135deg,#FF8A3D,#F9A949);color:#fff;padding:26px 20px}
+  header.page h1{margin:0 0 6px;font-size:21px}
+  header.page p{margin:0;opacity:.95;font-size:13.5px}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px}
+  section.block{background:var(--paper);border:1px solid #eadfce;border-radius:13px;padding:18px 20px;margin:18px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  h2{font-size:18px;margin:2px 0 4px;display:flex;align-items:center;gap:9px}
+  h2 .tag{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;background:var(--cream);color:var(--orange-d);padding:3px 9px;border-radius:999px}
+  h3{font-size:15px;margin:16px 0 6px;color:var(--orange-d)}
+  p,li{font-size:14px}
+  code{background:#f4efe8;padding:1px 5px;border-radius:4px;font-size:12.5px}
+  .lede{color:#6b6259;font-size:13.5px;margin:4px 0 12px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;display:block;overflow-x:auto}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid #eee;vertical-align:top}
+  th{background:var(--cream);color:var(--orange-d);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  .sev-block{color:var(--red);font-weight:700}.sev-mis{color:var(--amber);font-weight:700}.sev-cos{color:#6b6259}
+  .callout{border-radius:9px;padding:11px 13px;margin:10px 0;font-size:13.5px}
+  .callout.warn{background:#fff6ec;border:1px solid #ffd9b8}
+  .callout.rule{background:var(--cream-l);border:1px solid #ffd9b8}
+  .callout.ok{background:#f4faf6;border:1px solid #c3e6cf}
+  ol li,ul li{margin:3px 0}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+  footer{color:#8a7f72;font-size:12px;text-align:center;padding:22px}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:#FFF1E6;color:var(--orange-d);border:1px solid #FFD9B8;margin:1px 2px}
+</style>
+</head>
+<body>
+<header class="page">
+  <h1>New Stream / Audience Playbook</h1>
+  <p>How to introduce a new stream or audience without breaking existing flows · reference + Acharya worked example · drafted 2026-07-25 · all facts verified against live code</p>
+</header>
+<div class="wrap">
+
+  <section class="block">
+    <h2><span class="tag">Part A</span> Reference — how streams &amp; audiences actually work</h2>
+
+    <h3>A0 · The mental model — five orthogonal things (don't conflate them)</h3>
+    <table>
+      <tr><th>Concept</th><th>Field / source</th><th>Means</th></tr>
+      <tr><td><b>Stream</b></td><td><code>challenges.program_key</code></td><td>the subject/program (Marks, Board, NEET, JEE, IAS, KAS, Career, Acharya). Selects the engine <b>benchmark bundle</b>.</td></tr>
+      <tr><td><b>Tier</b></td><td><code>challenges.tier</code> ∈ 999/1999/4999</td><td>the product / <b>evaluation model</b> (5 / 15 / 64 abilities) — <b>NOT price</b>.</td></tr>
+      <tr><td><b>Audience</b> <span class="pill">NEW</span></td><td><code>challenges.audience</code> ∈ student / acharya</td><td><b>who</b> it's for (student vs teacher). Drives onboarding / evaluation / scorecard <b>framing</b>.</td></tr>
+      <tr><td><b>Listed</b></td><td><code>is_demo</code> today → <code>is_listed</code> proposed</td><td><b>how</b> it's distributed — public storefront vs admin/institutional-only.</td></tr>
+      <tr><td><b>Price</b></td><td><code>selling_price</code></td><td>the ₹ (cosmetic for institutional/external funding).</td></tr>
+    </table>
+    <div class="callout rule"><b>Institutional ≠ any of the above.</b> An institutional <i>enrolment</i> (<code>funding_source='external'</code> + <code>institution_id</code>) is a property of the <b>enrolment</b>, works on <b>any</b> stream, and already exists. "Institutional stream" = a product line sold <i>only</i> institutionally (audience + not-listed). Keep the two ideas separate.</div>
+
+    <h3>A1 · The stream identity is mirrored across ~5 disjoint lists (the "single source" is a myth)</h3>
+    <p class="lede">Adding or touching a stream means keeping the right subset in sync. There is no one place.</p>
+    <table>
+      <tr><th>List</th><th>Location</th><th>Role</th></tr>
+      <tr><td>PROGRAMS (7)</td><td><code>SellableChallengeSeeder::PROGRAMS</code></td><td>sellable catalogue + admin dropdown + create-validation + the "exactly 21 offers" E2E guard</td></tr>
+      <tr><td>program_map</td><td><code>config/scorecard.php</code></td><td>program_key → engine stream. Missing key ⇒ <span class="sev-block">SC_UNKNOWN_STREAM hard-fail</span></td></tr>
+      <tr><td>PROGRAM_KEYS</td><td><code>CheckoutController.php:15</code></td><td>public checkout-availability allowlist</td></tr>
+      <tr><td>ExamProgramMap</td><td><code>app/Support/ExamProgramMap.php</code></td><td>storefront <code>?exam=</code> → program_key bridge</td></tr>
+      <tr><td>BENCHMARKS + pathways + ability_notes</td><td>engine <code>benchmarks.py</code> · <code>pathways.py</code> · <code>ability_notes.py</code></td><td>the actual scorecard content bundle (see A3)</td></tr>
+    </table>
+
+    <h3>A2 · Two recipes — pick by how it's sold</h3>
+    <table>
+      <tr><th></th><th>Recipe 1 — public (B2C) stream</th><th>Recipe 2 — admin-only / institutional (e.g. Acharya)</th></tr>
+      <tr><td>Add to PROGRAMS?</td><td>Yes — <b>and update the "21 offers" E2E count guard</b></td><td><b>No.</b> Use a separate <code>INSTITUTIONAL_PROGRAMS</code> list (keeps PROGRAMS at 7 → zero test drift, no auto-sellable row)</td></tr>
+      <tr><td>Validation + dropdown</td><td>from PROGRAMS</td><td>union PROGRAMS + INSTITUTIONAL_PROGRAMS</td></tr>
+      <tr><td>Listed?</td><td>sellable + <code>status='active'</code></td><td><code>is_demo=false</code> + <b>not-listed</b>; never in the sellable seeder / ExamProgramMap</td></tr>
+      <tr><td>Enrolment</td><td>storefront checkout (Razorpay)</td><td>admin manual batch → <code>funding_source='external'</code></td></tr>
+    </table>
+
+    <h3>A3 · The engine side — a "stream" is a rich content bundle</h3>
+    <ul>
+      <li><b>Benchmark norms</b> (<code>benchmarks.py</code>) — per-pillar &amp; per-ability targets × 3 brackets, IntelliGraph zones, top15/top5, age. The "what good looks like."</li>
+      <li><b>Pathways / roles</b> (<code>pathways.py</code>) — career/growth pathways.</li>
+      <li><b>Ability "why" notes</b> (<code>ability_notes.py</code>) — §1-F copy, <b>per-stream, and it RAISES if the stream is missing</b>.</li>
+      <li><b>§6 impact label</b> (<code>STREAM_S6_LABEL</code>, default "Exam Impact").</li>
+      <li><b>program_map + tier_map</b> — the mapping. <b>Missing ⇒ SC_UNKNOWN_STREAM ⇒ the learner completes tasks but gets no scorecard (stranded).</b></li>
+    </ul>
+
+    <h3>A4 · The rubric &amp; scoring — per TASK, not per stream</h3>
+    <p>Each task's <code>task_scores.attribute_score = {pillar:{ability:5}}</code> is pure <b>ability membership</b> (which of the 64 it measures; 5 = scale marker, <b>not a weight</b>). The Yashodarshi scores each measured ability <b>0–5</b>; the engine computes % = <span class="mono">sum ÷ (5 × instances) × 100</span> and only <b>benchmarks</b> it against the stream norms. <b>There is no per-stream rubric</b> — the rubric is the task. Fixed 0–5, equal weight (no way to weight abilities).</p>
+
+    <h3>A5 · If it's a new AUDIENCE (not just a stream) — cross-surface</h3>
+    <p>A new audience adds a discriminator (<code>challenges.audience</code>) that must reach every surface that <i>frames</i> the experience: onboarding, the evaluator cockpit + ability guidance, the scorecard render + <b>the engine contract</b>, comms, and admin/reporting. See Part B for the full matrix.</p>
+
+    <h3>A6 · Gotchas / red-team lessons (the checklist)</h3>
+    <table>
+      <tr><th>Trap</th><th>Guard</th></tr>
+      <tr><td>Adding to PROGRAMS breaks the "exactly 21 offers" E2E test</td><td>use a separate list for non-sellable streams; only update the guard for a real B2C stream</td></tr>
+      <tr><td><b>SC_UNKNOWN_STREAM</b> — no program_map/benchmark ⇒ every scorecard + per-task feedback hard-fails</td><td>add program_map + engine benchmark <b>before the first cohort's tasks are evaluated</b></td></tr>
+      <tr><td><code>Student::isMinor()</code> <b>fails closed</b> — blank DOB ⇒ treated as a child (guardian wall)</td><td>the import MUST carry a valid adult DOB per learner</td></tr>
+      <tr><td><code>status='draft'</code> is the only off-storefront gate; flip to <code>active</code> ⇒ publicly sellable</td><td>a real <code>is_listed</code> flag (not draft) + close the ungated payment fallbacks</td></tr>
+      <tr><td><code>ability_notes.py</code> RAISES on a missing stream; engine benchmark KeyError fails loud</td><td>a task may only measure abilities the stream's benchmark defines</td></tr>
+      <tr><td>Engine contract passes only <code>stream/tier</code></td><td>a new audience must be threaded across the Laravel→Python boundary</td></tr>
+    </table>
+
+    <h3>A7 · Who owns what</h3>
+    <p><b>Engineering:</b> the discriminator field, the list wiring, surface branches, the engine contract, guards/tests. <b>Sutirtha / KMM (content):</b> the tasks + per-task rubric, the benchmark lens, the ability "why" notes, the pathways/impact wording, and (for a new audience) the onboarding manual + framing copy.</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="tag">Part B</span> Acharya — requirements, acceptance surfaces, student-flow impact</h2>
+    <div class="callout ok"><b>Decision:</b> add <code>challenges.audience ∈ {student, acharya}</code> (default <b>student</b>) as the single discriminator, defined on the challenge (known at enrolment; every surface already holds the challenge). Acharya = teacher = <code>audience=acharya</code> + <b>not-listed</b>.</div>
+
+    <h3>B1 · Requirements (ranked)</h3>
+    <table>
+      <tr><th>#</th><th>Requirement</th><th>Type</th></tr>
+      <tr><td>R1</td><td><code>challenges.audience</code> field (default student), set at challenge create; carried to enrolment via the challenge.</td><td>code</td></tr>
+      <tr><td>R2</td><td>Acharya is <b>not-listed</b> (off-storefront): <code>is_demo=false</code>, real <code>is_listed=false</code>, enrol via admin manual batch + <code>funding_source='external'</code>. Close the ungated payment fallbacks.</td><td>code</td></tr>
+      <tr><td>R3</td><td><b>Onboarding audience-aware:</b> class/grade optional-or-hidden for acharya; teacher manual variant (en|kn) replaces the student rulebook; teacher copy; adult self-consent (⇒ adult DOB in import).</td><td>code + content</td></tr>
+      <tr><td>R4</td><td><b>Evaluation audience-aware:</b> cockpit shows an "Acharya eval" badge; swap the "student" note placeholder; teacher-appropriate ability guidance (net-new — no in-cockpit guidance exists today).</td><td>code + content</td></tr>
+      <tr><td>R5</td><td><b>Scorecard teacher lens:</b> engine <code>acharya</code> stream (benchmark + pathways + §1-F ability notes + §6 label) <b>and</b> render copy branched (<code>whoLabel</code>, §2 headings, "family of", exam-marks prose). <b>Audience must be added to the engine contract.</b></td><td>code + content</td></tr>
+      <tr><td>R6</td><td><b>Comms:</b> teacher framing where "challenge/your first task" jars (mostly neutral for adults — cosmetic).</td><td>content</td></tr>
+      <tr><td>R7</td><td><b>Admin/ops:</b> audience label + filter on the ops dashboard, reports (CSV persona column), evaluator queue — so teacher cohorts aren't counted/labelled as students.</td><td>code</td></tr>
+      <tr><td>R8</td><td><b>Rubric:</b> Acharya tasks carry the per-task ability membership (Sutirtha authors); scoring mechanism unchanged.</td><td>content</td></tr>
+      <tr><td>R9</td><td><b>Student separation:</b> student-facing queries explicitly scope <code>audience='student'</code>; admin filters expose audience — so the two never bleed together.</td><td>code</td></tr>
+    </table>
+
+    <h3>B2 · Acceptance surfaces (each must pass before Acharya is "done")</h3>
+    <table>
+      <tr><th>Surface</th><th>Acceptance criterion</th><th>Owner</th></tr>
+      <tr><td>Enrolment</td><td>Admin can create an Acharya challenge (<code>audience=acharya</code>, not-listed) and enrol teachers via manual batch; it never appears on the storefront or in checkout resolve.</td><td>eng</td></tr>
+      <tr><td>Onboarding</td><td>An adult teacher onboards end-to-end with <b>no class field required</b>, sees the <b>teacher manual</b> (en/kn), self-consents, and is provisioned into the cohort. Student onboarding is byte-for-byte unchanged.</td><td>eng + Sutirtha (manual)</td></tr>
+      <tr><td>Evaluation</td><td>The evaluator sees it's an <b>Acharya</b> eval and teacher ability guidance; scores 0–5 as normal; student evals unchanged.</td><td>eng + Sutirtha (guidance)</td></tr>
+      <tr><td>Scorecard</td><td>A finalized teacher scorecard benchmarks against the <b>Acharya lens</b> and reads as a teacher report (no "Student", no class/exam framing); a student card is unchanged.</td><td>eng + Sutirtha (lens)</td></tr>
+      <tr><td>Comms</td><td>Teacher emails read correctly for an adult (no child/exam framing).</td><td>eng</td></tr>
+      <tr><td>Admin/ops</td><td>A teacher cohort is labelled/filterable as Acharya in the ops dashboard + reports.</td><td>eng</td></tr>
+      <tr><td>Regression</td><td>Full test suite green incl. the "exactly 21 offers" guard; a test locks "Acharya is never storefront-resolvable."</td><td>eng</td></tr>
+    </table>
+
+    <h3>B3 · Impact on current STUDENT flows (what changes for students)</h3>
+    <div class="callout ok">Design principle: <b>student is the default branch, untouched.</b> Every Acharya behaviour is an <i>additional</i> conditional on <code>audience</code> (same technique already proven by <code>SCHOOL_STREAMS</code>/<code>streamShowsBoard</code>). Adding the field defaults every existing challenge to <code>student</code>.</div>
+    <table>
+      <tr><th>Surface</th><th>Change to the student experience</th><th>Regression guard</th></tr>
+      <tr><td>Schema</td><td>New nullable <code>audience</code> column, default <code>student</code> → all 246 existing challenges = student automatically.</td><td>additive migration; backfill default</td></tr>
+      <tr><td>Onboarding</td><td><b>None</b> — class field, student manual, copy all unchanged on the default (student) branch.</td><td>gates fire only when <code>audience=acharya</code></td></tr>
+      <tr><td>Evaluation</td><td><b>None</b> — no badge, current placeholder, current guidance (none) unchanged.</td><td>badge/guidance render only for acharya</td></tr>
+      <tr><td>Scorecard</td><td><b>None</b> — student lens, "Student" label, headings unchanged; engine contract adds an optional field.</td><td>audience defaults to student in the contract</td></tr>
+      <tr><td>Storefront / checkout</td><td><b>None</b> for the 7 streams; adding audience filtering (<code>=student</code>) is belt-and-suspenders — the 7 are already student.</td><td>PROGRAMS untouched (stays 7)</td></tr>
+      <tr><td>Admin/ops</td><td>An audience column/filter appears; existing views default to showing all / student.</td><td>label added, counts unchanged</td></tr>
+    </table>
+
+    <h3>B4 · Content owed by Sutirtha (tracked in #design)</h3>
+    <ul>
+      <li>Acharya <b>tasks + per-task rubric</b> (ability membership).</li>
+      <li>Scorecard <b>lens</b> — teacher benchmark · teacher-development pathways · teaching-impact wording · terminology.</li>
+      <li>Teacher <b>ability guidance</b> for evaluators (the "what a 5 looks like for a teacher").</li>
+      <li>Teacher <b>onboarding manual</b> — <b>en | kn</b>.</li>
+    </ul>
+
+    <h3>B5 · Build phasing</h3>
+    <ol>
+      <li><b>Phase 1 — Enablement (unblocked, red-teamed):</b> audience + not-listed fields, INSTITUTIONAL_PROGRAMS list, validation/dropdown, admin create, manual enrolment, fallback closures, regression test, adult-DOB import. Teachers can enrol + do tasks.</li>
+      <li><b>Phase 2 — Surface branching:</b> onboarding gates (class + manual + copy), evaluator badge + guidance surface, admin audience filter, student-audience scoping.</li>
+      <li><b>Phase 3 — Content-gated (needs Sutirtha):</b> engine <code>acharya</code> stream + program_map (SC_UNKNOWN_STREAM gate), scorecard render copy, teacher manual, ability guidance. <b>Required before the first cohort's scorecards generate.</b></li>
+    </ol>
+  </section>
+
+  <footer>iRisePro engineering reference · verified against live code 2026-07-25 · nothing here is shipped — it's the plan &amp; guardrails</footer>
+</div>
+</body>
+</html>
