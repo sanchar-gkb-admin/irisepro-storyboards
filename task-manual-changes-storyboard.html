@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iRisePro — Task screen & Student manual changes (for sign-off)</title>
+<style>
+  :root{
+    --orange:#FF8A3D; --orange-d:#C25E17; --cream:#F1E6D9; --cream-l:#FFF9F5;
+    --ink:#2a2622; --red:#E5544B; --green:#1f9d55; --paper:#fff; --bg:#faf6f1;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Kannada",sans-serif;
+       color:var(--ink);background:var(--bg);line-height:1.5}
+  .brandtoken{text-transform:none}
+  header.page{background:linear-gradient(135deg,#FF8A3D,#F9A949);color:#fff;padding:28px 20px}
+  header.page h1{margin:0 0 6px;font-size:22px}
+  header.page p{margin:0;opacity:.95;font-size:14px}
+  .wrap{max-width:1080px;margin:0 auto;padding:20px}
+  section.block{background:var(--paper);border:1px solid #eadfce;border-radius:14px;padding:20px;margin:22px 0;
+                box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  h2.sec{font-size:19px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  h2.sec .tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+              background:var(--cream);color:var(--orange-d);padding:3px 9px;border-radius:999px}
+  .lede{color:#6b6259;font-size:14px;margin:6px 0 16px}
+  .verdict{background:var(--cream-l);border:1px solid #ffd9b8;border-radius:10px;padding:12px 14px;margin:12px 0;font-size:14px}
+  .verdict b{color:var(--orange-d)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}}
+  .pane{border-radius:12px;padding:14px;border:1px solid #e7ddd0;background:#fff}
+  .pane.before{border-color:#f3c9c5;background:#fdf5f4}
+  .pane.after{border-color:#c3e6cf;background:#f4faf6}
+  .pane h3{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  .pane.before h3{color:var(--red)} .pane.after h3{color:var(--green)}
+  /* mock task cards */
+  .screen{background:#faf6f1;border-radius:10px;padding:10px}
+  .card{background:#fff;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:11px 12px;margin-bottom:10px}
+  .card h4{margin:0 0 6px;font-size:13px;font-weight:800}
+  .card p{margin:0;font-size:12.5px;color:#4b453f}
+  .card.flag{outline:2px dashed var(--red);outline-offset:1px}
+  .card.new{outline:2px solid var(--green);outline-offset:1px}
+  .removed{position:relative;opacity:.55}
+  .removed:after{content:"REMOVED";position:absolute;top:8px;right:10px;font-size:10px;font-weight:800;
+                 color:#fff;background:var(--red);padding:2px 7px;border-radius:6px;letter-spacing:.05em}
+  .addlabel:before{content:"ADDED  ";font-size:10px;font-weight:800;color:var(--green)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #eee;vertical-align:top}
+  th{background:var(--cream);color:var(--orange-d);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  td code{background:#f4efe8;padding:1px 5px;border-radius:4px;font-size:12px}
+  .kn{font-family:"Noto Sans Kannada","Tunga",sans-serif}
+  .note{font-size:12.5px;color:#8a7f72;margin-top:10px}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;
+        background:#FFF1E6;color:var(--orange-d);border:1px solid #FFD9B8;margin:2px 3px 0 0}
+  .ok{color:var(--green);font-weight:700}
+  .warn{color:#b26a00;font-weight:700}
+  footer{color:#8a7f72;font-size:12.5px;text-align:center;padding:24px}
+  .askrow{background:#fff;border:1px dashed #d8cbb8;border-radius:10px;padding:12px 14px;margin-top:12px;font-size:13.5px}
+</style>
+</head>
+<body>
+<header class="page">
+  <h1>Task screen &amp; Student manual — proposed changes</h1>
+  <p>For Sutirtha / KMM sign-off · drafted 2026-07-25 · all data verified against live prod (irisepro_db, 246 tasks)</p>
+</header>
+
+<div class="wrap">
+
+  <!-- ================= SECTION A ================= -->
+  <section class="block">
+    <h2 class="sec"><span class="tag">A</span> Remove the redundant “Instructions” card on the task screen</h2>
+    <p class="lede">On the task screen a student sees <b>Description</b>, then <b>Instructions</b>, then <b>What to submit</b> — three cards back to back. Sutirtha flagged Instructions as repetitive. We verified this against all 246 live tasks.</p>
+
+    <div class="verdict">
+      <b>Verified:</b> the Instructions text is a redundant restatement for <b>238 of 246</b> tasks (the real task lives in Description; the format is in What&nbsp;to&nbsp;submit). <b>8 tasks</b> carry an artifact-length limit (e.g. “90-second video”) that today lives <i>only</i> in Instructions — those move into <b>What to submit</b> first, so nothing is lost. Then the card is removed for all.
+    </div>
+
+    <div class="cols">
+      <div class="pane before">
+        <h3>Before — today</h3>
+        <div class="screen">
+          <div class="card"><h4>Description</h4><p>What habit do you want to change? Why is this habit affecting you? What steps will you take? …</p></div>
+          <div class="card flag"><h4>Instructions</h4><p>“Answer all five questions clearly, honestly and specifically in writing. Complete and submit the task within the specified timer.” <br><span class="note">↳ adds no new task content — restates Description + the timer.</span></p></div>
+          <div class="card"><h4>What to submit</h4><p>Written answer</p></div>
+        </div>
+      </div>
+      <div class="pane after">
+        <h3>After — proposed</h3>
+        <div class="screen">
+          <div class="card"><h4>Description</h4><p>What habit do you want to change? Why is this habit affecting you? What steps will you take? …</p></div>
+          <div class="card removed"><h4>Instructions</h4><p>(card removed — redundant)</p></div>
+          <div class="card new"><h4>What to submit</h4><p class="addlabel">Written answer — <b>answer all 5 questions</b>. <span class="note">(length/format specs, where any exist, folded in here)</span></p></div>
+        </div>
+        <p class="note">Also: lock-message copy “…unlock description <s>and instructions</s>” → “…unlock description”; dead JS refs tidied. Evaluator &amp; admin screens keep the field — unaffected.</p>
+      </div>
+    </div>
+
+    <h3 style="margin:18px 0 4px;font-size:14px">The 8 tasks to update first <span class="pill">content edit · Sutirtha approval</span></h3>
+    <p class="lede">These have an artifact-length limit only in Instructions. Proposed additions to <code>What to submit</code> (Sutirtha’s wording — shown as a proposal, not a rewrite):</p>
+    <table>
+      <tr><th>Task</th><th>Title</th><th>Only-in-instructions</th><th>Proposed “What to submit”</th></tr>
+      <tr><td>180</td><td>Professional Readiness: The Selection Panel</td><td>90-sec video</td><td>Video answer — <b>max 90 seconds</b></td></tr>
+      <tr><td>195</td><td>Values Inventory</td><td>5-min video</td><td>Video answer — <b>max 5 minutes</b></td></tr>
+      <tr><td>198</td><td>The ‘Quick Lesson Pivot’</td><td>2-min video <span class="warn">+ content</span></td><td>Video answer — <b>max 2 minutes</b>; <span class="warn">“must include” list (sensory idea, materials, transition) → move to <b>Description</b></span></td></tr>
+      <tr><td>213</td><td>Rate the Top 10 Essential Success Abilities!</td><td class="warn">“30” — eyeball</td><td>Verify context before editing</td></tr>
+      <tr><td>225</td><td>4P Career Framework Challenge</td><td>90-sec video</td><td>Video answer — <b>max 90 seconds</b></td></tr>
+      <tr><td>251</td><td>Challenge 21: Looking Back, Moving Forward</td><td>90-sec video</td><td>Video answer — <b>max 90 seconds</b></td></tr>
+      <tr><td>386</td><td>Stay Calm, Think Smart</td><td>90-sec video</td><td>Video answer — <b>max 90 seconds</b></td></tr>
+      <tr><td>404</td><td>Listening Without Defending</td><td>90-sec audio</td><td>Audio answer — <b>max 90 seconds</b></td></tr>
+    </table>
+    <p class="note">Note: the task <i>timer</i> (countdown) is separate UX; these are <b>artifact-length</b> limits (how long the recording may be), which only exist in the Instructions text — hence the move.</p>
+  </section>
+
+  <!-- ================= SECTION B ================= -->
+  <section class="block">
+    <h2 class="sec"><span class="tag">B</span> Kannada student manual (onboarding study guide)</h2>
+    <p class="lede">Students who set preferred language = <b>ಕನ್ನಡ</b> (already a live profile option) should see the manual in Kannada. The plumbing exists (locale middleware); only the content was missing. Transcribed verbatim from Sutirtha’s bilingual doc.</p>
+    <div class="verdict"><b>Scope:</b> 7-task &amp; 21-task manuals (both tiers). Sunday Face-Off tab in the doc is <b>excluded</b> — not yet implemented in the app.</div>
+
+    <div class="cols">
+      <div class="pane before">
+        <h3>Before — English only</h3>
+        <div class="screen">
+          <div class="card"><h4>Your Study Guide</h4><p><b>1. About the Challenge</b><br>You will complete 7 tasks. Two options; after reading, select one…</p></div>
+          <div class="card"><h4>2. Option 1 (90-Min Non-Stop Sprint)</h4><p>All 7 tasks continuously within 90 minutes…</p></div>
+        </div>
+      </div>
+      <div class="pane after">
+        <h3>After — Kannada (preferred_language = kn)</h3>
+        <div class="screen">
+          <div class="card kn"><h4>ನಿಮ್ಮ ಅಧ್ಯಯನ ಕೈಪಿಡಿ</h4><p><b>1. ಸವಾಲಿನ ಕುರಿತು</b><br>ಈ ಸವಾಲಿನಲ್ಲಿ ನೀವು 7 ಕಾರ್ಯಗಳನ್ನು ಪೂರ್ಣಗೊಳಿಸಬೇಕು. ಎರಡು ಆಯ್ಕೆಗಳಿವೆ; ಓದಿದ ನಂತರ ಒಂದನ್ನು ಆರಿಸಿ…</p></div>
+          <div class="card kn"><h4>2. ಆಯ್ಕೆ 1 (90 ನಿಮಿಷಗಳ ತಡೆರಹಿತ ಸ್ಪ್ರಿಂಟ್)</h4><p>ಎಲ್ಲಾ 7 ಕಾರ್ಯಗಳನ್ನು ನಿರಂತರವಾಗಿ 90 ನಿಮಿಷಗಳೊಳಗೆ ಪೂರ್ಣಗೊಳಿಸಬೇಕು…</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="askrow">
+      <span class="warn">⚠ One item for Sutirtha:</span> the English §5 “Submission Type” table has <b>4 rows</b> (Handwritten/image/illustration · Audio · Video · <b>Link</b>); the Kannada doc supplies <b>3</b> (ಲಿಖಿತ/ಆಡಿಯೊ/ವಿಡಿಯೊ). We render the 3 verbatim — need Kannada for the 2 extra rows, <i>or</i> drop the English to 3.
+    </div>
+  </section>
+
+  <!-- ================= SECTION C ================= -->
+  <section class="block">
+    <h2 class="sec"><span class="tag">C</span> 21-task manual — remove the leftover “Option Selection” checkboxes</h2>
+    <p class="lede">The 7-task manual’s non-functional ☐/☐ “Option Selection” section was removed on 15-Jul (the real pick is the mode step). The 21-task manual never got the same cleanup — it still shows it. This brings it in line with the 7-task manual and the doc.</p>
+    <div class="cols">
+      <div class="pane before">
+        <h3>Before</h3>
+        <div class="screen">
+          <div class="card"><h4>10. Important Rules</h4><p>Total tasks: 21 · Options: 8-Day / 25-Day · …</p></div>
+          <div class="card flag"><h4>11. Option Selection</h4><p>☐ Option 1: 8-Day Intensive<br>☐ Option 2: 25-Day Steady<br><span class="note"><i>“Pick happens at the mode step.”</i> — non-functional, confusing.</span></p></div>
+          <div class="card"><h4>12. Student Declaration</h4><p>“Yes, I have read the manual carefully.”</p></div>
+        </div>
+      </div>
+      <div class="pane after">
+        <h3>After</h3>
+        <div class="screen">
+          <div class="card"><h4>10. Important Rules</h4><p>Total tasks: 21 · Options: 8-Day / 25-Day · …</p></div>
+          <div class="card removed"><h4>11. Option Selection</h4><p>(removed)</p></div>
+          <div class="card new"><h4>11. Student Declaration</h4><p>“Yes, I have read the manual carefully.” <span class="note">(renumbered 12 → 11)</span></p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="sec">Sign-off checklist</h2>
+    <table>
+      <tr><th>#</th><th>Change</th><th>Needs from Sutirtha / KMM</th><th>Then</th></tr>
+      <tr><td>A</td><td>Remove Instructions card</td><td>Approve the 8 “What to submit” edits (esp. #198, #213)</td><td>Relocate 8 → remove card for all 246</td></tr>
+      <tr><td>B</td><td>Kannada manual</td><td>Kannada for §5 rows 4 &amp; 5 (or confirm 3-row)</td><td>Ship kn partials (7 + 21 task)</td></tr>
+      <tr><td>C</td><td>21-task Option-Selection cleanup</td><td>Confirm (mirror of the approved 7-task change)</td><td>Ship</td></tr>
+    </table>
+  </section>
+
+  <footer>
+    iRisePro · storyboard for sign-off · nothing is shipped until approved · all counts verified live 2026-07-25
+  </footer>
+</div>
+</body>
+</html>
