@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acharya — Technical Integration</title>
+<style>
+  :root{--orange:#FF8A3D;--orange-d:#C25E17;--cream:#F1E6D9;--cream-l:#FFF9F5;--ink:#2a2622;--red:#E5544B;--green:#1f9d55;--amber:#b26a00;--paper:#fff;--bg:#faf6f1}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  header.page{background:linear-gradient(135deg,#3a3a3a,#5a5a5a);color:#fff;padding:26px 20px}
+  header.page h1{margin:0 0 6px;font-size:21px}
+  header.page p{margin:0;opacity:.9;font-size:13.5px}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px}
+  section.block{background:var(--paper);border:1px solid #eadfce;border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  h2{font-size:18px;margin:0 0 6px;display:flex;align-items:center;gap:9px}
+  h2 .n{font-size:12px;font-weight:800;background:var(--ink);color:#fff;width:24px;height:24px;display:inline-grid;place-items:center;border-radius:6px}
+  h3{font-size:14.5px;margin:14px 0 5px;color:var(--orange-d)}
+  p,li{font-size:14px}
+  code{background:#f1ede6;padding:1px 5px;border-radius:4px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .lede{color:#6b6259;font-size:13.5px;margin:2px 0 10px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin:9px 0;display:block;overflow-x:auto}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid #eee;vertical-align:top}
+  th{background:var(--cream);color:var(--orange-d);font-size:10px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  .callout{border-radius:9px;padding:11px 13px;margin:10px 0;font-size:13px}
+  .callout.warn{background:#fff6ec;border:1px solid #ffd9b8}
+  .callout.ok{background:#f4faf6;border:1px solid #c3e6cf}
+  .sev-block{color:var(--red);font-weight:700}.sev-mis{color:var(--amber);font-weight:700}
+  ol li,ul li{margin:3px 0}
+  footer{color:#8a7f72;font-size:12px;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<header class="page">
+  <h1>Acharya — Technical Integration</h1>
+  <p>Engineering companion to the business requirements · the audience discriminator + per-surface integration · verified against live code 2026-07-25</p>
+</header>
+<div class="wrap">
+
+  <section class="block">
+    <h2><span class="n">1</span> The discriminator</h2>
+    <p>Add <code>challenges.audience</code> — enum <code>student | acharya</code>, <b>default <code>student</code></b>, in <code>$fillable</code> (<code>Challenge.php</code>). Defined on the <b>challenge</b> because it's known at enrolment and <b>every surface already resolves the Challenge</b>, so the discriminator rides existing joins with near-zero new plumbing. Do <b>not</b> put a role on <code>Student</code> (a person can hold multiple enrolments — audience belongs to the product).</p>
+    <div class="callout ok"><b>Two independent axes.</b> <code>audience</code> = <i>who it's for</i> (student vs teacher). <code>is_listed</code> (new, default false for Acharya) = <i>how it's sold</i> (storefront vs institutional). Acharya = <code>audience=acharya</code> + <code>is_listed=false</code>. Keep them separate — don't overload one flag.</div>
+    <h3>The five things people conflate</h3>
+    <table>
+      <tr><th>Axis</th><th>Field</th><th>Drives</th></tr>
+      <tr><td>Stream</td><td><code>program_key</code></td><td>engine benchmark bundle</td></tr>
+      <tr><td>Tier</td><td><code>tier</code> (999/1999/4999)</td><td>eval model (5/15/64) — not price</td></tr>
+      <tr><td>Audience</td><td><code>audience</code> (new)</td><td>onboarding / eval / scorecard framing</td></tr>
+      <tr><td>Listed</td><td><code>is_listed</code> (new) / <code>is_demo</code></td><td>storefront visibility</td></tr>
+      <tr><td>Price</td><td><code>selling_price</code></td><td>₹ (cosmetic for external funding)</td></tr>
+    </table>
+  </section>
+
+  <section class="block">
+    <h2><span class="n">2</span> Integration surfaces (read-sites for <code>challenge.audience</code>)</h2>
+    <p class="lede">Each already holds the Challenge unless flagged. Student = the untouched default branch.</p>
+    <table>
+      <tr><th>Surface</th><th>File(s)</th><th>Change</th><th>Severity</th></tr>
+      <tr><td>Enrolment / admin create</td><td><code>ChallengeController</code>, challenges/create+edit blade</td><td>audience selector; institutional list for validation/dropdown; <code>is_listed=false</code></td><td>—</td></tr>
+      <tr><td>Onboarding — class field</td><td><code>MobileStudentController.php:1684,1968</code>, <code>OnboardingService.php:34</code>, <code>index.blade.php:157</code></td><td>make <code>student_class</code> optional/hidden for acharya — <b>3 aligned server gates + 1 view flag</b> (mirror <code>streamShowsBoard</code>)</td><td><span class="sev-block">blocks onboarding</span> if not done</td></tr>
+      <tr><td>Onboarding — study guide</td><td><code>index.blade.php:336</code>, new <code>study-guide-acharya</code> partial</td><td>teacher manual variant (content = Sutirtha), branch the include</td><td><span class="sev-mis">mis-serves</span></td></tr>
+      <tr><td>Evaluator cockpit</td><td><code>CockpitPresenter.php:20</code>, <code>_cockpit.blade.php:62</code>, <code>evaluate-detail.blade.php:16</code></td><td>"Acharya eval" badge; swap "student" note placeholder; surface teacher ability-guidance</td><td><span class="sev-mis">mis-serves</span></td></tr>
+      <tr><td>Scorecard engine contract</td><td><code>ScorecardInputBuilder.php:62</code> → engine</td><td><b>add <code>audience</code> to the Laravel→Python contract</b> (today only stream/tier)</td><td><span class="sev-block">blocks the render swaps</span></td></tr>
+      <tr><td>Scorecard render</td><td><code>scorecard-full.html:671</code> (whoLabel), §2 headings, "family of", exam prose; <code>assemble.py:347</code></td><td>bind <code>whoLabel</code>/headings to audience; teacher copy</td><td><span class="sev-mis">mis-serves</span></td></tr>
+      <tr><td>Engine stream bundle</td><td><code>program_map</code>, <code>benchmarks.py</code>, <code>pathways.py</code>, <code>ability_notes.py</code>, §6 label</td><td>acharya stream + benchmark + notes (content) — else <span class="sev-block">SC_UNKNOWN_STREAM</span></td><td><span class="sev-block">blocks scorecard</span></td></tr>
+      <tr><td>Comms</td><td><code>app/Mail/*</code></td><td>mostly neutral for adults; teacher copy only if rebranding "challenge"</td><td>cosmetic</td></tr>
+      <tr><td>Admin / reporting</td><td><code>OpsDashboardController</code>, <code>ReportController</code></td><td>audience label + filter; persona column in CSV</td><td><span class="sev-mis">mis-serves (admin)</span></td></tr>
+      <tr><td>Student-facing queries</td><td>storefront/checkout resolvers</td><td>scope <code>audience='student'</code> (belt-and-suspenders; 7 streams already student)</td><td>guard</td></tr>
+    </table>
+    <div class="callout warn"><b>Two mails lack the challenge</b> (<code>WindowNudgeMail</code>, <code>DailyLimitReachedMail</code> — student-only constructors). Copy is audience-neutral, so no thread needed unless their copy changes.</div>
+  </section>
+
+  <section class="block">
+    <h2><span class="n">3</span> Guards / gotchas (the checklist)</h2>
+    <table>
+      <tr><th>Trap</th><th>Guard</th></tr>
+      <tr><td><b>SC_UNKNOWN_STREAM</b> — no <code>program_map</code>/benchmark ⇒ every scorecard + per-task feedback hard-fails; learner stranded on "Preparing…"</td><td>add <code>acharya</code> to <code>program_map</code> + engine benchmark <b>before the first cohort's tasks are evaluated</b></td></tr>
+      <tr><td><code>Student::isMinor()</code> <b>fails closed</b> — blank DOB ⇒ minor ⇒ guardian wall</td><td>teacher import MUST carry a valid adult DOB (also fixes magic-link→OTP degradation)</td></tr>
+      <tr><td><code>status='active'</code> = teacher-usable AND publicly sellable (no in-between)</td><td>use <code>is_listed=false</code>, NOT draft, as the off-storefront gate; close ungated fallbacks (<code>PaymentController.php:342</code>, <code>EnrolPaymentController.php:54</code>)</td></tr>
+      <tr><td>Adding to <code>PROGRAMS</code> breaks the "exactly 21 offers" E2E guard + auto-seeds a sellable row</td><td>use a separate <code>INSTITUTIONAL_PROGRAMS</code> list; keep <code>PROGRAMS</code> at 7</td></tr>
+      <tr><td><code>ability_notes.py:197</code> RAISES on a missing stream; benchmark KeyError fails loud</td><td>acharya tasks may only measure abilities the acharya benchmark defines</td></tr>
+      <tr><td>The 3 onboarding <code>student_class</code> gates mirror each other</td><td>exempt acharya in all 3 together (<code>OnboardingService.php:34</code>, <code>:1684</code>, <code>:1968</code>)</td></tr>
+    </table>
+  </section>
+
+  <section class="block">
+    <h2><span class="n">4</span> Adding a stream in general (recipe reference)</h2>
+    <p class="lede">The stream identity is mirrored across ~5 disjoint lists — there is no single source.</p>
+    <table>
+      <tr><th></th><th>Public (B2C) stream</th><th>Institutional / admin-only stream</th></tr>
+      <tr><td>PROGRAMS</td><td>add + <b>update the "21 offers" E2E guard</b></td><td><b>don't</b> — separate <code>INSTITUTIONAL_PROGRAMS</code></td></tr>
+      <tr><td>Listing</td><td>sellable + <code>status='active'</code></td><td><code>is_listed=false</code>; never in seeder / <code>ExamProgramMap</code></td></tr>
+      <tr><td>Enrolment</td><td>storefront checkout</td><td>admin manual batch, <code>funding_source='external'</code></td></tr>
+      <tr><td>Engine</td><td colspan="2"><code>program_map</code> + <code>tier_map</code> + <code>benchmarks.py</code> + <code>pathways.py</code> + <code>ability_notes.py</code> — else scoring hard-fails</td></tr>
+      <tr><td>Rubric</td><td colspan="2">per-<b>task</b> ability membership (<code>task_scores.attribute_score</code>) — no per-stream rubric; evaluator scores 0–5; engine benchmarks the %</td></tr>
+    </table>
+  </section>
+
+  <section class="block">
+    <h2><span class="n">5</span> Build phases</h2>
+    <ol>
+      <li><b>Phase 1 — Enablement (unblocked, red-teamed):</b> <code>audience</code> + <code>is_listed</code> columns, <code>INSTITUTIONAL_PROGRAMS</code> list, validation/dropdown, admin create, manual enrolment, fallback closures, regression test locking "never storefront-resolvable", adult-DOB import. → teachers can enrol + do tasks.</li>
+      <li><b>Phase 2 — Surface branching:</b> onboarding gates (class + guide + copy), evaluator badge + guidance surface, admin audience filter, student-audience scoping.</li>
+      <li><b>Phase 3 — Content-gated (Sutirtha):</b> engine <code>acharya</code> stream + <code>program_map</code>, scorecard render copy, teacher manual, ability guidance. <b>Required before the first cohort's scorecards generate.</b></li>
+    </ol>
+  </section>
+
+  <footer>iRisePro engineering · Acharya technical integration · companion to the business requirements doc · nothing shipped — plan &amp; guardrails</footer>
+</div>
+</body>
+</html>
