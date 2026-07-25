@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acharya — Business Requirements</title>
+<style>
+  :root{--orange:#FF8A3D;--orange-d:#C25E17;--cream:#F1E6D9;--cream-l:#FFF9F5;--ink:#2a2622;--green:#1f9d55;--amber:#b26a00;--paper:#fff;--bg:#faf6f1}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  header.page{background:linear-gradient(135deg,#FF8A3D,#F9A949);color:#fff;padding:28px 20px}
+  header.page h1{margin:0 0 6px;font-size:22px}
+  header.page p{margin:0;opacity:.95;font-size:14px}
+  .wrap{max-width:900px;margin:0 auto;padding:20px}
+  section.block{background:var(--paper);border:1px solid #eadfce;border-radius:13px;padding:20px 22px;margin:18px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  h2{font-size:19px;margin:0 0 10px}
+  h3{font-size:15.5px;margin:16px 0 6px;color:var(--orange-d)}
+  p,li{font-size:15px}
+  .lede{color:#6b6259;font-size:14px}
+  .callout{border-radius:9px;padding:12px 15px;margin:12px 0;font-size:14.5px}
+  .callout.ok{background:#f4faf6;border:1px solid #c3e6cf}
+  .callout.warn{background:#fff6ec;border:1px solid #ffd9b8}
+  ul{margin:6px 0}
+  li{margin:5px 0}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0;display:block;overflow-x:auto}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid #eee;vertical-align:top}
+  th{background:var(--cream);color:var(--orange-d);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  .who{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;margin-left:6px}
+  .who.eng{background:#eef4ff;color:#2c5aa0;border:1px solid #cfe0ff}
+  .who.sut{background:#fdeef5;color:#a03a72;border:1px solid #f6cfe0}
+  .who.ops{background:#fff1e6;color:var(--orange-d);border:1px solid #ffd9b8}
+  footer{color:#8a7f72;font-size:12.5px;text-align:center;padding:22px}
+</style>
+</head>
+<body>
+<header class="page">
+  <h1>Acharya — Business Requirements</h1>
+  <p>Plain-language brief · the teacher-strengthening program · 2026-07-25</p>
+</header>
+<div class="wrap">
+
+  <section class="block">
+    <h2>What Acharya is</h2>
+    <p><b>Acharya is our program for teachers</b> — the teaching community from pre-KG to professors. It runs the <b>same 64-ability journey</b> our students go through (do a set of tasks, get evaluated by a Yashodarshi, receive a scorecard), but the <b>manual, the scoring, and the report are tuned for teachers</b> instead of school students.</p>
+    <div class="callout ok"><b>Why it matters:</b> it's a B2B/institutional product — schools adopt it to strengthen their teachers. It's a new revenue line that rides on machinery we already have, so most of it is reuse, not rebuild.</div>
+  </section>
+
+  <section class="block">
+    <h2>How it's delivered (the important differences from the student product)</h2>
+    <table>
+      <tr><th></th><th>Students (today)</th><th>Acharya (teachers)</th></tr>
+      <tr><td><b>Who buys</b></td><td>parents, on our public website</td><td>the <b>school</b>, paying us directly — <b>never sold on the public website</b></td></tr>
+      <tr><td><b>Who enrols</b></td><td>self-signup + payment</td><td>our <b>admin adds the teachers</b> (a batch), the school pays offline</td></tr>
+      <tr><td><b>Onboarding</b></td><td>asks class/grade, shows the student challenge rulebook</td><td><b>no class question</b>; shows a <b>teacher guide</b> instead of the student rulebook</td></tr>
+      <tr><td><b>The report (scorecard)</b></td><td>benchmarked against students (Class 5-7, NEET, etc.)</td><td>benchmarked against <b>teachers</b> — "what a strong teacher looks like", with teacher growth pathways and teaching-impact wording</td></tr>
+      <tr><td><b>Everything else</b></td><td colspan="2">Identical — same login, same task flow, same evaluation mechanics, same 64 abilities. <b>The student experience does not change at all.</b></td></tr>
+    </table>
+  </section>
+
+  <section class="block">
+    <h2>What we need — and who provides it</h2>
+    <h3>Content from Sutirtha <span class="who sut">Sutirtha</span></h3>
+    <ul>
+      <li><b>The Acharya tasks + how they're scored</b> — the set of tasks teachers complete, and which of the 64 abilities each task measures.</li>
+      <li><b>The teacher scorecard "lens"</b> — what "average / strong / excellent" looks like for a teacher, teacher growth pathways (not student career roles), and teaching-impact wording.</li>
+      <li><b>Guidance for evaluators</b> — how a Yashodarshi should judge a teacher's answer (what a strong response looks like).</li>
+      <li><b>The teacher manual</b> — a short guide teachers read during onboarding, in <b>English &amp; Kannada</b>.</li>
+    </ul>
+    <h3>From the team / admin <span class="who ops">Ops</span></h3>
+    <ul>
+      <li>Enrol teachers <b>with their date of birth</b> — so the system recognises them as adults (skips the parent-consent step meant for children).</li>
+      <li>The ₹4,000 + ₹800/month is handled by <b>finance, offline</b> — the system just records that the teacher is enrolled; there's no online payment for Acharya.</li>
+    </ul>
+    <h3>Build <span class="who eng">Engineering</span></h3>
+    <ul>
+      <li>Mark the product as "for teachers" and "not on the public store", wire the admin enrolment, and tune onboarding, evaluation, and the report to read correctly for a teacher.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>How we'll know it's working (acceptance)</h2>
+    <ul>
+      <li>✅ Admin can add a group of teachers and they receive a login.</li>
+      <li>✅ A teacher logs in and onboards <b>without being asked school-student questions</b>, and reads a <b>teacher</b> guide.</li>
+      <li>✅ Teachers complete the tasks and are evaluated normally.</li>
+      <li>✅ Each teacher receives a <b>scorecard that reads as a teacher's report</b> — teacher benchmark, teacher pathways, no "Student"/class/exam framing.</li>
+      <li>✅ Acharya <b>never appears on the public website</b> and can't be bought online.</li>
+      <li>✅ <b>The existing student experience is completely unchanged.</b></li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Timeline — what can start when</h2>
+    <div class="callout warn"><b>Teachers can be enrolled and start their tasks right away</b> — that part needs nothing from Sutirtha. The one thing that must be ready <b>before the first group finishes</b> is the teacher scorecard content (tasks/rubric + the teacher lens), because that's what turns their completed work into a report.</div>
+    <table>
+      <tr><th>Stage</th><th>Needs</th><th>Blocks?</th></tr>
+      <tr><td>Enrol teachers + they do tasks</td><td>engineering enablement only</td><td>Not blocked — can start now</td></tr>
+      <tr><td>Teachers get feedback + scorecards</td><td>Sutirtha's tasks/rubric + teacher lens</td><td>Needed before the first group finishes</td></tr>
+      <tr><td>Teacher-tuned reports refined</td><td>calibrate from the first group's real results</td><td>After the first cohort</td></tr>
+    </table>
+  </section>
+
+  <footer>iRisePro · Acharya business requirements · a companion <b>technical integration doc</b> covers the build detail · nothing is shipped yet</footer>
+</div>
+</body>
+</html>
