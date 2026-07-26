@@ -1,0 +1,162 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yashodarshi Desk — Group by Stream-Family (storyboard)</title>
+<style>
+  :root{
+    --bg:#0e0d13; --panel:#17151d; --panel2:#1e1b25; --line:#2c2836; --ink:#ece8f2; --soft:#a49db6;
+    --dim:#736c83; --saffron:#F5821F; --saffron2:#ffb066; --blue:#5b8cff; --green:#3fca7d; --amber:#f0b429;
+    --red:#ef5a68; --chip:#241f2e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 72px}
+  .tag{display:inline-block;background:var(--saffron);color:#20140a;font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 10px;border-radius:999px}
+  h1{font-size:27px;margin:14px 0 6px;letter-spacing:-.01em}
+  .lede{color:var(--soft);margin:0 0 8px;max-width:74ch}
+  .rec{background:linear-gradient(160deg,rgba(245,130,31,.12),rgba(245,130,31,.03));border:1px solid #3a2c1c;border-radius:14px;padding:14px 16px;margin:18px 0 30px;font-size:14px;color:#f0e4d6}
+  .rec b{color:var(--saffron2)}
+  .grid{display:grid;gap:22px}
+  @media(min-width:880px){.grid{grid-template-columns:1fr 1fr}}
+  .col h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .col h2 .pill{font-size:10px;padding:2px 8px;border-radius:999px}
+  .before .pill{background:#2a2530;color:var(--soft)} .after .pill{background:rgba(63,202,125,.16);color:var(--green)}
+  .desk{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .deskhead{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .brand{font-weight:700;font-size:14px;letter-spacing:.02em}.brand small{color:var(--dim);font-weight:500}
+  .tiles{display:flex;gap:8px}
+  .tile{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px 10px;text-align:center;min-width:58px}
+  .tile b{display:block;font-size:16px;line-height:1.1}.tile span{font-size:9.5px;color:var(--dim);letter-spacing:.04em}
+  .seg{display:flex;gap:4px;padding:10px 16px 4px}
+  .seg button{flex:0 0 auto;background:var(--chip);border:1px solid var(--line);color:var(--soft);font:600 12px system-ui;padding:6px 12px;border-radius:999px;cursor:pointer}
+  .seg button.on{background:var(--saffron);color:#20140a;border-color:transparent}
+  .seg .lbl{align-self:center;color:var(--dim);font-size:11px;margin-right:2px}
+  .lane{padding:6px 12px 12px}
+  .lanehd{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:12px 4px 8px;display:flex;align-items:center;gap:8px}
+  .fam{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:12px;letter-spacing:.02em;text-transform:none}
+  .fam .dot{width:8px;height:8px;border-radius:50%}
+  .fam .cnt{color:var(--dim);font-weight:500}
+  .dot.children{background:var(--blue)} .dot.adult{background:var(--amber)} .dot.acharya{background:var(--saffron)}
+  .row{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;margin:7px 0;background:var(--panel2)}
+  .who{width:118px;flex:0 0 auto}
+  .pseud{font-weight:700;font-size:13.5px}
+  .meta{font-size:11px;color:var(--dim);margin-top:2px}
+  .famchip{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--chip);margin-top:5px}
+  .famchip .dot{width:6px;height:6px}
+  .task{flex:1 1 auto;min-width:0}
+  .task .t{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .badges{margin-top:4px;display:flex;gap:6px}
+  .b{font-size:10px;font-weight:700;padding:1.5px 7px;border-radius:999px;background:var(--chip);color:var(--soft)}
+  .b.t4999{background:rgba(245,130,31,.16);color:var(--saffron2)}
+  .sla{width:96px;flex:0 0 auto;text-align:right;font-size:11px}
+  .sla b{display:block;font-size:13px}
+  .sla.ok b{color:var(--green)} .sla.warn b{color:var(--amber)} .sla.crit b{color:var(--red)}
+  .sla span{color:var(--dim);font-size:10px}
+  .go{flex:0 0 auto;background:transparent;border:1px solid #3a3446;color:var(--saffron2);font:700 12px system-ui;padding:7px 11px;border-radius:9px;cursor:pointer;white-space:nowrap}
+  .note{font-size:12px;color:var(--dim);padding:8px 6px 0;line-height:1.5}
+  .cap{font-size:12px;color:var(--soft);margin:8px 2px 0}
+  .foothead{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:40px 0 10px}
+  .why{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .why li{margin:7px 0;color:#d8d3e2;font-size:14px}.why b{color:var(--ink)}
+  .k{color:var(--saffron2);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+  @media (prefers-color-scheme: light){
+    :root{--bg:#f6f4f0;--panel:#fff;--panel2:#faf8f5;--line:#e7e1d8;--ink:#241f2e;--soft:#6b6474;--dim:#938c9e;--chip:#f0ece6}
+    .go{border-color:#e2c8ad}
+  }
+</style></head><body><div class="wrap">
+<span class="tag">STORYBOARD · FOR REVIEW</span>
+<h1>Yashodarshi Desk — group the queue by stream-family</h1>
+<p class="lede">The evaluator desk today groups work into two <em>tier</em> lanes (₹4999 premium · 7-task) and sorts by SLA. The stream is loaded per row but shown only as inert grey text. As streams grow (7 public + 3 Acharya + future Corporate/Gov/College), a <b>group-by stream-family</b> control lets an evaluator batch by context — driven by the same <span class="k">Challenge::onboardingFamily()</span> the platform already uses.</p>
+<div class="rec"><b>Recommendation:</b> start with a lightweight <b>group-by control</b> (a segmented toggle: <em>Lane</em> — today's default — vs <em>Family</em>), <b>not</b> heavyweight tabs. The evaluation work is identical across families (same rubric), volume is low, and the data is already fetched — so this is a presentation change, reversible, and earns its keep the moment the queue gets long or a family needs different columns.</p>
+
+<div class="grid">
+  <!-- BEFORE -->
+  <div class="col before">
+    <h2>Before <span class="pill">today</span></h2>
+    <div class="desk">
+      <div class="deskhead">
+        <div class="brand">Evaluation Atelier <small>· blind desk</small></div>
+        <div class="tiles">
+          <div class="tile"><b>7</b><span>IN QUEUE</span></div>
+          <div class="tile"><b>2</b><span>DUE &lt;4H</span></div>
+          <div class="tile"><b>5</b><span>DONE</span></div>
+        </div>
+      </div>
+      <div class="lane">
+        <div class="lanehd">₹4999 premium lane · per task · 12h SLA</div>
+        <div class="row"><div class="who"><div class="pseud">Kestrel-24</div><div class="meta">Age 16 · CBSE · neet</div></div><div class="task"><div class="t">Task 7 — Data-based reasoning</div><div class="badges"><span class="b t4999">₹4999</span></div></div><div class="sla crit"><b>38m</b><span>of 12h</span></div><button class="go">Evaluate →</button></div>
+        <div class="row"><div class="who"><div class="pseud">Marigold-08</div><div class="meta">Age 24 · — · ias</div></div><div class="task"><div class="t">Task 4 — Ethics case note</div><div class="badges"><span class="b t4999">₹4999</span></div></div><div class="sla warn"><b>3h 10m</b><span>of 12h</span></div><button class="go">Evaluate →</button></div>
+        <div class="row"><div class="who"><div class="pseud">Cedar-51</div><div class="meta">Age 22 · — · acharya_foundation</div></div><div class="task"><div class="t">Task 2 — Classroom scenario</div><div class="badges"><span class="b t4999">₹4999</span></div></div><div class="sla ok"><b>7h 40m</b><span>of 12h</span></div><button class="go">Evaluate →</button></div>
+      </div>
+      <div class="lane">
+        <div class="lanehd">7-task lane · whole set · 72h SLA</div>
+        <div class="row"><div class="who"><div class="pseud">Robin-13</div><div class="meta">Age 11 · CBSE · marks_booster</div></div><div class="task"><div class="t">Marks Booster (Class 5–7)</div><div class="badges"><span class="b">₹999</span><span class="b">7-task</span></div></div><div class="sla warn"><b>9h</b><span>of 72h set</span></div><button class="go">Start session →</button></div>
+        <div class="row"><div class="who"><div class="pseud">Ash-77</div><div class="meta">Age 26 · — · kas</div></div><div class="task"><div class="t">KAS Booster</div><div class="badges"><span class="b">₹1999</span><span class="b">7-task</span></div></div><div class="sla ok"><b>41h</b><span>of 72h set</span></div><button class="go">Start session →</button></div>
+        <div class="row"><div class="who"><div class="pseud">Fern-30</div><div class="meta">Age 22 · — · acharya_middle</div></div><div class="task"><div class="t">Mission Acharya — Class 5 to 10</div><div class="badges"><span class="b t4999">₹4999</span><span class="b">7-task</span></div></div><div class="sla ok"><b>52h</b><span>of 72h set</span></div><button class="go">Start session →</button></div>
+      </div>
+      <div class="note">Stream lives only inside the grey meta line (<em>age · board · stream</em>). Children, adults and educators are interleaved by SLA — the evaluator context-switches on every row.</div>
+    </div>
+    <p class="cap">Grouping = tier lane only. Family is invisible.</p>
+  </div>
+
+  <!-- AFTER -->
+  <div class="col after">
+    <h2>After <span class="pill">proposed</span></h2>
+    <div class="desk">
+      <div class="deskhead">
+        <div class="brand">Evaluation Atelier <small>· blind desk</small></div>
+        <div class="tiles">
+          <div class="tile"><b>7</b><span>IN QUEUE</span></div>
+          <div class="tile"><b>2</b><span>DUE &lt;4H</span></div>
+          <div class="tile"><b>5</b><span>DONE</span></div>
+        </div>
+      </div>
+      <div class="seg"><span class="lbl">Group by</span>
+        <button id="byLane">Lane</button><button id="byFam" class="on">Family</button>
+      </div>
+      <!-- FAMILY VIEW -->
+      <div id="famView">
+        <div class="lane">
+          <div class="lanehd"><span class="fam"><span class="dot children"></span>Children <span class="cnt">· 2 · guardian consent</span></span></div>
+          <div class="row"><div class="who"><div class="pseud">Kestrel-24</div><div class="meta">Age 16 · CBSE · neet</div><span class="famchip"><span class="dot children"></span>CHILDREN</span></div><div class="task"><div class="t">Task 7 — Data-based reasoning</div><div class="badges"><span class="b t4999">₹4999</span></div></div><div class="sla crit"><b>38m</b><span>of 12h</span></div><button class="go">Evaluate →</button></div>
+          <div class="row"><div class="who"><div class="pseud">Robin-13</div><div class="meta">Age 11 · CBSE · marks_booster</div><span class="famchip"><span class="dot children"></span>CHILDREN</span></div><div class="task"><div class="t">Marks Booster (Class 5–7)</div><div class="badges"><span class="b">₹999</span><span class="b">7-task</span></div></div><div class="sla warn"><b>9h</b><span>of 72h set</span></div><button class="go">Start session →</button></div>
+        </div>
+        <div class="lane">
+          <div class="lanehd"><span class="fam"><span class="dot adult"></span>Adult <span class="cnt">· 2 · self-consent</span></span></div>
+          <div class="row"><div class="who"><div class="pseud">Marigold-08</div><div class="meta">Age 24 · — · ias</div><span class="famchip"><span class="dot adult"></span>ADULT</span></div><div class="task"><div class="t">Task 4 — Ethics case note</div><div class="badges"><span class="b t4999">₹4999</span></div></div><div class="sla warn"><b>3h 10m</b><span>of 12h</span></div><button class="go">Evaluate →</button></div>
+          <div class="row"><div class="who"><div class="pseud">Ash-77</div><div class="meta">Age 26 · — · kas</div><span class="famchip"><span class="dot adult"></span>ADULT</span></div><div class="task"><div class="t">KAS Booster</div><div class="badges"><span class="b">₹1999</span><span class="b">7-task</span></div></div><div class="sla ok"><b>41h</b><span>of 72h set</span></div><button class="go">Start session →</button></div>
+        </div>
+        <div class="lane">
+          <div class="lanehd"><span class="fam"><span class="dot acharya"></span>Acharya · educators <span class="cnt">· 2 · self-consent</span></span></div>
+          <div class="row"><div class="who"><div class="pseud">Cedar-51</div><div class="meta">Age 22 · educator · acharya_foundation</div><span class="famchip"><span class="dot acharya"></span>ACHARYA</span></div><div class="task"><div class="t">Task 2 — Classroom scenario</div><div class="badges"><span class="b t4999">₹4999</span></div></div><div class="sla ok"><b>7h 40m</b><span>of 12h</span></div><button class="go">Evaluate →</button></div>
+          <div class="row"><div class="who"><div class="pseud">Fern-30</div><div class="meta">Age 22 · educator · acharya_middle</div><span class="famchip"><span class="dot acharya"></span>ACHARYA</span></div><div class="task"><div class="t">Mission Acharya — Class 5 to 10</div><div class="badges"><span class="b t4999">₹4999</span><span class="b">7-task</span></div></div><div class="sla ok"><b>52h</b><span>of 72h set</span></div><button class="go">Start session →</button></div>
+        </div>
+        <div class="note">Rows grouped by <b>stream-family</b> (children · adult · educator), still SLA-sorted <em>within</em> each group. A family chip makes context glanceable; the header shows the family's consent basis. The most-urgent item (Kestrel-24, 38m) still surfaces at the top of its group.</div>
+      </div>
+      <!-- LANE VIEW (hidden by default; toggled) -->
+      <div id="laneView" style="display:none">
+        <div class="lane"><div class="lanehd">₹4999 premium lane · per task · 12h SLA</div>
+          <div class="note" style="padding-top:2px">↩︎ Same two tier lanes as today — the toggle just flips the grouping key. Nothing is removed.</div>
+        </div>
+      </div>
+    </div>
+    <p class="cap">Group-by toggle · family chips · consent basis per header. One control, reversible.</p>
+  </div>
+</div>
+
+<div class="foothead">Why this is cheap + safe</div>
+<div class="why"><ul>
+  <li><b>Data is already fetched.</b> <span class="k">EvaluatorDesk::queueFor()</span> already loads the Challenge per row and can read <span class="k">Challenge::onboardingFamily()</span> — the desk item array just needs to expose <span class="k">stream</span>/<span class="k">family</span> as top-level fields; the Blade groups by them.</li>
+  <li><b>One taxonomy, reused.</b> The family (children/adult/educator) is the <em>same</em> registry that drives onboarding — the evaluator grouping can never drift from it.</li>
+  <li><b>Reversible &amp; low-risk.</b> A toggle over one queue, default = today's Lane view. Promote to real tabs only when a family needs different columns (e.g. Corporate adds employer fields) or the queue gets long.</li>
+  <li><b>Batching benefit even at low volume.</b> Scoring a run of children's tasks, then a run of educator tasks, keeps the evaluator's rubric exemplars consistent.</li>
+</ul></div>
+<script>
+  (function(){
+    var byLane=document.getElementById('byLane'), byFam=document.getElementById('byFam');
+    var famView=document.getElementById('famView'), laneView=document.getElementById('laneView');
+    function set(fam){ byFam.classList.toggle('on',fam); byLane.classList.toggle('on',!fam);
+      famView.style.display=fam?'':'none'; laneView.style.display=fam?'none':''; }
+    byLane.onclick=function(){set(false)}; byFam.onclick=function(){set(true)};
+  })();
+</script>
+</div></body></html>
