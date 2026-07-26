@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mission Acharya & Institutional Streams — Engineering Spec</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#5b6577; --line:#e4e8f0; --bg:#ffffff; --soft:#f6f8fc;
+    --orange:#FE7202; --blue:#023999; --saffron:#FF9933; --green:#16794c; --red:#c0392b;
+    --amber:#b7791f; --code:#0b3d91;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--soft)}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px 96px}
+  header.hero{background:linear-gradient(120deg,#022e7a,#023999 55%,#0b47b8);color:#fff;padding:44px 0 40px;margin-bottom:8px}
+  header.hero .wrap{padding-top:0;padding-bottom:0}
+  .eyebrow{font:600 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase;color:#ffd8b0}
+  h1{font-size:30px;line-height:1.14;margin:10px 0 8px;letter-spacing:-.01em}
+  .sub{color:#cdd8f5;font-size:16px;max-width:780px}
+  .meta{margin-top:16px;font:500 13px/1.5 ui-monospace,Menlo,monospace;color:#a9bdf0}
+  h2{font-size:22px;margin:40px 0 6px;padding-top:14px;border-top:2px solid var(--line);letter-spacing:-.01em}
+  h2 .n{color:var(--orange);font:700 15px/1 ui-monospace,Menlo,monospace;margin-right:8px}
+  h3{font-size:17px;margin:24px 0 6px;color:var(--blue)}
+  p{margin:8px 0}
+  ul,ol{margin:8px 0 8px 4px;padding-left:22px} li{margin:4px 0}
+  code{font:500 13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#eef2fb;color:var(--code);padding:1px 5px;border-radius:4px}
+  pre{background:#0f172a;color:#e8eefc;padding:14px 16px;border-radius:9px;overflow-x:auto;font:13px/1.55 ui-monospace,Menlo,monospace;margin:12px 0}
+  pre code{background:none;color:inherit;padding:0;white-space:pre}
+  .card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(16,32,64,.04)}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#eef2fb;font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;color:#334155}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:center;font-variant-numeric:tabular-nums}
+  .tag{display:inline-block;font:700 11px/1.3 ui-monospace,Menlo,monospace;padding:2px 8px;border-radius:20px;letter-spacing:.02em}
+  .done{background:#e4f5ec;color:var(--green)} .todo{background:#fdecea;color:var(--red)}
+  .partial{background:#fff3e0;color:var(--amber)} .input{background:#f3e8ff;color:#7b3ff2}
+  .callout{border-left:4px solid var(--orange);background:#fff8f2;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+  .callout.blue{border-color:var(--blue);background:#f2f6ff}
+  .callout.saffron{border-color:var(--saffron);background:#fff7ec}
+  .callout.red{border-color:var(--red);background:#fdf2f1}
+  .callout.green{border-color:var(--green);background:#eef8f2}
+  .callout b{color:var(--ink)}
+  .toc{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin:16px 0}
+  .toc ol{columns:2;column-gap:34px;margin:4px 0}
+  .toc a{color:var(--blue);text-decoration:none} .toc a:hover{text-decoration:underline}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}.toc ol{columns:1}}
+  .filepath{font:500 12.5px ui-monospace,Menlo,monospace;color:var(--muted)}
+  .pill{display:inline-block;font:700 10.5px ui-monospace,Menlo,monospace;padding:1px 6px;border-radius:5px;color:#fff}
+  .pAtt{background:#7b3ff2}.pApt{background:#0e7490}.pComm{background:#b7791f}.pExec{background:#16794c}
+  .saffronbar{display:inline-block;background:var(--saffron);color:#5a3000;font-weight:700;border-radius:4px;padding:1px 7px;font-variant-numeric:tabular-nums}
+  footer{margin-top:44px;padding-top:18px;border-top:2px solid var(--line);color:var(--muted);font-size:13.5px}
+  .step{display:flex;gap:12px;margin:10px 0}
+  .step .num{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font:700 13px/26px ui-monospace,Menlo,monospace;text-align:center}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">iRisePro · Scorecard Engine · Institutional</div>
+    <h1>Mission Acharya &amp; Institutional Streams — Complete Engineering Spec</h1>
+    <div class="sub">Everything we change to take the two Mission Acharya educator streams from "streams exist" to "scorecards generate correctly per stream" — with the exact ability + benchmark data extracted from Sutirtha's two sample cards — plus the B2B/B2C model refactor and per-stream onboarding it sits on.</div>
+    <div class="meta">Rev 2 · 2026-07-26 · scope: Backend-laravel + scorecard-engine · storefront unaffected · DEPLOY ON HOLD</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="callout red">
+  <b>Deploy status — HOLD (your call, 26-Jul).</b> Nothing ships piecemeal. The two streams (#1408), the engine's
+  per-stream encoding, and the <code>audience</code>→<code>is_institutional</code> refactor all land and are verified
+  <b>end-to-end across all 9 streams</b> before any deploy. #1408 is <b>not</b> deployed on its own.
+</div>
+
+<div class="callout blue">
+  <b>One-paragraph summary.</b> Mission Acharya is our B2B "teacher-strengthening" offering, sold as
+  <b>two admin-only streams</b> — <code>acharya_foundation</code> (Pre-KG–Class&nbsp;4) and <code>acharya_senior</code>
+  (Class&nbsp;5–PU). The streams are <b>already shipped</b> in code (PR&nbsp;#1408). What remains is (A) encoding each
+  stream's <b>scorecard spec</b> in the engine — a stream-specific Top-15 educator abilities, <b>one saffron benchmark</b>
+  (the "All-India ASLI Champion Benchmark") instead of three, and <b>no Career Pathways</b> — and (B) a clean
+  <b>B2B/B2C model refactor</b> (<code>audience</code> → <code>is_institutional</code>) so the institutional list can
+  grow beyond teachers. The task→ability mapping, the AACE64 scoring rubric, and the evaluator all stay the same
+  — <b>confirmed</b>: every one of the 19 abilities across both cards is a canonical AACE64 ability. Graphs are pure
+  data-renders — they redraw themselves once the ability/benchmark data is right (§8).
+</div>
+
+<div class="toc">
+  <b>Contents</b>
+  <ol>
+    <li><a href="#status">Where we are today</a></li>
+    <li><a href="#streams">Part A — Streams model &amp; the B2B/B2C refactor</a></li>
+    <li><a href="#onboarding">Part B — Onboarding as per-stream config</a></li>
+    <li><a href="#enrolment">Part C — Enrolment sets stream + flag (invisible)</a></li>
+    <li><a href="#engine">Part D — Scorecard engine: per-stream encoding</a></li>
+    <li><a href="#data">Part E — The extracted data (both streams, concrete)</a></li>
+    <li><a href="#tasks">Part F — Task authoring ↔ engine coupling</a></li>
+    <li><a href="#matrix">Part G — The scorecard-diff matrix</a></li>
+    <li><a href="#leaks">Part H — Content issues found in the sample cards (for Sutirtha)</a></li>
+    <li><a href="#graphs">The graphs note</a></li>
+    <li><a href="#sequencing">Rollout sequence</a></li>
+  </ol>
+</div>
+
+<div class="callout green">
+  <b>Provenance.</b> The ability lists and benchmark numbers in Part&nbsp;E were read directly from Sutirtha's shared
+  <span class="filepath">"AACE Scorecard"</span> Google Doc (fileId 1yZ-Kw…), tabs <b>"21: Foundation Educators"</b> and
+  <b>"21: Senior Educators"</b>, on 2026-07-26 (text export, read section by section). Every code "already exists" claim
+  cites <span class="filepath">file:line</span> checked the same day.
+</div>
+
+<h2 id="status"><span class="n">0</span>Where we are today <span class="tag done">verified 2026-07-26</span></h2>
+<div class="card">
+<table>
+  <tr><th>Piece</th><th>State</th><th>Evidence</th></tr>
+  <tr><td>Two Acharya streams as institutional program_keys</td><td><span class="tag done">DONE (PR&nbsp;#1408, not deployed)</span></td>
+    <td class="filepath">SellableChallengeSeeder::INSTITUTIONAL_PROGRAMS = <code>acharya_foundation</code>, <code>acharya_senior</code></td></tr>
+  <tr><td>Admin-only, off the public store (no self-enrolment)</td><td><span class="tag done">DONE</span></td>
+    <td class="filepath">ChallengeController::applyAudienceAndListing() → is_listed=false; "exactly 21 offers" guard iterates PROGRAMS only</td></tr>
+  <tr><td>Acharya <b>onboarding</b> (educator manual, no guardian/class)</td><td><span class="tag done">ALREADY BUILT (#1394)</span></td>
+    <td class="filepath">OnboardingService:44 · OnboardingDiff:65 · Enrollment:450 · study-guide-acharya[-kn].blade.php</td></tr>
+  <tr><td>Acharya <b>scorecard</b> encoding in engine</td><td><span class="tag todo">NOT DONE — blocks generation</span></td>
+    <td class="filepath">benchmarks.BENCHMARKS has NO acharya keys → <code>cli.py:76</code> raises "unknown stream" on the first Acharya card</td></tr>
+  <tr><td>Data to encode it (15 abilities + benchmarks, per stream)</td><td><span class="tag done">EXTRACTED — see Part E</span></td>
+    <td class="filepath">from Sutirtha's two sample cards; all abilities canonical AACE64</td></tr>
+  <tr><td><code>audience</code> → <code>is_institutional</code> refactor</td><td><span class="tag partial">DECIDED, not started</span></td>
+    <td class="filepath">7 read-sites on <code>audience</code> (§A.4); do before the first non-teacher institutional stream</td></tr>
+</table>
+<div class="callout red" style="margin-bottom:0">
+  <b>The real deadline.</b> The engine <b>fails closed</b> for unknown streams: <code>cli.py:76</code> raises
+  <code>unknown stream 'acharya_foundation'; known: [...]</code>. The moment an Acharya cohort finishes a task, scorecard
+  generation <b>throws</b> until Part&nbsp;D lands. Encoding the two streams is the gate on Acharya cards existing at all.
+</div>
+</div>
+
+<h2 id="streams"><span class="n">A</span>Streams model &amp; the B2B/B2C refactor</h2>
+<h3>A.1 — The model today (verified)</h3>
+<p>A "stream" = a <code>program_key</code>. Single source of truth: <span class="filepath">database/seeders/SellableChallengeSeeder.php</span>.</p>
+<ul>
+  <li><code>PROGRAMS</code> — <b>7 public / B2C</b> (marks_booster, board_booster, neet, jee, ias, kas, career_readiness). Self-enrolled, on storefront, × 3 tiers = "exactly 21 offers".</li>
+  <li><code>INSTITUTIONAL_PROGRAMS</code> — <b>admin-only / B2B</b> (the 2 Acharya streams). No self-enrolment, off storefront, tier chosen at admin-create.</li>
+</ul>
+<p>Today the split is two derived columns in <code>ChallengeController::applyAudienceAndListing()</code>:</p>
+<pre><code>$isInstitutional = array_key_exists($challenge->program_key, INSTITUTIONAL_PROGRAMS);
+$challenge->audience  = $isInstitutional ? 'acharya' : 'student';   // stringly-typed, teacher-specific
+$challenge->is_listed = ! $isInstitutional;                          // storefront visibility</code></pre>
+
+<h3>A.2 — Why refactor (your call)</h3>
+<div class="callout">
+The <a href="https://preview.irisepro.in/institutional">/institutional</a> page shows the B2B list will <b>grow</b> beyond teachers — Schools, Colleges, CSR, Government, Corporate, Leadership. Tagging a <i>corporate</i> or <i>government</i> stream <code>audience='acharya'</code> is plainly wrong: "acharya" means teacher. The flag we actually branch on is the coarse <b>B2B-vs-B2C</b> distinction, so name it that.
+</div>
+<h3>A.3 — The change</h3>
+<table>
+  <tr><th>From</th><th>To</th></tr>
+  <tr><td><code>audience</code> string (<code>'student'</code>|<code>'acharya'</code>)<br><code>is_listed</code> boolean</td>
+      <td><code>is_institutional</code> boolean — the one coarse B2B gate, DERIVED from <code>INSTITUTIONAL_PROGRAMS</code> membership</td></tr>
+</table>
+<ul>
+  <li><b>No data migration.</b> The flag re-derives from <code>program_key</code> at create/edit, exactly as <code>audience</code> does now, and there is no live <code>acharya</code> challenge in prod. New migration adds <code>is_institutional</code>; a follow-up drops <code>audience</code>+<code>is_listed</code> once readers move.</li>
+  <li>Fold <code>is_listed</code> into <code>is_institutional</code> (institutional ⇒ unlisted) — no "hide a B2C stream from store while keeping it B2C" case exists today.</li>
+</ul>
+<h3>A.4 — Blast radius (verified — the read-sites on <code>audience</code>)</h3>
+<table>
+  <tr><th>File:line</th><th>Today</th><th>Becomes</th></tr>
+  <tr><td class="filepath">ChallengeController.php:62</td><td>writes <code>audience</code>+<code>is_listed</code></td><td>writes <code>is_institutional</code> (single derive)</td></tr>
+  <tr><td class="filepath">Challenge.php:84 <code>isAcharya()</code></td><td><code>audience==='acharya'</code></td><td>split → <code>isInstitutional()</code> (=<code>is_institutional</code>) for gating + a thin <code>isAcharya()</code> (=<code>program_key</code> LIKE <code>acharya_%</code>) for the teacher-specific content</td></tr>
+  <tr><td class="filepath">Challenge.php:67 listed scope</td><td><code>where is_listed=true</code></td><td><code>where is_institutional=false</code></td></tr>
+  <tr><td class="filepath">Enrollment.php:450</td><td><code>audience==='acharya'</code></td><td>educator-manual branch → stream family (§B)</td></tr>
+  <tr><td class="filepath">MobileStudentController.php:1744</td><td><code>audience==='acharya'</code></td><td>onboarding family from stream (§B)</td></tr>
+  <tr><td class="filepath">OnboardingService.php:44</td><td><code>audience==='acharya'</code></td><td>onboarding family from stream (§B)</td></tr>
+  <tr><td class="filepath">OnboardingDiff.php:65</td><td><code>audience==='acharya'</code></td><td>onboarding family from stream (§B)</td></tr>
+</table>
+<p class="filepath">Plus non-branching: create/edit blades (labels), seeder doc-comment, tests AcharyaStreamEnablementTest / AcharyaOnboardingTest (assert <code>is_institutional</code>).</p>
+<div class="callout blue">
+  <b>Nuance to preserve.</b> <code>is_institutional</code> is the coarse B2B gate. The <i>teacher-specific</i> behaviour
+  (educator study guide, "Acharya" labels) keys on the <b>stream family</b> (<code>program_key</code> prefix
+  <code>acharya_</code>), not on <code>is_institutional</code> — else a future Corporate stream wrongly inherits the
+  teacher manual. So: <code>is_institutional</code> gates store/enrolment; <b>stream family</b> gates content.
+</div>
+
+<h2 id="onboarding"><span class="n">B</span>Onboarding as per-stream config</h2>
+<div class="callout">Your long-term design: <b>the stream drives onboarding.</b> Each stream declares its onboarding shape instead of branching on scattered flags (<code>audience</code>, <code>is_18</code>) across OnboardingService/Diff/Controller.</div>
+<table>
+  <tr><th>Stream family</th><th>Onboarding shape</th><th>Streams</th></tr>
+  <tr><td>Student — minor</td><td>guardian consent, class/board, minor gates</td><td>marks_booster, board_booster (+ younger NEET/JEE)</td></tr>
+  <tr><td>Student — adult</td><td>18+ Terms + Evaluation, no guardian</td><td>career_readiness, ias, kas (+ adult NEET/JEE)</td></tr>
+  <tr><td><b>Educator (Acharya)</b></td><td>educator manual, <b>no</b> guardian/class</td><td>acharya_foundation, acharya_senior</td></tr>
+  <tr><td>Future — Corporate / Gov / CSR</td><td>their own (declared when added)</td><td>—</td></tr>
+</table>
+<p><b>Stream picks the family; age refines within <i>student</i>.</b> NEET/JEE mix minor and adult, so minor-vs-adult stays per-student age within the student family. Acharya is uniformly educator.</p>
+<pre><code>STREAM_ONBOARDING = [
+  'acharya_foundation' => 'educator',
+  'acharya_senior'     => 'educator',
+  'marks_booster'      => 'student',   // → age refines minor|adult
+  ...                                   // every stream declares its family; default 'student'
+];</code></pre>
+
+<h2 id="enrolment"><span class="n">C</span>Enrolment sets stream + flag (user-invisible)</h2>
+<ul>
+  <li>Enrolment records the <code>program_key</code> (stream) on the challenge as today.</li>
+  <li><code>is_institutional</code> is derived from <code>INSTITUTIONAL_PROGRAMS</code> membership at create/edit — <b>invisible to the operator, authoritative for the backend.</b> Picking "Mission Acharya – Foundation" <i>is</i> picking institutional.</li>
+  <li>Institutional enrolment stays the manual/admin batch path (no self-serve checkout), unchanged.</li>
+</ul>
+<p class="filepath">Implementation order (your instruction): challenges → onboarding → enrolment.</p>
+
+<h2 id="engine"><span class="n">D</span>Scorecard engine: per-stream encoding <span class="tag todo">the core work</span></h2>
+<p>The engine is <b>already fully per-stream</b> — each stream is a key in <code>benchmarks.BENCHMARKS</code> with its own abilities, benchmarks and §1-F notes. Adding Acharya = two new keys <b>plus</b> two small schema extensions for what Acharya does differently.</p>
+
+<h3>D.1 — Stream mapping: program_key → engine stream key (1:1)</h3>
+<pre><code>acharya_foundation  →  "acharya_foundation"
+acharya_senior      →  "acharya_senior"</code></pre>
+<p class="filepath">In ScorecardInputBuilder. Until it exists: "No engine stream mapping for program_key …" (Backend) / <code>cli.py:76 unknown stream</code> (engine).</p>
+
+<h3>D.2 — Add the two streams to the bible</h3>
+<ul>
+  <li><span class="filepath">src/bible_benchmarks.json</span> — add <code>acharya_foundation</code>, <code>acharya_senior</code> keys.</li>
+  <li><span class="filepath">src/benchmarks.py → BENCHMARKS</span> — add the two dicts (label, age, pillar, intelligraph, top15, ability). <b>Data in Part E is ready to paste.</b> No <code>top5</code> needed (educators sell the 21-task card only).</li>
+  <li><span class="filepath">src/ability_notes.py</span> — educator §1-F "why this ability matters" per ability.</li>
+</ul>
+
+<h3>D.3 — The three Acharya-specific engine changes</h3>
+<div class="grid2">
+  <div class="card">
+    <h3 style="margin-top:0">① One saffron benchmark <span class="tag todo">schema change</span></h3>
+    <p>Student streams carry <b>three</b> layers — <code>LAYERS = (developmental, champion, competitive)</code> — threaded through <code>pillar_comparison</code>, <code>gap_analysis</code>, <code>intelligraph_comparison</code>, <code>priority_improvements</code>. Acharya shows <b>one</b>: the <span class="saffronbar">All-India ASLI Champion Benchmark</span>, saffron.</p>
+    <p><b>Design:</b> per-stream <code>benchmark_mode</code>: <code>"triple"</code> (default, today) | <code>"single"</code> (champion-only; label "All-India ASLI Champion Benchmark"; saffron).</p>
+    <p class="filepath">Touches: benchmarks.py · benchmark_compare.py (emit 1 layer when single) · render template (1 saffron series + legend) · validate.py.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">② No Career Pathways (§7) <span class="tag todo">flag</span></h3>
+    <p><b>Confirmed from the cards:</b> the educator card has no Career Pathways — its "Section 7" is the <i>Final Conclusion &amp; Success Readiness Summary</i> (= the engine's §8). But <code>build_21task_scorecard</code> <b>always</b> emits <code>section7_career_pathways</code>.</p>
+    <p><b>Design:</b> per-stream <code>has_pathways</code> (default <code>true</code>). Acharya = <code>false</code> → §7 skipped + §8's "top pathway" line suppressed. Render already tolerates absent sections.</p>
+    <p class="filepath">Touches: benchmarks.py · assemble.py build_21task · render template.</p>
+  </div>
+</div>
+<div class="card">
+  <h3 style="margin-top:0">③ Stream-specific Top-15 educator abilities + §1-F notes <span class="tag done">data ready</span></h3>
+  <p>Each stream already declares its own <code>top15</code> and §1-F rationale. Acharya gets an educator Top-15 (Part&nbsp;E). <b>Verified:</b> all 19 distinct abilities across both cards are canonical AACE64 names, and every pillar assignment in the cards <b>matches the engine's <code>canon.py</code> pillar map exactly</b> → <b>data-only</b>, no canon extension, no rubric change (as you said: "the scoring rubric stays the same").</p>
+</div>
+
+<h3>D.4 — What does NOT change (verified)</h3>
+<ul>
+  <li>Scoring code, evaluator, <code>attribute_scores → {Pillar:{ability:0-5}}</code> — generic, stream-agnostic. ✔</li>
+  <li>Task→ability mapping and the AACE64 rubric. ✔</li>
+  <li>The §1–§8 assemblers — reused; Acharya flips two per-stream flags.</li>
+</ul>
+
+<h2 id="data"><span class="n">E</span>The extracted data — ready to encode <span class="tag done">from Sutirtha's cards</span></h2>
+<p>Single benchmark = <span class="saffronbar">All-India ASLI Champion Benchmark</span> (the % column). Pillar tags:
+<span class="pill pAtt">Att</span> <span class="pill pApt">Apt</span> <span class="pill pComm">Comm</span> <span class="pill pExec">Exec</span>.
+Abilities are in the card's priority order (= engine <code>top15</code> order).</p>
+
+<div class="grid2">
+<div class="card">
+<h3 style="margin-top:0">acharya_foundation <span style="font-weight:400;color:var(--muted)">— Pre-KG–Class 4</span></h3>
+<table>
+  <tr><th>#</th><th>Ability</th><th>Pillar</th><th class="num">Bench %</th></tr>
+  <tr><td>1</td><td>Empathy</td><td><span class="pill pAtt">Att</span></td><td class="num">93</td></tr>
+  <tr><td>2</td><td>Critical &amp; Analytical Thinking</td><td><span class="pill pApt">Apt</span></td><td class="num">94</td></tr>
+  <tr><td>3</td><td>Structure <span style="color:var(--muted)">(spoken)</span></td><td><span class="pill pComm">Comm</span></td><td class="num">91</td></tr>
+  <tr><td>4</td><td>Grasping Ability</td><td><span class="pill pApt">Apt</span></td><td class="num">94</td></tr>
+  <tr><td>5</td><td>Adaptability</td><td><span class="pill pAtt">Att</span></td><td class="num">93</td></tr>
+  <tr><td>6</td><td>Active Listening</td><td><span class="pill pComm">Comm</span></td><td class="num">90</td></tr>
+  <tr><td>7</td><td>Planning</td><td><span class="pill pExec">Exec</span></td><td class="num">92</td></tr>
+  <tr><td>8</td><td>Creativity</td><td><span class="pill pComm">Comm</span></td><td class="num">92</td></tr>
+  <tr><td>9</td><td>Discipline</td><td><span class="pill pExec">Exec</span></td><td class="num">92</td></tr>
+  <tr><td>10</td><td>Receptiveness to Feedback</td><td><span class="pill pExec">Exec</span></td><td class="num">92</td></tr>
+  <tr><td>11</td><td>Leadership Ability</td><td><span class="pill pExec">Exec</span></td><td class="num">90</td></tr>
+  <tr><td>12</td><td>Decision-Making</td><td><span class="pill pExec">Exec</span></td><td class="num">92</td></tr>
+  <tr><td>13</td><td>Self-Regulation</td><td><span class="pill pApt">Apt</span></td><td class="num">90</td></tr>
+  <tr><td>14</td><td>Confidence</td><td><span class="pill pAtt">Att</span></td><td class="num">92</td></tr>
+  <tr><td>15</td><td>Growth Mindset</td><td><span class="pill pAtt">Att</span></td><td class="num">92</td></tr>
+</table>
+<p style="font-size:13px;margin:6px 0 0"><b>Pillar bench:</b> Att 93 · Apt 94 · Comm 93 · Exec 94 · <b>Overall 93.5</b><br>
+<b>IntelliGraph (champion zones weak/avg/strong/excellent):</b> each pillar (0, 0, 20, 80); Overall (0, 1.3, 18.8, 80)</p>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">acharya_senior <span style="font-weight:400;color:var(--muted)">— Class 5–PU</span></h3>
+<table>
+  <tr><th>#</th><th>Ability</th><th>Pillar</th><th class="num">Bench %</th></tr>
+  <tr><td>1</td><td>Critical &amp; Analytical Thinking</td><td><span class="pill pApt">Apt</span></td><td class="num">93</td></tr>
+  <tr><td>2</td><td>Grasping Ability</td><td><span class="pill pApt">Apt</span></td><td class="num">94</td></tr>
+  <tr><td>3</td><td>Attention-to-Detail</td><td><span class="pill pApt">Apt</span></td><td class="num">91</td></tr>
+  <tr><td>4</td><td>Structure <span style="color:var(--muted)">(spoken)</span></td><td><span class="pill pComm">Comm</span></td><td class="num">94</td></tr>
+  <tr><td>5</td><td>Planning</td><td><span class="pill pExec">Exec</span></td><td class="num">93</td></tr>
+  <tr><td>6</td><td>Accountability</td><td><span class="pill pAtt">Att</span></td><td class="num">94</td></tr>
+  <tr><td>7</td><td>Expression</td><td><span class="pill pComm">Comm</span></td><td class="num">92</td></tr>
+  <tr><td>8</td><td>Active Listening</td><td><span class="pill pComm">Comm</span></td><td class="num">96</td></tr>
+  <tr><td>9</td><td>Decision-Making</td><td><span class="pill pExec">Exec</span></td><td class="num">92</td></tr>
+  <tr><td>10</td><td>Leadership Ability</td><td><span class="pill pExec">Exec</span></td><td class="num">95</td></tr>
+  <tr><td>11</td><td>Discipline</td><td><span class="pill pExec">Exec</span></td><td class="num">95</td></tr>
+  <tr><td>12</td><td>Time-Management</td><td><span class="pill pExec">Exec</span></td><td class="num">94</td></tr>
+  <tr><td>13</td><td>Empathy</td><td><span class="pill pAtt">Att</span></td><td class="num">96</td></tr>
+  <tr><td>14</td><td>Adaptability</td><td><span class="pill pAtt">Att</span></td><td class="num">97</td></tr>
+  <tr><td>15</td><td>Confidence</td><td><span class="pill pAtt">Att</span></td><td class="num">97</td></tr>
+</table>
+<p style="font-size:13px;margin:6px 0 0"><b>Pillar bench:</b> Att 93 · Apt 94 · Comm 93 · Exec 94 · <b>Overall 93.5</b> <span class="tag partial">same as Foundation — confirm §H</span><br>
+<b>IntelliGraph (champion zones):</b> each pillar (0, 0, 20, 80); Overall (0, 1.3, 18.8, 80)</p>
+</div>
+</div>
+<div class="callout blue">
+  <b>Canonical-name notes for the encoder.</b> "Structure" in the card = the <i>spoken</i> ability <code>Structure</code>
+  (Foundation §5 labels it "Structure (Verbal)") — NOT <code>Structure (Written)</code>. "Decision Making" → canonical
+  <code>Decision-Making</code>. All others map verbatim. The 15-ability pillar split — Foundation: 4 Att / 3 Apt / 3 Comm /
+  5 Exec; Senior: 5 Att / 3 Apt / 3 Comm / 4 Exec — is what §5/§6 grouping and the coverage meter will show.
+</div>
+
+<h2 id="tasks"><span class="n">F</span>Task authoring ↔ engine coupling</h2>
+<div class="callout">
+The coupling to keep honest: a task's <code>headline_abilities</code> (≤5 keys on <span class="filepath">tasks</span>) and the engine's §1-F Top-15 for that stream must draw from the <b>same ability set</b>. If Sutirtha authors an Acharya task around an ability outside the stream's Top-15/64, the §1-F table and the task rubric drift.
+</div>
+<p><b>Authoring order:</b> the 15 abilities are now locked (Part E) → author the 21 Acharya tasks' <code>headline_abilities</code> from that set → encode the same set as the engine's <code>top15</code>. One list, three consumers.</p>
+
+<h2 id="matrix"><span class="n">G</span>The scorecard-diff matrix (Sutirtha's "AACE Scorecard" doc)</h2>
+<p>How the three tier-cards differ — <b>already how the engine behaves per tier</b> (verified in <code>assemble.py</code>). Acharya inherits the <b>21-task</b> row, then overrides §1F/§4 (educator abilities), §4 benchmark (single saffron), §7 (suppressed).</p>
+<table>
+  <tr><th>Section</th><th>4999 · 21-task · 64-ab</th><th>1999 · 7-task · 15-ab</th><th>999 · 7-task · 5-ab</th></tr>
+  <tr><td>§1E heading</td><td>"Why Does the Framework Use 21 Tasks?"</td><td colspan="2">"Why This Challenge Matters"</td></tr>
+  <tr><td>§1F / §4 abilities</td><td colspan="2"><b>15</b> abilities — change per stream</td><td><b>5</b> abilities — change per stream</td></tr>
+  <tr><td>§2A</td><td>Performance across <b>21</b> tasks</td><td colspan="2">Performance across <b>7</b> tasks</td></tr>
+  <tr><td>§5, §6, §7, §8</td><td>Present (full card)</td><td colspan="2"><b>Do not exist</b> in 7-task cards</td></tr>
+</table>
+<p class="filepath">Acharya cards observed use only the 21-task form (no 15/5 educator card exists in the doc).</p>
+
+<h2 id="leaks"><span class="n">H</span>Content issues found in the sample cards <span class="tag input">for Sutirtha — not engine blockers</span></h2>
+<p>Reading both cards line by line surfaced three things that are <b>authoring/content</b>, not engine work. Encoding proceeds regardless; these want Sutirtha's fix in the template/source:</p>
+<ol>
+  <li><b>§6 improvement prose is Corporate-flavoured.</b> Both educator cards' §6 says "candidate", "Corporate readiness", "workplace performance", "interview impression" — copied from the Corporate card, not re-authored for educators. (§4 tables and §5 correctly say "Acharya".)</li>
+  <li><b>Headings still say "Academic Success".</b> §4 reads "…That Drive <i>Academic</i> Success" and "higher <i>academic</i> achievement" — should be teaching/educator framing for these streams.</li>
+  <li><b>Foundation and Senior share identical Part-B pillar benchmark + sample scores</b> (Att 77.4/93, Apt 77.9/94, … Overall 77.5/93.5 — byte-identical), which looks copy-pasted. The <i>ability-level</i> benchmarks DO differ correctly (Foundation ≈90–94, Senior ≈91–97). Confirm whether the two streams intend the <b>same pillar-level champion benchmark</b>, or Senior's should be higher like its ability benchmarks.</li>
+</ol>
+
+<h2 id="graphs"><span class="n">§</span>The graphs note — why "can't update the graphs" is a non-issue</h2>
+<div class="callout saffron">
+  <b>Sutirtha noted she couldn't update the graphs. That is by design, not a blocker.</b> The graphs are <b>pure
+  data-renders</b> — the engine emits the numbers (pillar %, ability %, benchmark %, IntelliGraph zones) and the render
+  draws the bars/charts from that data (the doc itself calls them "AI generated graph"). Nobody hand-edits a graph in a
+  template. <b>Once the Part-E data is encoded, the graphs redraw themselves correctly</b> — including the single saffron
+  benchmark series. Her template edits are the <i>prose/headings</i> (§H); the graphs follow the data automatically.
+</div>
+
+<h2 id="sequencing"><span class="n">I</span>Rollout sequence <span class="tag todo">deploy on hold</span></h2>
+<div class="card">
+  <div class="step"><div class="num">1</div><div><b>Build the whole chain on branches</b> — streams (#1408) + engine encoding (Part D/E) + <code>is_institutional</code> refactor. <b>No deploy of #1408 alone.</b></div></div>
+  <div class="step"><div class="num">2</div><div><b>Sutirtha</b> authors the 21 tasks' <code>headline_abilities</code> from the locked 15-ability set (Part E/F) and fixes the §H content issues.</div></div>
+  <div class="step"><div class="num">3</div><div><b>Engine encoding:</b> add both streams to the bible + <code>benchmark_mode:"single"</code> + <code>has_pathways:false</code> + ScorecardInputBuilder mapping. Golden-master: additive-only, rebaseline via <code>rebaseline-golden-from-main.sh</code>, <b>prove zero change to the 7 existing streams</b>.</div></div>
+  <div class="step"><div class="num">4</div><div><b>The refactor</b> (§A/B/C), order challenges→onboarding→enrolment. No data migration.</div></div>
+  <div class="step"><div class="num">5</div><div><b>End-to-end verify across ALL 9 streams</b> — enrol, complete tasks, generate a card for each stream; confirm the 7 student cards are byte-identical to baseline and the 2 Acharya cards show the educator abilities + single saffron benchmark + no §7, graphs auto-drawn. <b>Only then deploy</b> — as one integrated release, with your approval.</div></div>
+</div>
+
+<footer>
+  <b>Verification note (per stack rules).</b> Every "already exists / is wired" claim cites <span class="filepath">file:line</span>
+  checked 2026-07-26. The Part-E ability lists and benchmark numbers were read from Sutirtha's two sample cards in the shared
+  "AACE Scorecard" Google Doc, section by section, on 2026-07-26. The §H content issues are observations from that same read.
+  <br><br>Rev 2 · Mission Acharya &amp; Institutional Streams engineering spec · deploy on hold pending integrated cross-stream verification.
+</footer>
+
+</div>
+</body>
+</html>
