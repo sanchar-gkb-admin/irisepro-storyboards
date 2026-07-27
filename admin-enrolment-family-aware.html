@@ -1,158 +1,165 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enrolling learners — the admin journey</title>
+<title>Enrol learners — screen walkthrough</title>
 <style>
   :root{
-    --bg:#0f0e14;--panel:#18161f;--card:#1f1c28;--line:#2e2a39;--ink:#efecf5;--soft:#a8a1ba;--dim:#746d86;--field:#25212f;
-    --saffron:#F5821F;--saffron2:#ffb066;--blue:#5b8cff;--green:#3fca7d;--amber:#f0b429;--red:#ef6a76;--violet:#a583ff;--chip:#272232;
+    --bg:#eef0f4;--ink:#1f2430;--soft:#5c6577;--dim:#8a92a3;--line:#e3e6ec;--card:#fff;--field:#f6f7f9;
+    --brand:#F5821F;--brand2:#e4720f;--brandsoft:#fff2e6;--blue:#3b6fe0;--green:#22a463;--track:#e7eaf0;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-  .wrap{max-width:1120px;margin:0 auto;padding:30px 18px 72px}
-  .tag{display:inline-block;background:var(--saffron);color:#20140a;font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 10px;border-radius:999px}
-  h1{font-size:27px;margin:12px 0 6px}
-  .lede{color:var(--soft);margin:0 0 6px;max-width:76ch}
-  h2.sec{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:38px 0 14px}
-  /* flow strip */
-  .flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:8px}
-  .step{flex:0 0 236px;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-  .arrow{flex:0 0 34px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:22px}
-  .st-h{padding:11px 14px;border-bottom:1px solid var(--line);font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:8px}
-  .st-n{width:20px;height:20px;border-radius:50%;background:var(--saffron);color:#20140a;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
-  .st-b{padding:13px 14px}
-  .choice{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;margin:0 0 8px;font-size:13px;font-weight:600}
-  .choice:last-child{margin-bottom:0}
-  .choice .e{font-size:16px}
-  .choice.sel{border-color:var(--saffron);background:rgba(245,130,31,.12)}
-  .choice.sel .tick{margin-left:auto;color:var(--saffron2);font-weight:800}
-  .fld{margin:0 0 9px}.fld:last-child{margin-bottom:0}
-  .fld label{display:block;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--soft);margin:0 0 3px}
-  .fld .box{background:var(--field);border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:12.5px;color:var(--ink)}
-  .fld .box.ph{color:var(--dim)}
-  .req{color:var(--red);font-weight:800}
-  .muted{font-size:11.5px;color:var(--dim);margin-top:7px;line-height:1.45}
-  .btn{margin-top:6px;width:100%;background:var(--saffron);color:#20140a;border:0;border-radius:9px;font:700 13px system-ui;padding:9px;text-align:center}
-  .done{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px;text-align:center;font-size:13px}
-  .done .big{font-size:22px;font-weight:800;color:var(--green)}
-  /* before */
-  .before{display:flex;gap:12px;flex-wrap:wrap}
-  .bcard{flex:1 1 210px;background:var(--panel);border:1px dashed var(--red);border-radius:14px;padding:13px 14px}
-  .bcard h4{margin:0 0 6px;font-size:13px}
-  .bcard .x{font-size:12px;color:#ff9aa2;margin-top:8px;line-height:1.45}
-  .bcaption{color:var(--soft);font-size:13.5px;margin:12px 2px 0}
-  /* adapts comparison */
-  .cmp{display:grid;gap:14px}
-  @media(min-width:760px){.cmp{grid-template-columns:1fr 1fr 1fr}}
-  .persona{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-  .p-h{padding:12px 15px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--line)}
-  .p-h .d{width:10px;height:10px;border-radius:50%}
-  .d.school{background:var(--amber)}.d.teacher{background:var(--saffron)}.d.one{background:var(--blue)}
-  .p-b{padding:14px 15px}
-  .p-b .fld .box{background:var(--field)}
-  .p-b .off{opacity:.35}
-  .p-b .off .box{border-style:dashed}
-  .tagr{font-size:9.5px;font-weight:800;letter-spacing:.03em;padding:2px 7px;border-radius:999px;margin-left:6px}
-  .tagr.need{background:rgba(239,106,118,.18);color:#ff9aa2}.tagr.skip{background:rgba(116,109,134,.18);color:var(--dim)}.tagr.auto{background:rgba(63,202,125,.16);color:var(--green)}
-  .foot{margin-top:34px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
-  .foot li{margin:7px 0;color:#ddd8e8;font-size:14px}.foot b{color:#fff}
-  @media (prefers-color-scheme: light){
-    :root{--bg:#f5f3ef;--panel:#fff;--card:#faf8f4;--line:#e7e1d7;--ink:#241f2e;--soft:#655e70;--dim:#948da0;--field:#f3f0ea;--chip:#efeae2}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,system-ui,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:1120px;margin:0 auto;padding:34px 18px 70px}
+  .tt{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:700}
+  h1{font-size:25px;margin:8px 0 26px;letter-spacing:-.01em}
+  .grid{display:grid;gap:26px}
+  @media(min-width:840px){.grid{grid-template-columns:1fr 1fr}}
+  /* app screen frame */
+  .screen{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 12px 34px rgba(31,36,48,.10)}
+  .topbar{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;letter-spacing:-.01em}
+  .brand .o{width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+  .topbar .ttl{color:var(--soft);font-size:13px;font-weight:600}
+  .topbar .x{margin-left:auto;color:var(--dim);font-size:18px}
+  .prog{display:flex;align-items:center;gap:8px;padding:14px 20px 4px}
+  .prog .seg{height:5px;border-radius:99px;background:var(--track);flex:1}
+  .prog .seg.on{background:var(--brand)}
+  .prog .lbl{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.04em;white-space:nowrap}
+  .body{padding:16px 20px 8px}
+  .q{font-size:19px;font-weight:700;margin:2px 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--soft);font-size:13.5px;margin:0 0 15px}
+  /* choice cards */
+  .opt{display:flex;align-items:center;gap:13px;border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;margin:0 0 10px;cursor:default}
+  .opt .ic{width:38px;height:38px;border-radius:10px;background:var(--field);display:flex;align-items:center;justify-content:center;font-size:19px;flex:0 0 auto}
+  .opt .tx{font-weight:600;font-size:14.5px}
+  .opt .tx small{display:block;color:var(--dim);font-weight:500;font-size:12px;margin-top:1px}
+  .opt .rd{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid #cfd4de;flex:0 0 auto}
+  .opt.sel{border-color:var(--brand);background:var(--brandsoft)}
+  .opt.sel .rd{border-color:var(--brand);background:radial-gradient(circle,#fff 0 4px,var(--brand) 5px 20px)}
+  .opt.sel .ic{background:#fff}
+  /* fields */
+  .fld{margin:0 0 14px}
+  .fld label{display:block;font-size:12px;font-weight:600;color:var(--soft);margin:0 0 6px}
+  .select,.input{width:100%;background:var(--field);border:1.5px solid var(--line);border-radius:11px;padding:12px 13px;font-size:14.5px;color:var(--ink);font-weight:500;display:flex;align-items:center}
+  .select .cv{margin-left:auto;color:var(--dim)}
+  /* upload */
+  .drop{border:1.6px dashed #c7cdd8;border-radius:14px;padding:22px;text-align:center;background:var(--field)}
+  .drop .big{font-size:15px;font-weight:700}.drop .sm{color:var(--dim);font-size:12.5px;margin-top:3px}
+  .rows{margin-top:12px;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  .rows .r{display:flex;justify-content:space-between;padding:9px 13px;font-size:13px;border-bottom:1px solid var(--line)}
+  .rows .r:last-child{border-bottom:0}.rows .r .nm{font-weight:600}.rows .r .em{color:var(--dim)}
+  .rows .hd{background:var(--field);color:var(--dim);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  /* footer */
+  .foot{display:flex;gap:10px;padding:14px 20px 18px}
+  .btn{flex:1;text-align:center;padding:12px;border-radius:11px;font-weight:700;font-size:14.5px;border:1.5px solid var(--line);background:#fff;color:var(--soft)}
+  .btn.pri{background:var(--brand);border-color:var(--brand);color:#fff;flex:2}
+  /* success */
+  .success{padding:34px 22px;text-align:center}
+  .success .ck{width:64px;height:64px;border-radius:50%;background:#e5f6ee;color:var(--green);font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+  .success .n{font-size:34px;font-weight:800}
+  .success .t{font-size:15px;font-weight:600;margin-top:2px}
+  .success .m{color:var(--soft);font-size:13.5px;margin-top:8px}
+  .capnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+  .cap{font-size:12.5px;color:var(--dim);margin:10px 4px 0;font-weight:600}
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#0f0e14;--ink:#eceaf2;--soft:#a7a1b6;--dim:#7b7590;--line:#2a2735;--card:#1a1823;--field:#221f2c;--brandsoft:#2a1c10;--track:#2c2938}
+    .screen{box-shadow:0 12px 34px rgba(0,0,0,.35)}
+    .btn{background:#231f2d}
+    .opt.sel .rd{background:radial-gradient(circle,#1a1823 0 4px,var(--brand) 5px 20px)}
+    .success .ck{background:#16301f}
   }
 </style></head><body><div class="wrap">
-<span class="tag">STORYBOARD · FOR REVIEW</span>
-<h1>Enrolling learners — the admin journey</h1>
-<p class="lede">The screens an admin walks through to enrol people — redesigned so one guided flow handles every case: a school's students, Mission Acharya teachers, a single student, or a quick demo.</p>
+<div class="tt">iRisePro Admin</div>
+<h1>Enrol learners — screen walkthrough</h1>
 
-<h2 class="sec">Today — three disconnected screens</h2>
-<div class="before">
-  <div class="bcard"><h4>➊ Add a student</h4><div class="fld"><label>Stream</label><div class="box ph">type a code… e.g. neet</div></div><div class="x">You must <b>type a hidden code</b>. Guess it wrong → it just fails. No way to pick a teacher programme here.</div></div>
-  <div class="bcard"><h4>➋ Bulk upload</h4><div class="fld"><label>CSV</label><div class="box ph">Stream, Plan, …</div></div><div class="x">A spreadsheet with the same codes. Teacher programmes <b>silently don't appear</b>.</div></div>
-  <div class="bcard"><h4>➌ Create a batch</h4><div class="fld"><label>Challenge</label><div class="box ph">pick by title…</div></div><div class="x">The only screen that reaches teacher programmes — but with <b>no place to say which school</b>.</div></div>
-</div>
-<p class="bcaption">Three unrelated screens, three mental models, and the most important B2B cases (schools, teachers) are either unreachable or lose their school.</p>
+<div class="grid">
 
-<h2 class="sec">After — one guided flow (4 steps)</h2>
-<div class="flow">
-  <div class="step">
-    <div class="st-h"><span class="st-n">1</span> Who are you enrolling?</div>
-    <div class="st-b">
-      <div class="choice"><span class="e">🏫</span> A school's students</div>
-      <div class="choice sel"><span class="e">👩‍🏫</span> Teachers · Mission Acharya <span class="tick">✓</span></div>
-      <div class="choice"><span class="e">🧑‍🎓</span> One student</div>
-      <div class="choice"><span class="e">🧪</span> Set up a demo</div>
+  <!-- SCREEN 1 -->
+  <div>
+  <div class="screen">
+    <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
+    <div class="prog"><span class="lbl">Step 1 of 4</span><span class="seg on"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span></div>
+    <div class="body">
+      <div class="q">Who are you enrolling?</div>
+      <div class="sub">Pick one — we'll only ask for what's relevant.</div>
+      <div class="opt"><span class="ic">🏫</span><span class="tx">A school's students<small>A school sponsors a group of students</small></span><span class="rd"></span></div>
+      <div class="opt sel"><span class="ic">👩‍🏫</span><span class="tx">Teachers · Mission Acharya<small>Educators enrolled by their school</small></span><span class="rd"></span></div>
+      <div class="opt"><span class="ic">🧑‍🎓</span><span class="tx">One student<small>A single direct enrolment</small></span><span class="rd"></span></div>
+      <div class="opt"><span class="ic">🧪</span><span class="tx">Set up a demo<small>Internal test enrolment</small></span><span class="rd"></span></div>
     </div>
+    <div class="foot"><span class="btn pri">Continue →</span></div>
   </div>
-  <div class="arrow">→</div>
-  <div class="step">
-    <div class="st-h"><span class="st-n">2</span> Which programme?</div>
-    <div class="st-b">
-      <div class="muted" style="margin-top:0;margin-bottom:8px">Only teacher programmes shown:</div>
-      <div class="choice"><span class="e">📗</span> Pre-KG to Class 4</div>
-      <div class="choice sel"><span class="e">📘</span> Class 5 to 10 <span class="tick">✓</span></div>
-      <div class="choice"><span class="e">📙</span> PU / UG</div>
-    </div>
+  <div class="cap"><span class="capnum">1</span>Choose who this enrolment is for.</div>
   </div>
-  <div class="arrow">→</div>
-  <div class="step">
-    <div class="st-h"><span class="st-n">3</span> Details</div>
-    <div class="st-b">
-      <div class="fld"><label>Which school <span class="req">*</span></label><div class="box">Delhi Public School</div></div>
-      <div class="fld"><label>Who's paying</label><div class="box">The school</div></div>
-      <div class="muted">Teachers don't need class, board, or a guardian — so we don't ask. The report will read as a teacher's card automatically.</div>
-    </div>
-  </div>
-  <div class="arrow">→</div>
-  <div class="step">
-    <div class="st-h"><span class="st-n">4</span> Add people &amp; send</div>
-    <div class="st-b">
-      <div class="choice"><span class="e">＋</span> Add one</div>
-      <div class="choice"><span class="e">📋</span> Paste a list</div>
-      <div class="choice sel"><span class="e">📄</span> Upload a sheet <span class="tick">✓</span></div>
-      <div class="done" style="margin-top:10px"><div class="big">24</div>teachers enrolled — onboarding links sent</div>
-    </div>
-  </div>
-</div>
 
-<h2 class="sec">Step 3 adapts to who you're enrolling</h2>
-<div class="cmp">
-  <div class="persona">
-    <div class="p-h"><span class="d school"></span>A school's students</div>
-    <div class="p-b">
-      <div class="fld"><label>Which school <span class="tagr need">needed</span></label><div class="box">Delhi Public School</div></div>
-      <div class="fld"><label>Who's paying <span class="tagr auto">school</span></label><div class="box">The school</div></div>
-      <div class="fld"><label>Class <span class="tagr need">needed</span></label><div class="box">Class 8</div></div>
-      <div class="fld"><label>Board <span class="tagr need">needed</span></label><div class="box">CBSE</div></div>
-      <div class="fld"><label>Guardian</label><div class="box ph">asked only if the child is a minor</div></div>
+  <!-- SCREEN 2 -->
+  <div>
+  <div class="screen">
+    <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
+    <div class="prog"><span class="lbl">Step 2 of 4</span><span class="seg on"></span><span class="seg on"></span><span class="seg"></span><span class="seg"></span></div>
+    <div class="body">
+      <div class="q">Which programme?</div>
+      <div class="sub">Mission Acharya · teacher programmes</div>
+      <div class="opt"><span class="ic">📗</span><span class="tx">Pre-KG to Class 4<small>Foundation educators</small></span><span class="rd"></span></div>
+      <div class="opt sel"><span class="ic">📘</span><span class="tx">Class 5 to 10<small>Middle educators</small></span><span class="rd"></span></div>
+      <div class="opt"><span class="ic">📙</span><span class="tx">PU / UG<small>Senior educators</small></span><span class="rd"></span></div>
     </div>
+    <div class="foot"><span class="btn">← Back</span><span class="btn pri">Continue →</span></div>
   </div>
-  <div class="persona">
-    <div class="p-h"><span class="d teacher"></span>Mission Acharya teachers</div>
-    <div class="p-b">
-      <div class="fld"><label>Which school <span class="tagr need">needed</span></label><div class="box">Delhi Public School</div></div>
-      <div class="fld"><label>Who's paying <span class="tagr auto">school</span></label><div class="box">The school</div></div>
-      <div class="fld off"><label>Class <span class="tagr skip">not asked</span></label><div class="box ph">—</div></div>
-      <div class="fld off"><label>Board <span class="tagr skip">not asked</span></label><div class="box ph">—</div></div>
-      <div class="fld off"><label>Guardian <span class="tagr skip">not asked</span></label><div class="box ph">—</div></div>
-    </div>
+  <div class="cap"><span class="capnum">2</span>Pick the programme.</div>
   </div>
-  <div class="persona">
-    <div class="p-h"><span class="d one"></span>One student (direct)</div>
-    <div class="p-b">
-      <div class="fld"><label>Which school <span class="tagr skip">optional</span></label><div class="box ph">— none —</div></div>
-      <div class="fld"><label>Who's paying <span class="tagr auto">send a pay-link</span></label><div class="box">Parent pays online</div></div>
-      <div class="fld"><label>Class</label><div class="box">Class 8</div></div>
-      <div class="fld"><label>Board</label><div class="box">CBSE</div></div>
-      <div class="fld"><label>Guardian</label><div class="box ph">asked if the child is a minor</div></div>
-    </div>
-  </div>
-</div>
 
-<div class="foot">
-  <ul style="margin:0;padding-left:20px">
-    <li><b>One flow, four cases.</b> The admin never types a hidden code or picks the wrong screen — they say <em>who</em>, and the flow shows only what's relevant.</li>
-    <li><b>Schools always captured.</b> Enrolling a school's students or teachers now requires naming the school — no more B2B cohorts with no school attached.</li>
-    <li><b>The report follows automatically.</b> Choose "teachers" and the scorecard comes out as a teacher's card; choose students and it's a student card. The admin doesn't set that.</li>
-    <li><b>Nothing lost.</b> The quick single-student enrol and demo setup still work — they're just two of the choices in step 1.</li>
-  </ul>
+  <!-- SCREEN 3 -->
+  <div>
+  <div class="screen">
+    <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
+    <div class="prog"><span class="lbl">Step 3 of 4</span><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span><span class="seg"></span></div>
+    <div class="body">
+      <div class="q">A few details</div>
+      <div class="sub">Mission Acharya · Class 5 to 10</div>
+      <div class="fld"><label>Which school?</label><div class="select">Delhi Public School <span class="cv">▾</span></div></div>
+      <div class="fld"><label>Who's paying?</label><div class="select">The school <span class="cv">▾</span></div></div>
+      <div class="fld"><label>When do they start?</label><div class="select">All together — as a batch <span class="cv">▾</span></div></div>
+    </div>
+    <div class="foot"><span class="btn">← Back</span><span class="btn pri">Continue →</span></div>
+  </div>
+  <div class="cap"><span class="capnum">3</span>Confirm the school and how it's set up.</div>
+  </div>
+
+  <!-- SCREEN 4 -->
+  <div>
+  <div class="screen">
+    <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
+    <div class="prog"><span class="lbl">Step 4 of 4</span><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span></div>
+    <div class="body">
+      <div class="q">Add the teachers</div>
+      <div class="sub">Upload a sheet, paste a list, or add them one by one.</div>
+      <div class="drop"><div class="big">⬆︎ Upload a sheet</div><div class="sm">or drag a CSV / Excel file here</div></div>
+      <div class="rows">
+        <div class="r hd"><span>Name</span><span>Email</span></div>
+        <div class="r"><span class="nm">Anjali Rao</span><span class="em">anjali@dps.edu</span></div>
+        <div class="r"><span class="nm">Vikram Nair</span><span class="em">vikram@dps.edu</span></div>
+        <div class="r"><span class="nm">+ 22 more</span><span class="em">from the sheet</span></div>
+      </div>
+    </div>
+    <div class="foot"><span class="btn">← Back</span><span class="btn pri">Enrol 24 teachers →</span></div>
+  </div>
+  <div class="cap"><span class="capnum">4</span>Add the people and send.</div>
+  </div>
+
+  <!-- SCREEN 5 -->
+  <div>
+  <div class="screen">
+    <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
+    <div class="success">
+      <div class="ck">✓</div>
+      <div class="n">24</div>
+      <div class="t">teachers enrolled</div>
+      <div class="m">Delhi Public School · Mission Acharya (Class 5–10)<br>Onboarding links have been sent to each teacher.</div>
+    </div>
+    <div class="foot"><span class="btn">View batch</span><span class="btn pri">Done</span></div>
+  </div>
+  <div class="cap"><span class="capnum">5</span>Done — everyone gets their onboarding link.</div>
+  </div>
+
 </div>
 </div></body></html>
