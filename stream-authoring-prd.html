@@ -1,0 +1,181 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stream &amp; Scorecard Authoring — PRD / BRD</title>
+<style>
+  :root{--bg:#f7f6f3;--panel:#fff;--ink:#20242e;--soft:#59616f;--dim:#8b93a1;--line:#e6e3dc;--card:#fbfaf7;--field:#f3f0ea;
+    --brand:#F5821F;--brand2:#c4610d;--blue:#3b6fe0;--green:#1f9d57;--amber:#c98a09;--red:#d64550;--chip:#f0ece4;--violet:#7c5cff}
+  @media (prefers-color-scheme: dark){:root{--bg:#111015;--panel:#1a1922;--ink:#ece9f1;--soft:#a7a1b3;--dim:#7a7488;--line:#2a2733;--card:#201e2a;--field:#241f2e;--chip:#272233}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 -apple-system,system-ui,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 22px 90px}
+  .kick{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand2);font-weight:800}
+  h1{font-size:31px;line-height:1.14;margin:8px 0 6px;letter-spacing:-.02em}
+  .meta{color:var(--dim);font-size:13.5px;margin:0 0 24px}
+  h2{font-size:20px;margin:40px 0 10px;padding-top:16px;border-top:1px solid var(--line);letter-spacing:-.01em}
+  h3{font-size:16px;margin:22px 0 6px}
+  p{margin:0 0 12px}.soft{color:var(--soft)}
+  .tldr{background:linear-gradient(160deg,rgba(245,130,31,.10),rgba(245,130,31,.02));border:1px solid #e7d3ba;border-radius:14px;padding:16px 18px}
+  @media (prefers-color-scheme: dark){.tldr{border-color:#3a2c1c}}
+  .tldr b{color:var(--brand2)}
+  ul,ol{margin:6px 0 14px;padding-left:22px}li{margin:5px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0 16px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--card);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--soft)}
+  .callout{border-left:3px solid var(--brand);background:var(--card);padding:12px 15px;border-radius:0 10px 10px 0;margin:14px 0;font-size:14.5px}
+  .steps{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+  .stepc{flex:1 1 150px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-size:13.5px}
+  .stepc .n{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--brand);color:#20140a;font-weight:800;font-size:12px;align-items:center;justify-content:center;margin-bottom:6px}
+  .stepc b{display:block}
+  /* authoring tool mockup */
+  .tool{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 14px 40px rgba(31,36,48,.10);margin:12px 0 6px}
+  @media (prefers-color-scheme: dark){.tool{box-shadow:0 14px 40px rgba(0,0,0,.4)}}
+  .toolbar{display:flex;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .toolbar .ttl{font-weight:800;font-size:14px}
+  .clonedfrom{font-size:11.5px;background:rgba(124,92,255,.14);color:var(--violet);font-weight:700;padding:3px 9px;border-radius:999px}
+  .toolbar .sp{margin-left:auto;display:flex;gap:8px}
+  .btn{font:700 12.5px system-ui;padding:7px 12px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--soft)}
+  .btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+  .toolbody{display:grid;grid-template-columns:150px 1fr 168px;min-height:290px}
+  @media(max-width:680px){.toolbody{grid-template-columns:1fr}}
+  .rail{border-right:1px solid var(--line);padding:10px 8px;background:var(--card)}
+  .rail .s{font-size:12.5px;padding:7px 9px;border-radius:8px;color:var(--soft);display:flex;align-items:center;gap:7px}
+  .rail .s.on{background:var(--brand);color:#fff;font-weight:700}
+  .rail .s .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+  .rail .s.todo .dot{background:var(--amber)}
+  .editor{padding:14px 16px;border-right:1px solid var(--line)}
+  .editor h4{margin:0 0 3px;font-size:14px}.editor .sub{color:var(--dim);font-size:12px;margin:0 0 12px}
+  .brow{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .brow:last-child{border-bottom:0}.brow .ab{flex:1}.brow .pill{font-size:11px;color:var(--dim)}
+  .brow .val{width:64px;background:var(--field);border:1px solid var(--line);border-radius:7px;padding:5px 8px;text-align:center;font-weight:700}
+  .brow .val.edit{border-color:var(--brand);background:rgba(245,130,31,.08)}
+  .preview{padding:12px;background:var(--card)}
+  .preview .lbl{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .cardmini{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:9px;font-size:9px;line-height:1.35;color:var(--soft)}
+  .cardmini .h{height:5px;background:var(--brand);border-radius:3px;width:46%;margin-bottom:5px}
+  .cardmini .bar{height:5px;border-radius:3px;background:var(--field);margin:3px 0}
+  .cardmini .bar i{display:block;height:100%;border-radius:3px;background:var(--brand)}
+  .status{padding:9px 15px;border-top:1px solid var(--line);font-size:12px;color:var(--green);display:flex;gap:14px;flex-wrap:wrap;background:var(--card)}
+  .status .warn{color:var(--amber)}
+  .phase{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .phase .pn{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#20140a;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .phase b{display:block}
+  .pill{display:inline-block;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px}
+  .p0{background:rgba(31,157,87,.16);color:var(--green)}
+  a{color:var(--blue)}
+</style></head><body><div class="wrap">
+<div class="kick">Product &amp; Business Requirements</div>
+<h1>Stream &amp; Scorecard Authoring</h1>
+<p class="meta">iRisePro / YASHHO · v1 draft · for KMM, Sutirtha, Goutam</p>
+
+<div class="tldr"><b>TL;DR.</b> A new stream — teacher programme, corporate, government, college — will be created by <b>cloning an existing one and modifying it</b>, entirely in a UI, including its <b>scorecard, edited section by section</b>, with a live preview and a safe publish. The bar is a <b>Zero-Blip New Stream Rollout</b>: <b>stress-free</b> for whoever authors it, <b>error-free</b> for the system — a new stream goes live without a single disruption to anything already running. Mission Acharya (3 teacher streams) proves the model; this is the plan to get there.</div>
+
+<h2>1 · Why</h2>
+<p>Our catalogue is growing past students — Mission Acharya (teachers) is live; Corporate, Government, Colleges, MSMEs and CSR follow. Each is a "stream" with its own audience and scorecard.</p>
+<p>Today, launching a stream is an <b>engineering project</b>: the rubric owner authors in a Google Doc, an engineer transcribes it into code, wires the onboarding, and deploys. Slow, bottlenecked, and it won't scale to a fast-growing B2B catalogue.</p>
+
+<h2>2 · The product — an authoring tool built on <em>clone &amp; modify</em></h2>
+<p>You never start from a blank page. You <b>pick an existing stream that's close, clone it, and change only what differs.</b> The clone inherits a proven, valid, already-passing scorecard — so authoring is fast <em>and</em> safe.</p>
+<div class="steps">
+  <div class="stepc"><span class="n">1</span><b>Clone</b>Pick a template ("Mission Acharya — Class 5–10") → Clone into a draft.</div>
+  <div class="stepc"><span class="n">2</span><b>Modify</b>Edit the scorecard section by section + the stream settings.</div>
+  <div class="stepc"><span class="n">3</span><b>Preview</b>See the real card update live as you edit.</div>
+  <div class="stepc"><span class="n">4</span><b>Publish</b>Validation + canary render + approval → live, versioned, rollback-able.</div>
+</div>
+
+<h2>3 · The scorecard authoring tool</h2>
+<p>The scorecard is most of what a stream <em>is</em>, so this is the heart of the tool: a <b>section-by-section editor</b> mirroring the card's own structure, with a <b>live preview</b> beside it.</p>
+
+<div class="tool">
+  <div class="toolbar">
+    <span class="ttl">New stream · Corporate Leadership</span>
+    <span class="clonedfrom">↳ cloned from “Mission Acharya — Class 5–10”</span>
+    <span class="sp"><span class="btn">Preview card</span><span class="btn pri">Publish</span></span>
+  </div>
+  <div class="toolbody">
+    <div class="rail">
+      <div class="s"><span class="dot"></span>Cover &amp; labels</div>
+      <div class="s"><span class="dot"></span>§1 Framework</div>
+      <div class="s todo"><span class="dot"></span>§1-F Ability notes</div>
+      <div class="s on"><span class="dot" style="background:#fff"></span>§2 · §4 Benchmarks</div>
+      <div class="s"><span class="dot"></span>§3 Graph zones</div>
+      <div class="s todo"><span class="dot"></span>§6 Improvement</div>
+      <div class="s"><span class="dot"></span>§7 Pathways</div>
+      <div class="s"><span class="dot"></span>§8 Outcome</div>
+    </div>
+    <div class="editor">
+      <h4>§2 · §4 — Benchmarks</h4>
+      <div class="sub">The target level for each priority ability. Cloned values shown — edit what differs.</div>
+      <div class="brow"><span class="ab">Critical &amp; Analytical Thinking <span class="pill">Aptitude</span></span><span class="val edit">96</span></div>
+      <div class="brow"><span class="ab">Decision-Making <span class="pill">Execution</span></span><span class="val edit">94</span></div>
+      <div class="brow"><span class="ab">Communication &amp; Influence <span class="pill">Communication</span></span><span class="val">92</span></div>
+      <div class="brow"><span class="ab">Accountability <span class="pill">Attitude</span></span><span class="val">95</span></div>
+      <div class="brow"><span class="ab">Adaptability <span class="pill">Attitude</span></span><span class="val">94</span></div>
+    </div>
+    <div class="preview">
+      <div class="lbl">Live preview</div>
+      <div class="cardmini">
+        <div class="h"></div>
+        Corporate Leadership Scorecard
+        <div class="bar"><i style="width:78%"></i></div>
+        <div class="bar"><i style="width:64%"></i></div>
+        <div class="bar"><i style="width:86%"></i></div>
+        <div class="bar"><i style="width:71%"></i></div>
+        <div style="margin-top:5px">single saffron benchmark · no pathways</div>
+      </div>
+    </div>
+  </div>
+  <div class="status"><span>✓ 15 / 15 abilities have benchmarks</span><span class="warn">◷ §1-F notes &amp; §6 still to edit</span><span>✓ Canary render passed</span></div>
+</div>
+<p class="soft">Each section is authored in place; the status bar shows what's still missing and whether the card renders cleanly. A stream can't publish until it's complete and the canary render passes.</p>
+
+<h2>4 · Stream settings (the other half)</h2>
+<p>Alongside the scorecard, the author sets how the stream behaves — inherited from the clone, changed as needed:</p>
+<table>
+<tr><th>Setting</th><th>Example (Corporate, cloned from Acharya)</th></tr>
+<tr><td>Audience family</td><td>changed: educator → <b>corporate</b> (adults; asks employer, not class/board)</td></tr>
+<tr><td>Enrolment fields</td><td>add <b>employee ID · department</b>; drop class/board</td></tr>
+<tr><td>Price / tier</td><td>set the offer</td></tr>
+<tr><td>Who can enrol &amp; how</td><td>admin-only, employer-sponsored, in cohorts</td></tr>
+</table>
+
+<h2>5 · In scope now — family-aware admin enrolment</h2>
+<p>The first shippable step (design approved) is the <b>admin enrolment experience</b> becoming family-aware — one guided flow that adapts to who's being enrolled (a school's students · teachers · one student · demo), instead of three disconnected screens. Storyboard: <a href="https://sanchar-gkb-admin.github.io/irisepro-storyboards/admin-enrolment-family-aware.html">admin enrolment walkthrough</a>. This also closes gaps we found: institutional streams were unreachable from two of the enrolment doors, and the school was never captured.</p>
+
+<h2>6 · The bar — a Zero-Blip New Stream Rollout</h2>
+<p>This is the promise the whole design is built to keep: <b>adding a stream disrupts nothing.</b> It has two halves.</p>
+<h3>Stress-free — for whoever authors it</h3>
+<ul>
+<li>You <b>clone a proven stream</b>, never start blank — so you inherit a valid, already-working base.</li>
+<li>A <b>guided, section-by-section</b> flow shows exactly what's left; you can't forget a piece.</li>
+<li>A <b>live preview</b> means no guessing — you see the real card before anyone else does.</li>
+</ul>
+<h3>Error-free — for the running system</h3>
+<ul>
+<li><b>Isolation</b> — a new (or edited) stream <b>cannot affect any existing stream</b>. Existing cards, enrolments and money paths are provably untouched.</li>
+<li><b>Completeness gate</b> — can't publish until every ability has a benchmark + note and every section is filled.</li>
+<li><b>Live canary render</b> — the real scorecard is generated and rendered <em>before</em> go-live; a broken card can never ship.</li>
+<li><b>Approval + versioning</b> — a sign-off before live; every version kept, one-click rollback if anything looks off.</li>
+<li><b>No downtime</b> — a stream goes live as data, not a code deploy.</li>
+</ul>
+<div class="callout"><b>Zero-Blip is an engineering commitment, not a slogan.</b> A lot of infrastructure sits under it — validation, isolation guarantees, canary rendering, golden-output checks, versioned publish/rollback — detailed in the companion <b>Engineering Design</b>. Two safety invariants are absolute and hold at every phase: a minor's data is never processed without valid guardian consent (one source of truth: date of birth) <span class="pill p0">already hardened</span>, and an institutional / admin-only stream can never be sold on the public storefront.</div>
+
+<h2>7 · Roadmap</h2>
+<div class="phase"><span class="pn">0</span><div><b>Mission Acharya (done / in review)</b><span class="soft">3 teacher streams, family-aware onboarding, teacher-framed scorecard — the proof the model works.</span></div></div>
+<div class="phase"><span class="pn">1</span><div><b>Family-aware admin enrolment</b><span class="soft">One adaptive flow; institutional reachable; school always captured. Unblocks selling to schools cleanly.</span></div></div>
+<div class="phase"><span class="pn">2</span><div><b>Everything-as-data groundwork</b><span class="soft">Make a stream's definition pure data (scorecard content, wording, fields) so clone-and-modify has something to clone. Also unlocks Kannada scorecards.</span></div></div>
+<div class="phase"><span class="pn">3</span><div><b>The authoring tool</b><span class="soft">Clone → section-by-section editor → live preview → approve → publish. New streams launched by product + rubric owner, no deploy.</span></div></div>
+
+<h2>8 · Success metrics · non-goals</h2>
+<ul>
+<li><b>Time to launch a stream:</b> engineering-weeks → hours (Phase 2) → self-serve minutes (Phase 3).</li>
+<li><b>Zero</b> deploys to add a stream within an existing family; <b>zero</b> children's-data / money-isolation incidents.</li>
+</ul>
+<p class="soft"><b>Non-goals:</b> a generic form/rules engine; auto-generating benchmark numbers (they stay expert-authored, just entered in the tool); changing the public storefront or payments.</p>
+
+<h2>9 · Open decisions for the team</h2>
+<ul>
+<li>Approval workflow — besides the rubric owner, who signs off a published scorecard?</li>
+<li>When to build the Phase-3 tool vs. stay config-authored — recommend triggering on the first non-teacher institutional vertical.</li>
+<li>Clone lineage — do we track "cloned from" for governance/audit? (Recommended: yes.)</li>
+</ul>
+</div></body></html>
