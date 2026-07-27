@@ -1,165 +1,142 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enrol learners — screen walkthrough</title>
+<title>Enrol learners — screen walkthrough (pick-a-challenge)</title>
 <style>
-  :root{
-    --bg:#eef0f4;--ink:#1f2430;--soft:#5c6577;--dim:#8a92a3;--line:#e3e6ec;--card:#fff;--field:#f6f7f9;
-    --brand:#F5821F;--brand2:#e4720f;--brandsoft:#fff2e6;--blue:#3b6fe0;--green:#22a463;--track:#e7eaf0;
-  }
+  :root{--bg:#eef0f4;--ink:#1f2430;--soft:#5c6577;--dim:#8a92a3;--line:#e3e6ec;--card:#fff;--field:#f6f7f9;
+    --brand:#F5821F;--brand2:#c4610d;--blue:#3b6fe0;--green:#22a463;--track:#e7eaf0;--violet:#7c5cff;--amber:#c98a09;--red:#d64550}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,system-ui,Segoe UI,Roboto,sans-serif}
-  .wrap{max-width:1120px;margin:0 auto;padding:34px 18px 70px}
+  .wrap{max-width:1120px;margin:0 auto;padding:34px 18px 72px}
   .tt{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:700}
-  h1{font-size:25px;margin:8px 0 26px;letter-spacing:-.01em}
-  .grid{display:grid;gap:26px}
-  @media(min-width:840px){.grid{grid-template-columns:1fr 1fr}}
-  /* app screen frame */
+  h1{font-size:25px;margin:8px 0 4px}.lede{color:var(--soft);margin:0 0 24px;max-width:74ch}
+  h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:34px 0 12px}
+  .grid{display:grid;gap:26px}@media(min-width:840px){.grid{grid-template-columns:1fr 1fr}}
   .screen{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 12px 34px rgba(31,36,48,.10)}
   .topbar{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
-  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;letter-spacing:-.01em}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px}
   .brand .o{width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
-  .topbar .ttl{color:var(--soft);font-size:13px;font-weight:600}
-  .topbar .x{margin-left:auto;color:var(--dim);font-size:18px}
+  .topbar .ttl{color:var(--soft);font-size:13px;font-weight:600}.topbar .x{margin-left:auto;color:var(--dim);font-size:18px}
   .prog{display:flex;align-items:center;gap:8px;padding:14px 20px 4px}
-  .prog .seg{height:5px;border-radius:99px;background:var(--track);flex:1}
-  .prog .seg.on{background:var(--brand)}
+  .prog .seg{height:5px;border-radius:99px;background:var(--track);flex:1}.prog .seg.on{background:var(--brand)}
   .prog .lbl{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.04em;white-space:nowrap}
   .body{padding:16px 20px 8px}
-  .q{font-size:19px;font-weight:700;margin:2px 0 4px;letter-spacing:-.01em}
-  .sub{color:var(--soft);font-size:13.5px;margin:0 0 15px}
-  /* choice cards */
-  .opt{display:flex;align-items:center;gap:13px;border:1.5px solid var(--line);border-radius:13px;padding:13px 14px;margin:0 0 10px;cursor:default}
-  .opt .ic{width:38px;height:38px;border-radius:10px;background:var(--field);display:flex;align-items:center;justify-content:center;font-size:19px;flex:0 0 auto}
-  .opt .tx{font-weight:600;font-size:14.5px}
-  .opt .tx small{display:block;color:var(--dim);font-weight:500;font-size:12px;margin-top:1px}
-  .opt .rd{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid #cfd4de;flex:0 0 auto}
-  .opt.sel{border-color:var(--brand);background:var(--brandsoft)}
-  .opt.sel .rd{border-color:var(--brand);background:radial-gradient(circle,#fff 0 4px,var(--brand) 5px 20px)}
-  .opt.sel .ic{background:#fff}
-  /* fields */
-  .fld{margin:0 0 14px}
-  .fld label{display:block;font-size:12px;font-weight:600;color:var(--soft);margin:0 0 6px}
-  .select,.input{width:100%;background:var(--field);border:1.5px solid var(--line);border-radius:11px;padding:12px 13px;font-size:14.5px;color:var(--ink);font-weight:500;display:flex;align-items:center}
-  .select .cv{margin-left:auto;color:var(--dim)}
-  /* upload */
-  .drop{border:1.6px dashed #c7cdd8;border-radius:14px;padding:22px;text-align:center;background:var(--field)}
-  .drop .big{font-size:15px;font-weight:700}.drop .sm{color:var(--dim);font-size:12.5px;margin-top:3px}
-  .rows{margin-top:12px;border:1px solid var(--line);border-radius:11px;overflow:hidden}
-  .rows .r{display:flex;justify-content:space-between;padding:9px 13px;font-size:13px;border-bottom:1px solid var(--line)}
-  .rows .r:last-child{border-bottom:0}.rows .r .nm{font-weight:600}.rows .r .em{color:var(--dim)}
-  .rows .hd{background:var(--field);color:var(--dim);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-  /* footer */
+  .q{font-size:19px;font-weight:700;margin:2px 0 4px}.sub{color:var(--soft);font-size:13.5px;margin:0 0 14px}
+  .grp{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);margin:12px 2px 6px;display:flex;align-items:center;gap:7px}
+  .grp .d{width:8px;height:8px;border-radius:50%}
+  .d.student{background:var(--blue)}.d.teacher{background:var(--brand)}.d.demo{background:var(--violet)}
+  .opt{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;margin:0 0 7px}
+  .opt .ic{width:30px;height:30px;border-radius:8px;background:var(--field);display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto}
+  .opt .tx{font-weight:600;font-size:14px}.opt .tx small{display:block;color:var(--dim);font-weight:500;font-size:11.5px}
+  .opt .rd{margin-left:auto;width:18px;height:18px;border-radius:50%;border:2px solid #cfd4de;flex:0 0 auto}
+  .opt.sel{border-color:var(--brand);background:#fff6ee}.opt.sel .rd{border-color:var(--brand);background:radial-gradient(circle,#fff 0 3px,var(--brand) 4px 18px)}
+  .fld{margin:0 0 12px}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .fld label{display:block;font-size:11.5px;font-weight:600;color:var(--soft);margin:0 0 5px}
+  .fld label .req{color:var(--red);font-weight:800}
+  .box{background:var(--field);border:1px solid var(--line);border-radius:9px;padding:10px 11px;font-size:13.5px}
+  .box.ph{color:var(--dim)}
+  .hiddenrow{opacity:.4}.hiddenrow .box{border-style:dashed}
+  .note{font-size:12px;color:var(--dim);padding:2px 20px 14px}
   .foot{display:flex;gap:10px;padding:14px 20px 18px}
-  .btn{flex:1;text-align:center;padding:12px;border-radius:11px;font-weight:700;font-size:14.5px;border:1.5px solid var(--line);background:#fff;color:var(--soft)}
+  .btn{flex:1;text-align:center;padding:12px;border-radius:11px;font-weight:700;font-size:14px;border:1.5px solid var(--line);background:#fff;color:var(--soft)}
   .btn.pri{background:var(--brand);border-color:var(--brand);color:#fff;flex:2}
-  /* success */
-  .success{padding:34px 22px;text-align:center}
-  .success .ck{width:64px;height:64px;border-radius:50%;background:#e5f6ee;color:var(--green);font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-  .success .n{font-size:34px;font-weight:800}
-  .success .t{font-size:15px;font-weight:600;margin-top:2px}
-  .success .m{color:var(--soft);font-size:13.5px;margin-top:8px}
-  .capnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:800;margin-right:8px}
-  .cap{font-size:12.5px;color:var(--dim);margin:10px 4px 0;font-weight:600}
-  @media (prefers-color-scheme: dark){
-    :root{--bg:#0f0e14;--ink:#eceaf2;--soft:#a7a1b6;--dim:#7b7590;--line:#2a2735;--card:#1a1823;--field:#221f2c;--brandsoft:#2a1c10;--track:#2c2938}
-    .screen{box-shadow:0 12px 34px rgba(0,0,0,.35)}
-    .btn{background:#231f2d}
-    .opt.sel .rd{background:radial-gradient(circle,#1a1823 0 4px,var(--brand) 5px 20px)}
-    .success .ck{background:#16301f}
-  }
+  .success{padding:30px 22px;text-align:center}.success .ck{width:58px;height:58px;border-radius:50%;background:#e5f6ee;color:var(--green);font-size:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+  .success .n{font-size:30px;font-weight:800}.success .m{color:var(--soft);font-size:13px;margin-top:6px}
+  .cap{font-size:12.5px;color:var(--dim);margin:10px 4px 0;font-weight:600}.cap .n{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:800;align-items:center;justify-content:center;margin-right:7px}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0 8px;background:var(--card);border-radius:12px;overflow:hidden}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}th{background:var(--field);font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--soft)}
+  .y{color:var(--green);font-weight:700}.n{color:var(--dim)}.r{color:var(--red);font-weight:700}
+  @media (prefers-color-scheme: dark){:root{--bg:#0f0e14;--ink:#eceaf2;--soft:#a7a1b6;--dim:#7b7590;--line:#2a2735;--card:#1a1823;--field:#221f2c;--track:#2c2938}.opt.sel{background:#2a1c10}}
 </style></head><body><div class="wrap">
-<div class="tt">iRisePro Admin</div>
+<div class="tt">iRisePro Admin · revised — pick-a-challenge</div>
 <h1>Enrol learners — screen walkthrough</h1>
+<p class="lede">Three steps. Step 1 is a single <b>programme picker grouped by type</b> — students · teachers · demo — so choosing the programme <em>is</em> choosing who you're enrolling. Everything downstream (fields, report type, funding) follows from that one pick.</p>
 
 <div class="grid">
-
-  <!-- SCREEN 1 -->
+  <!-- STEP 1 -->
   <div>
   <div class="screen">
     <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
-    <div class="prog"><span class="lbl">Step 1 of 4</span><span class="seg on"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span></div>
+    <div class="prog"><span class="lbl">Step 1 of 3</span><span class="seg on"></span><span class="seg"></span><span class="seg"></span></div>
     <div class="body">
-      <div class="q">Who are you enrolling?</div>
-      <div class="sub">Pick one — we'll only ask for what's relevant.</div>
-      <div class="opt"><span class="ic">🏫</span><span class="tx">A school's students<small>A school sponsors a group of students</small></span><span class="rd"></span></div>
-      <div class="opt sel"><span class="ic">👩‍🏫</span><span class="tx">Teachers · Mission Acharya<small>Educators enrolled by their school</small></span><span class="rd"></span></div>
-      <div class="opt"><span class="ic">🧑‍🎓</span><span class="tx">One student<small>A single direct enrolment</small></span><span class="rd"></span></div>
-      <div class="opt"><span class="ic">🧪</span><span class="tx">Set up a demo<small>Internal test enrolment</small></span><span class="rd"></span></div>
+      <div class="q">Pick the programme</div>
+      <div class="sub">One list, grouped by type. Every programme is here — including demos.</div>
+      <div class="grp"><span class="d student"></span>Student programmes</div>
+      <div class="opt"><span class="ic">📕</span><span class="tx">NEET Booster <small>₹4999 · 64 abilities</small></span><span class="rd"></span></div>
+      <div class="opt"><span class="ic">📗</span><span class="tx">Marks Booster (5–7) <small>₹999</small></span><span class="rd"></span></div>
+      <div class="grp"><span class="d teacher"></span>Mission Acharya · teachers</div>
+      <div class="opt sel"><span class="ic">📘</span><span class="tx">Class 5 to 10 <small>teacher programme · ₹4999</small></span><span class="rd"></span></div>
+      <div class="opt"><span class="ic">📙</span><span class="tx">PU / UG <small>teacher programme · ₹4999</small></span><span class="rd"></span></div>
+      <div class="grp"><span class="d demo"></span>Demo / test</div>
+      <div class="opt"><span class="ic">🧪</span><span class="tx">NEET DEMO <small>internal test setup</small></span><span class="rd"></span></div>
     </div>
     <div class="foot"><span class="btn pri">Continue →</span></div>
   </div>
-  <div class="cap"><span class="capnum">1</span>Choose who this enrolment is for.</div>
+  <div class="cap"><span class="n">1</span>Choosing the programme picks who + how — one step.</div>
   </div>
 
-  <!-- SCREEN 2 -->
+  <!-- STEP 2 -->
   <div>
   <div class="screen">
     <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
-    <div class="prog"><span class="lbl">Step 2 of 4</span><span class="seg on"></span><span class="seg on"></span><span class="seg"></span><span class="seg"></span></div>
+    <div class="prog"><span class="lbl">Step 2 of 3</span><span class="seg on"></span><span class="seg on"></span><span class="seg"></span></div>
     <div class="body">
-      <div class="q">Which programme?</div>
-      <div class="sub">Mission Acharya · teacher programmes</div>
-      <div class="opt"><span class="ic">📗</span><span class="tx">Pre-KG to Class 4<small>Foundation educators</small></span><span class="rd"></span></div>
-      <div class="opt sel"><span class="ic">📘</span><span class="tx">Class 5 to 10<small>Middle educators</small></span><span class="rd"></span></div>
-      <div class="opt"><span class="ic">📙</span><span class="tx">PU / UG<small>Senior educators</small></span><span class="rd"></span></div>
+      <div class="q">Details</div>
+      <div class="sub">Mission Acharya · Class 5 to 10 — a teacher programme, so we only ask what teachers need.</div>
+      <div class="fld"><label>Which school <span class="req">*</span></label><div class="box">Delhi Public School</div></div>
+      <div class="two">
+        <div class="fld"><label>Who's paying</label><div class="box">The school</div></div>
+        <div class="fld"><label>When they start</label><div class="box">Together — as a batch</div></div>
+      </div>
+      <div class="two hiddenrow"><div class="fld"><label>Class</label><div class="box ph">not asked for teachers</div></div><div class="fld"><label>Board</label><div class="box ph">not asked</div></div></div>
+      <div class="fld hiddenrow"><label>Guardian</label><div class="box ph">not asked (adults)</div></div>
     </div>
     <div class="foot"><span class="btn">← Back</span><span class="btn pri">Continue →</span></div>
   </div>
-  <div class="cap"><span class="capnum">2</span>Pick the programme.</div>
+  <div class="cap"><span class="n">2</span>Only the fields this programme's family needs.</div>
   </div>
 
-  <!-- SCREEN 3 -->
+  <!-- STEP 3 -->
   <div>
   <div class="screen">
     <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
-    <div class="prog"><span class="lbl">Step 3 of 4</span><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span><span class="seg"></span></div>
-    <div class="body">
-      <div class="q">A few details</div>
-      <div class="sub">Mission Acharya · Class 5 to 10</div>
-      <div class="fld"><label>Which school?</label><div class="select">Delhi Public School <span class="cv">▾</span></div></div>
-      <div class="fld"><label>Who's paying?</label><div class="select">The school <span class="cv">▾</span></div></div>
-      <div class="fld"><label>When do they start?</label><div class="select">All together — as a batch <span class="cv">▾</span></div></div>
-    </div>
-    <div class="foot"><span class="btn">← Back</span><span class="btn pri">Continue →</span></div>
-  </div>
-  <div class="cap"><span class="capnum">3</span>Confirm the school and how it's set up.</div>
-  </div>
-
-  <!-- SCREEN 4 -->
-  <div>
-  <div class="screen">
-    <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
-    <div class="prog"><span class="lbl">Step 4 of 4</span><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span></div>
+    <div class="prog"><span class="lbl">Step 3 of 3</span><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span></div>
     <div class="body">
       <div class="q">Add the teachers</div>
-      <div class="sub">Upload a sheet, paste a list, or add them one by one.</div>
-      <div class="drop"><div class="big">⬆︎ Upload a sheet</div><div class="sm">or drag a CSV / Excel file here</div></div>
-      <div class="rows">
-        <div class="r hd"><span>Name</span><span>Email</span></div>
-        <div class="r"><span class="nm">Anjali Rao</span><span class="em">anjali@dps.edu</span></div>
-        <div class="r"><span class="nm">Vikram Nair</span><span class="em">vikram@dps.edu</span></div>
-        <div class="r"><span class="nm">+ 22 more</span><span class="em">from the sheet</span></div>
-      </div>
+      <div class="sub">Add one, paste a list, or upload a sheet.</div>
+      <div class="opt"><span class="ic">＋</span><span class="tx">Add one</span><span class="rd"></span></div>
+      <div class="opt"><span class="ic">📋</span><span class="tx">Paste a list</span><span class="rd"></span></div>
+      <div class="opt sel"><span class="ic">📄</span><span class="tx">Upload a sheet</span><span class="rd"></span></div>
     </div>
     <div class="foot"><span class="btn">← Back</span><span class="btn pri">Enrol 24 teachers →</span></div>
   </div>
-  <div class="cap"><span class="capnum">4</span>Add the people and send.</div>
+  <div class="cap"><span class="n">3</span>Add the people and send.</div>
   </div>
 
-  <!-- SCREEN 5 -->
+  <!-- DONE -->
   <div>
   <div class="screen">
     <div class="topbar"><div class="brand"><span class="o">O</span>iRisePro</div><span class="ttl">Enrol learners</span><span class="x">✕</span></div>
-    <div class="success">
-      <div class="ck">✓</div>
-      <div class="n">24</div>
-      <div class="t">teachers enrolled</div>
-      <div class="m">Delhi Public School · Mission Acharya (Class 5–10)<br>Onboarding links have been sent to each teacher.</div>
-    </div>
+    <div class="success"><div class="ck">✓</div><div class="n">24</div><div style="font-weight:600">teachers enrolled</div><div class="m">Delhi Public School · Mission Acharya (Class 5–10)<br>Onboarding links sent to each teacher.</div></div>
     <div class="foot"><span class="btn">View batch</span><span class="btn pri">Done</span></div>
   </div>
-  <div class="cap"><span class="capnum">5</span>Done — everyone gets their onboarding link.</div>
+  <div class="cap"><span class="n">4</span>Done — everyone gets their onboarding link.</div>
   </div>
-
 </div>
+
+<h2>Step 2 · the complete details, by what you picked</h2>
+<p class="lede">Every field the form can ask — shown/required per the chosen programme's family. <b>All of these already exist today</b>; nothing new is captured for Mission Acharya — the only change is which are shown &amp; required.</p>
+<table>
+<tr><th>Field</th><th>Student · school kid</th><th>Student · adult</th><th>Teacher (Acharya)</th><th>Demo</th></tr>
+<tr><td>Name · Email</td><td class="y">required</td><td class="y">required</td><td class="y">required</td><td class="y">required</td></tr>
+<tr><td>Date of birth</td><td class="y">required</td><td class="y">required</td><td class="y">required</td><td class="n">optional</td></tr>
+<tr><td>Phone · Gender</td><td class="n">optional</td><td class="n">optional</td><td class="n">optional</td><td class="n">optional</td></tr>
+<tr><td>Class</td><td class="y">required</td><td class="n">optional</td><td class="r">not asked</td><td class="n">optional</td></tr>
+<tr><td>Board</td><td class="y">required</td><td class="r">not asked</td><td class="r">not asked</td><td class="n">optional</td></tr>
+<tr><td>Preferred language</td><td class="y">required</td><td class="y">required</td><td class="y">required</td><td class="n">optional</td></tr>
+<tr><td>School / institution</td><td class="n">opt (req if school-paid)</td><td class="n">optional</td><td class="r">required</td><td class="n">—</td></tr>
+<tr><td>Guardian details</td><td class="y">required (minor)</td><td class="r">not asked</td><td class="r">not asked</td><td class="n">—</td></tr>
+<tr><td>School consent doc</td><td class="n">if school-attested</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>
+<tr><td>Who's paying / funding</td><td>pay-link · waiver</td><td>pay-link · waiver</td><td class="y">school (external)</td><td>demo waiver</td></tr>
+</table>
+<p class="note">The programme itself is chosen by name (Step 1), so an admin never types a code — and demos are picked the same way as any other programme.</p>
 </div></body></html>
