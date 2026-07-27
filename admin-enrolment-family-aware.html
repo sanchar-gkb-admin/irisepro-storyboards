@@ -1,179 +1,158 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin Enrolment — before / after (family-aware)</title>
+<title>Enrolling learners — the admin journey</title>
 <style>
   :root{
-    --bg:#0e0d13;--panel:#17151d;--panel2:#1e1b25;--line:#2c2836;--ink:#ece8f2;--soft:#a49db6;--dim:#736c83;--field:#211d29;
-    --saffron:#F5821F;--saffron2:#ffb066;--blue:#5b8cff;--green:#3fca7d;--amber:#f0b429;--red:#ef5a68;--chip:#241f2e;--violet:#a583ff;
+    --bg:#0f0e14;--panel:#18161f;--card:#1f1c28;--line:#2e2a39;--ink:#efecf5;--soft:#a8a1ba;--dim:#746d86;--field:#25212f;
+    --saffron:#F5821F;--saffron2:#ffb066;--blue:#5b8cff;--green:#3fca7d;--amber:#f0b429;--red:#ef6a76;--violet:#a583ff;--chip:#272232;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-  .wrap{max-width:1080px;margin:0 auto;padding:30px 18px 70px}
+  .wrap{max-width:1120px;margin:0 auto;padding:30px 18px 72px}
   .tag{display:inline-block;background:var(--saffron);color:#20140a;font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 10px;border-radius:999px}
-  h1{font-size:26px;margin:12px 0 6px;letter-spacing:-.01em}
-  .lede{color:var(--soft);margin:0 0 20px;max-width:82ch}
-  .cols{display:grid;gap:20px}
-  @media(min-width:860px){.cols{grid-template-columns:1fr 1fr}}
-  .col>h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0 0 10px;display:flex;align-items:center;gap:8px}
-  .col>h2 .p{font-size:10px;padding:2px 8px;border-radius:999px}
-  .before .p{background:rgba(239,90,104,.16);color:#ff8a94}.after .p{background:rgba(63,202,125,.16);color:var(--green)}
-  /* form shell */
-  .form{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-  .fh{padding:13px 16px;border-bottom:1px solid var(--line);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-  .fh small{color:var(--dim);font-weight:500}
-  .fb{padding:14px 16px}
-  .row{margin:0 0 12px}
-  .row:last-child{margin-bottom:0}
-  label{display:block;font-size:11.5px;letter-spacing:.03em;color:var(--soft);margin:0 0 4px;text-transform:uppercase}
-  label .star{color:var(--red);font-weight:800}
-  .inp,.sel{width:100%;background:var(--field);border:1px solid var(--line);border-radius:9px;color:var(--ink);font:14px system-ui;padding:9px 11px}
-  .sel{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);background-position:calc(100% - 16px) 17px,calc(100% - 11px) 17px;background-size:5px 5px;background-repeat:no-repeat}
-  .ph{color:var(--dim)}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .ann{font-size:11.5px;margin:5px 0 0;padding:6px 9px;border-radius:8px;line-height:1.4}
-  .ann.bad{background:rgba(239,90,104,.10);border:1px solid rgba(239,90,104,.3);color:#ff9aa2}
-  .ann.good{background:rgba(63,202,125,.08);border:1px solid rgba(63,202,125,.28);color:#8ee3b3}
-  .hiddenrow{opacity:.34;filter:grayscale(.5)}
-  .hiddenrow .inp,.hiddenrow .sel{border-style:dashed}
-  .tagfield{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px}
-  .req{background:rgba(239,90,104,.16);color:#ff8a94}.opt{background:var(--chip);color:var(--dim)}.hid{background:rgba(115,108,131,.16);color:var(--dim)}.lock{background:rgba(63,202,125,.15);color:var(--green)}
-  .chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--chip)}
-  .chip .d{width:8px;height:8px;border-radius:50%}
-  .d.student{background:var(--blue)}.d.educator{background:var(--saffron)}.d.demo{background:var(--violet)}
-  .summary{margin-top:12px;font-size:12.5px;color:var(--soft);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;line-height:1.6}
-  .summary b{color:var(--ink)}
-  .lanes{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
-  .lane{flex:0 0 auto;background:var(--chip);border:1px solid var(--line);color:var(--soft);font:600 12px system-ui;padding:7px 12px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:6px}
-  .lane .d{width:7px;height:7px;border-radius:50%}
-  .lane.on{color:#fff;border-color:transparent}
-  .lane.on.b2c{background:#2b4a8c}.lane.on.b2b{background:#5a4a12}.lane.on.ach{background:#7a3d10}.lane.on.dmo{background:#4a2a5c}
-  .d.b2c{background:var(--blue)}.d.b2b{background:var(--amber)}.d.ach{background:var(--saffron)}.d.dmo{background:var(--violet)}
-  .cta{margin-top:14px;width:100%;background:var(--saffron);color:#20140a;border:0;border-radius:10px;font:700 14px system-ui;padding:11px;cursor:default}
-  .legend{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
-  .legend h3{margin:0 0 8px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-  .legend li{margin:6px 0;color:#d8d3e2;font-size:14px}.legend b{color:var(--ink)}
-  code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--saffron2);background:var(--chip);padding:1px 5px;border-radius:5px}
+  h1{font-size:27px;margin:12px 0 6px}
+  .lede{color:var(--soft);margin:0 0 6px;max-width:76ch}
+  h2.sec{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:38px 0 14px}
+  /* flow strip */
+  .flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:8px}
+  .step{flex:0 0 236px;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .arrow{flex:0 0 34px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:22px}
+  .st-h{padding:11px 14px;border-bottom:1px solid var(--line);font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .st-n{width:20px;height:20px;border-radius:50%;background:var(--saffron);color:#20140a;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .st-b{padding:13px 14px}
+  .choice{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;margin:0 0 8px;font-size:13px;font-weight:600}
+  .choice:last-child{margin-bottom:0}
+  .choice .e{font-size:16px}
+  .choice.sel{border-color:var(--saffron);background:rgba(245,130,31,.12)}
+  .choice.sel .tick{margin-left:auto;color:var(--saffron2);font-weight:800}
+  .fld{margin:0 0 9px}.fld:last-child{margin-bottom:0}
+  .fld label{display:block;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--soft);margin:0 0 3px}
+  .fld .box{background:var(--field);border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:12.5px;color:var(--ink)}
+  .fld .box.ph{color:var(--dim)}
+  .req{color:var(--red);font-weight:800}
+  .muted{font-size:11.5px;color:var(--dim);margin-top:7px;line-height:1.45}
+  .btn{margin-top:6px;width:100%;background:var(--saffron);color:#20140a;border:0;border-radius:9px;font:700 13px system-ui;padding:9px;text-align:center}
+  .done{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px;text-align:center;font-size:13px}
+  .done .big{font-size:22px;font-weight:800;color:var(--green)}
+  /* before */
+  .before{display:flex;gap:12px;flex-wrap:wrap}
+  .bcard{flex:1 1 210px;background:var(--panel);border:1px dashed var(--red);border-radius:14px;padding:13px 14px}
+  .bcard h4{margin:0 0 6px;font-size:13px}
+  .bcard .x{font-size:12px;color:#ff9aa2;margin-top:8px;line-height:1.45}
+  .bcaption{color:var(--soft);font-size:13.5px;margin:12px 2px 0}
+  /* adapts comparison */
+  .cmp{display:grid;gap:14px}
+  @media(min-width:760px){.cmp{grid-template-columns:1fr 1fr 1fr}}
+  .persona{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .p-h{padding:12px 15px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--line)}
+  .p-h .d{width:10px;height:10px;border-radius:50%}
+  .d.school{background:var(--amber)}.d.teacher{background:var(--saffron)}.d.one{background:var(--blue)}
+  .p-b{padding:14px 15px}
+  .p-b .fld .box{background:var(--field)}
+  .p-b .off{opacity:.35}
+  .p-b .off .box{border-style:dashed}
+  .tagr{font-size:9.5px;font-weight:800;letter-spacing:.03em;padding:2px 7px;border-radius:999px;margin-left:6px}
+  .tagr.need{background:rgba(239,106,118,.18);color:#ff9aa2}.tagr.skip{background:rgba(116,109,134,.18);color:var(--dim)}.tagr.auto{background:rgba(63,202,125,.16);color:var(--green)}
+  .foot{margin-top:34px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .foot li{margin:7px 0;color:#ddd8e8;font-size:14px}.foot b{color:#fff}
   @media (prefers-color-scheme: light){
-    :root{--bg:#f6f4f0;--panel:#fff;--panel2:#faf8f5;--line:#e7e1d8;--ink:#241f2e;--soft:#6b6474;--dim:#938c9e;--chip:#f0ece6;--field:#f4f1ec}
+    :root{--bg:#f5f3ef;--panel:#fff;--card:#faf8f4;--line:#e7e1d7;--ink:#241f2e;--soft:#655e70;--dim:#948da0;--field:#f3f0ea;--chip:#efeae2}
   }
 </style></head><body><div class="wrap">
 <span class="tag">STORYBOARD · FOR REVIEW</span>
-<h1>Admin enrolment — before / after</h1>
-<p class="lede">Same admin task ("enrol a learner"), redesigned to be <b>stream-family aware</b>. Today it's three inconsistent forms, two of which can't even reach an institutional stream. After: one adaptive form that resolves a real challenge and shows exactly the right fields per family — student · school-B2B · Acharya educator · demo — all in unison.</p>
+<h1>Enrolling learners — the admin journey</h1>
+<p class="lede">The screens an admin walks through to enrol people — redesigned so one guided flow handles every case: a school's students, Mission Acharya teachers, a single student, or a quick demo.</p>
 
-<div class="cols">
-  <!-- BEFORE -->
-  <div class="col before">
-    <h2>Before <span class="p">today · students/create</span></h2>
-    <div class="form">
-      <div class="fh">Add / enrol a student <small>· one of 3 unrelated forms</small></div>
-      <div class="fb">
-        <div class="two">
-          <div class="row"><label>Full name</label><input class="inp" value="Aarav Sharma"></div>
-          <div class="row"><label>Email</label><input class="inp" value="aarav@…"></div>
-        </div>
-        <div class="row"><label>Stream</label><input class="inp ph" value="program_key e.g. neet">
-          <div class="ann bad">🔴 <b>Free-text.</b> A typo just fails; <b>no way to pick an Acharya / institutional stream</b> — resolved via <code>sellable()</code>, which excludes <code>is_listed=false</code>.</div>
-        </div>
-        <div class="two">
-          <div class="row"><label>Plan</label><select class="sel"><option>₹999</option><option>₹1999</option><option>₹4999</option></select></div>
-          <div class="row"><label>Class / grade</label><input class="inp" value="8">
-          </div>
-        </div>
-        <div class="row"><label>Board</label><input class="inp" value="CBSE">
-          <div class="ann bad">🔴 Class + Board shown for <b>everyone</b> — an educator has neither (the <code>OnboardingFamily</code> shape says so, but this form ignores it).</div>
-        </div>
-        <div class="row"><label>Institution</label><select class="sel"><option>— None (B2C) —</option><option>Delhi Public School</option></select>
-          <div class="ann bad">🔴 Always <b>optional</b>. A school cohort / Acharya can be created with <b>no institution</b>. The batch form has no institution field at all.</div>
-        </div>
-        <div class="row"><label>Guardian (name · email · phone)</label><input class="inp ph" value="shown regardless"></div>
-        <button class="cta" style="background:#3a3446;color:var(--soft)">Save</button>
-      </div>
+<h2 class="sec">Today — three disconnected screens</h2>
+<div class="before">
+  <div class="bcard"><h4>➊ Add a student</h4><div class="fld"><label>Stream</label><div class="box ph">type a code… e.g. neet</div></div><div class="x">You must <b>type a hidden code</b>. Guess it wrong → it just fails. No way to pick a teacher programme here.</div></div>
+  <div class="bcard"><h4>➋ Bulk upload</h4><div class="fld"><label>CSV</label><div class="box ph">Stream, Plan, …</div></div><div class="x">A spreadsheet with the same codes. Teacher programmes <b>silently don't appear</b>.</div></div>
+  <div class="bcard"><h4>➌ Create a batch</h4><div class="fld"><label>Challenge</label><div class="box ph">pick by title…</div></div><div class="x">The only screen that reaches teacher programmes — but with <b>no place to say which school</b>.</div></div>
+</div>
+<p class="bcaption">Three unrelated screens, three mental models, and the most important B2B cases (schools, teachers) are either unreachable or lose their school.</p>
+
+<h2 class="sec">After — one guided flow (4 steps)</h2>
+<div class="flow">
+  <div class="step">
+    <div class="st-h"><span class="st-n">1</span> Who are you enrolling?</div>
+    <div class="st-b">
+      <div class="choice"><span class="e">🏫</span> A school's students</div>
+      <div class="choice sel"><span class="e">👩‍🏫</span> Teachers · Mission Acharya <span class="tick">✓</span></div>
+      <div class="choice"><span class="e">🧑‍🎓</span> One student</div>
+      <div class="choice"><span class="e">🧪</span> Set up a demo</div>
     </div>
   </div>
-
-  <!-- AFTER -->
-  <div class="col after">
-    <h2>After <span class="p">proposed · one adaptive form</span></h2>
-    <div class="form">
-      <div class="fh">Enrol a learner <small>· adapts to the chosen challenge</small> <span id="famchip" class="chip"><span class="d student"></span>Student</span></div>
-      <div class="fb">
-        <div class="lanes">
-          <button class="lane b2c on" data-l="b2c"><span class="d b2c"></span>Student · B2C</button>
-          <button class="lane b2b" data-l="b2b"><span class="d b2b"></span>School · B2B</button>
-          <button class="lane ach" data-l="ach"><span class="d ach"></span>Acharya · educator</button>
-          <button class="lane dmo" data-l="dmo"><span class="d dmo"></span>Demo</button>
-        </div>
-        <div class="row"><label>Challenge <span class="tagfield lock">by id · family-labelled</span></label>
-          <select class="sel" id="challengeSel">
-            <optgroup label="Student streams (public)"><option>NEET Booster — ₹4999 · 64-ability</option><option>JEE Booster — ₹999</option><option>Marks Booster (5–7) — ₹999</option></optgroup>
-            <optgroup label="Mission Acharya (educators)"><option>Mission Acharya — Pre-KG to Class 4 · ₹4999</option><option>Mission Acharya — Class 5 to 10 · ₹4999</option><option>Mission Acharya — PU / UG · ₹4999</option></optgroup>
-            <optgroup label="Demo / test"><option>NEET DEMO (is_demo)</option></optgroup>
-          </select>
-          <div class="ann good">✓ One source (<code>PROGRAMS ∪ INSTITUTIONAL_PROGRAMS</code> + demos), grouped by family — every stream reachable; <code>sellable()</code> stays for public checkout only.</div>
-        </div>
-        <div class="two">
-          <div class="row"><label>Funding <span id="t_fund" class="tagfield opt">selectable</span></label><select class="sel" id="fundSel"><option>Await payment (parent)</option><option>External (school-paid)</option><option>Waiver / comp</option></select></div>
-          <div class="row"><label>Tier <span id="t_tier" class="tagfield opt">from plan</span></label><input class="inp" id="tierInp" value="₹999 / 1999 / 4999"></div>
-        </div>
-        <div class="row" id="row_inst"><label>Institution / school <span id="t_inst" class="tagfield opt">optional</span></label><select class="sel"><option>— select school —</option><option>Delhi Public School</option></select></div>
-        <div class="two" id="row_classboard">
-          <div class="row"><label>Class / grade <span id="t_class" class="tagfield opt">optional</span></label><input class="inp" value="8"></div>
-          <div class="row"><label>Board <span id="t_board" class="tagfield opt">optional</span></label><input class="inp" value="CBSE"></div>
-        </div>
-        <div class="row" id="row_guardian"><label>Guardian (if minor) <span class="tagfield opt">by age</span></label><input class="inp ph" value="shown only for a minor"></div>
-        <div class="summary" id="summary"></div>
-        <button class="cta">Enrol →</button>
-      </div>
+  <div class="arrow">→</div>
+  <div class="step">
+    <div class="st-h"><span class="st-n">2</span> Which programme?</div>
+    <div class="st-b">
+      <div class="muted" style="margin-top:0;margin-bottom:8px">Only teacher programmes shown:</div>
+      <div class="choice"><span class="e">📗</span> Pre-KG to Class 4</div>
+      <div class="choice sel"><span class="e">📘</span> Class 5 to 10 <span class="tick">✓</span></div>
+      <div class="choice"><span class="e">📙</span> PU / UG</div>
+    </div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step">
+    <div class="st-h"><span class="st-n">3</span> Details</div>
+    <div class="st-b">
+      <div class="fld"><label>Which school <span class="req">*</span></label><div class="box">Delhi Public School</div></div>
+      <div class="fld"><label>Who's paying</label><div class="box">The school</div></div>
+      <div class="muted">Teachers don't need class, board, or a guardian — so we don't ask. The report will read as a teacher's card automatically.</div>
+    </div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step">
+    <div class="st-h"><span class="st-n">4</span> Add people &amp; send</div>
+    <div class="st-b">
+      <div class="choice"><span class="e">＋</span> Add one</div>
+      <div class="choice"><span class="e">📋</span> Paste a list</div>
+      <div class="choice sel"><span class="e">📄</span> Upload a sheet <span class="tick">✓</span></div>
+      <div class="done" style="margin-top:10px"><div class="big">24</div>teachers enrolled — onboarding links sent</div>
     </div>
   </div>
 </div>
 
-<div class="legend">
-  <h3>What changed — and what stayed put</h3>
+<h2 class="sec">Step 3 adapts to who you're enrolling</h2>
+<div class="cmp">
+  <div class="persona">
+    <div class="p-h"><span class="d school"></span>A school's students</div>
+    <div class="p-b">
+      <div class="fld"><label>Which school <span class="tagr need">needed</span></label><div class="box">Delhi Public School</div></div>
+      <div class="fld"><label>Who's paying <span class="tagr auto">school</span></label><div class="box">The school</div></div>
+      <div class="fld"><label>Class <span class="tagr need">needed</span></label><div class="box">Class 8</div></div>
+      <div class="fld"><label>Board <span class="tagr need">needed</span></label><div class="box">CBSE</div></div>
+      <div class="fld"><label>Guardian</label><div class="box ph">asked only if the child is a minor</div></div>
+    </div>
+  </div>
+  <div class="persona">
+    <div class="p-h"><span class="d teacher"></span>Mission Acharya teachers</div>
+    <div class="p-b">
+      <div class="fld"><label>Which school <span class="tagr need">needed</span></label><div class="box">Delhi Public School</div></div>
+      <div class="fld"><label>Who's paying <span class="tagr auto">school</span></label><div class="box">The school</div></div>
+      <div class="fld off"><label>Class <span class="tagr skip">not asked</span></label><div class="box ph">—</div></div>
+      <div class="fld off"><label>Board <span class="tagr skip">not asked</span></label><div class="box ph">—</div></div>
+      <div class="fld off"><label>Guardian <span class="tagr skip">not asked</span></label><div class="box ph">—</div></div>
+    </div>
+  </div>
+  <div class="persona">
+    <div class="p-h"><span class="d one"></span>One student (direct)</div>
+    <div class="p-b">
+      <div class="fld"><label>Which school <span class="tagr skip">optional</span></label><div class="box ph">— none —</div></div>
+      <div class="fld"><label>Who's paying <span class="tagr auto">send a pay-link</span></label><div class="box">Parent pays online</div></div>
+      <div class="fld"><label>Class</label><div class="box">Class 8</div></div>
+      <div class="fld"><label>Board</label><div class="box">CBSE</div></div>
+      <div class="fld"><label>Guardian</label><div class="box ph">asked if the child is a minor</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
   <ul style="margin:0;padding-left:20px">
-    <li><b>Reachable:</b> a real, family-labelled <b>challenge picker</b> (resolved by id) replaces the free-text / <code>sellable()</code> lookup — Acharya + demo now selectable from every door.</li>
-    <li><b>Adaptive fields:</b> the form reads <code>Challenge::onboardingFamily()</code> — educators lose class/board/guardian; institution becomes <b>required</b> for institutional (or any external-funded) enrolment.</li>
-    <li><b>All 3 doors, one contract:</b> single-enrol, <b>bulk-CSV</b>, and batch-create share this resolver + family rules (the CSV <code>Stream</code> column resolves the same way; institution required when institutional).</li>
-    <li><b>Held invariant — money:</b> public checkout keeps <code>sellable()</code> (<code>is_listed=true</code>); institutional stays off the storefront.</li>
-    <li><b>Held invariant — demo:</b> demos remain a first-class, labelled enrol target. Nothing regresses.</li>
+    <li><b>One flow, four cases.</b> The admin never types a hidden code or picks the wrong screen — they say <em>who</em>, and the flow shows only what's relevant.</li>
+    <li><b>Schools always captured.</b> Enrolling a school's students or teachers now requires naming the school — no more B2B cohorts with no school attached.</li>
+    <li><b>The report follows automatically.</b> Choose "teachers" and the scorecard comes out as a teacher's card; choose students and it's a student card. The admin doesn't set that.</li>
+    <li><b>Nothing lost.</b> The quick single-student enrol and demo setup still work — they're just two of the choices in step 1.</li>
   </ul>
 </div>
-
-<script>
-  var L={
-    b2c:{fam:'Student',dot:'student',challenge:0,fund:0,fundTag:['selectable','opt'],tier:'from plan · 999/1999/4999',tierTag:['from plan','opt'],
-      inst:['optional','opt'],cls:['optional','opt'],brd:['optional','opt'],showCB:true,showGuardian:true,
-      sum:'<b>B2C student</b> — parent pays (await-payment), <b>rolling</b> window. Class/board optional (finalised at onboarding), guardian gated by DOB. Institution optional.'},
-    b2b:{fam:'Student',dot:'student',challenge:0,fund:1,fundTag:['external','lock'],tier:'from plan',tierTag:['from plan','opt'],
-      inst:['required','req'],cls:['required','req'],brd:['required','req'],showCB:true,showGuardian:true,
-      sum:'<b>School B2B</b> — a school pays for a cohort of students (<b>external</b> funding, <b>cohort</b> window). Student learners → class/board/guardian apply. <b>Institution required</b> (whose students).'},
-    ach:{fam:'Educator',dot:'educator',challenge:3,fund:1,fundTag:['external','lock'],tier:'₹4999 (locked)',tierTag:['locked 4999','lock'],
-      inst:['required','req'],cls:['n/a','hid'],brd:['n/a','hid'],showCB:false,showGuardian:false,
-      sum:'<b>Acharya educator</b> — teachers enrolled by their institution (<b>external</b>, <b>cohort</b>). No class/board/guardian (educator family). <b>Institution required</b>. Tier <b>locked 4999</b>. Onboarding auto-switches to the educator shape (educator manual, 8-day).'},
-    dmo:{fam:'Demo',dot:'demo',challenge:6,fund:2,fundTag:['waiver·demo','lock'],tier:'any',tierTag:['any','opt'],
-      inst:['n/a','hid'],cls:['optional','opt'],brd:['optional','opt'],showCB:true,showGuardian:false,
-      sum:'<b>Demo / test</b> — unchanged. Demo challenges stay a first-class, labelled group; funding is a demo waiver. Used to set up internal test students.'}
-  };
-  function tag(el,v){el.textContent=v[0];el.className='tagfield '+v[1];}
-  function set(k){
-    var m=L[k];
-    document.querySelectorAll('.lane').forEach(function(b){b.classList.toggle('on',b.dataset.l===k);});
-    var fc=document.getElementById('famchip'); fc.innerHTML='<span class="d '+m.dot+'"></span>'+m.fam;
-    document.getElementById('challengeSel').selectedIndex=m.challenge;
-    document.getElementById('fundSel').selectedIndex=m.fund;
-    document.getElementById('tierInp').value=m.tier;
-    tag(document.getElementById('t_fund'),m.fundTag);
-    tag(document.getElementById('t_tier'),m.tierTag);
-    tag(document.getElementById('t_inst'),m.inst);
-    tag(document.getElementById('t_class'),m.cls);
-    tag(document.getElementById('t_board'),m.brd);
-    document.getElementById('row_classboard').classList.toggle('hiddenrow',!m.showCB);
-    document.getElementById('row_guardian').classList.toggle('hiddenrow',!m.showGuardian);
-    document.getElementById('row_inst').classList.toggle('hiddenrow',m.inst[1]==='hid');
-    document.getElementById('summary').innerHTML=m.sum;
-  }
-  document.querySelectorAll('.lane').forEach(function(b){b.onclick=function(){set(b.dataset.l);};});
-  set('b2c');
-</script>
 </div></body></html>
