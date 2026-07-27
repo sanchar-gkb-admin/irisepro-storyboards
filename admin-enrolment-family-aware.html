@@ -1,0 +1,164 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family-aware Admin Enrolment — storyboard</title>
+<style>
+  :root{
+    --bg:#0e0d13;--panel:#17151d;--panel2:#1e1b25;--line:#2c2836;--ink:#ece8f2;--soft:#a49db6;--dim:#736c83;
+    --saffron:#F5821F;--saffron2:#ffb066;--blue:#5b8cff;--green:#3fca7d;--amber:#f0b429;--red:#ef5a68;--chip:#241f2e;--violet:#a583ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:1000px;margin:0 auto;padding:32px 20px 72px}
+  .tag{display:inline-block;background:var(--saffron);color:#20140a;font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 10px;border-radius:999px}
+  h1{font-size:27px;margin:14px 0 6px;letter-spacing:-.01em}
+  .lede{color:var(--soft);margin:0 0 8px;max-width:80ch}
+  h2.sec{font-size:13px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin:34px 0 12px;border-bottom:1px solid var(--line);padding-bottom:7px}
+  .rec{background:linear-gradient(160deg,rgba(245,130,31,.12),rgba(245,130,31,.03));border:1px solid #3a2c1c;border-radius:14px;padding:14px 16px;margin:16px 0 8px;font-size:14px;color:#f0e4d6}
+  .rec b{color:var(--saffron2)}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin:4px 0}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--soft);font-weight:600;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+  td .bad{color:var(--red);font-weight:600}.td .ok{color:var(--green)}
+  .bad{color:var(--red);font-weight:600}.ok{color:var(--green);font-weight:600}.warn{color:var(--amber);font-weight:600}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--saffron2);background:var(--chip);padding:1px 5px;border-radius:5px}
+  /* interactive mock */
+  .mock{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:14px}
+  .mockhead{padding:14px 18px;border-bottom:1px solid var(--line);font-weight:700}
+  .mockhead small{color:var(--dim);font-weight:500}
+  .lanes{display:flex;gap:6px;padding:14px 18px 4px;flex-wrap:wrap}
+  .lane{flex:0 0 auto;background:var(--chip);border:1px solid var(--line);color:var(--soft);font:600 12.5px system-ui;padding:8px 13px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:7px}
+  .lane .d{width:8px;height:8px;border-radius:50%}
+  .lane.on{border-color:transparent;color:#fff}
+  .lane.on.student{background:#2b4a8c}.lane.on.b2b{background:#5a4a12}.lane.on.acharya{background:#7a3d10}.lane.on.demo{background:#4a2a5c}
+  .d.student{background:var(--blue)}.d.b2b{background:var(--amber)}.d.acharya{background:var(--saffron)}.d.demo{background:var(--violet)}
+  .stage{padding:6px 18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:720px){.stage{grid-template-columns:1fr}}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+  .card h3{margin:0 0 10px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+  .field{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+  .field:last-child{border-bottom:0}
+  .field .lbl{color:var(--ink)}
+  .field .req{font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;letter-spacing:.04em}
+  .req.required{background:rgba(239,90,104,.16);color:#ff8a94}
+  .req.optional{background:var(--chip);color:var(--dim)}
+  .req.hidden{background:rgba(115,108,131,.14);color:var(--dim);text-decoration:line-through}
+  .req.locked{background:rgba(63,202,125,.14);color:var(--green)}
+  .kv{font-size:13px;padding:5px 0;color:var(--soft)}.kv b{color:var(--ink)}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--soft)}
+  .note{font-size:12px;color:var(--dim);padding:2px 18px 16px}
+  ul.tick{margin:6px 0 0;padding-left:20px}ul.tick li{margin:5px 0}
+  @media (prefers-color-scheme: light){
+    :root{--bg:#f6f4f0;--panel:#fff;--panel2:#faf8f5;--line:#e7e1d8;--ink:#241f2e;--soft:#6b6474;--dim:#938c9e;--chip:#f0ece6}
+  }
+</style></head><body><div class="wrap">
+<span class="tag">STORYBOARD · FOR REVIEW</span>
+<h1>Family-aware admin enrolment</h1>
+<p class="lede">Today the admin can enrol through three inconsistent doors, and two of them (single-enrol, bulk-import) resolve the challenge with the <em>public-money</em> gate <code>sellable()</code> — so they literally cannot reach an institutional (Acharya / school) stream. Only batch-create can, by picking a whole challenge. This proposes <b>one adaptive enrolment flow</b> that adapts by <b>stream family</b> — the same taxonomy that already drives onboarding — so demo · school-B2B · Acharya · manual-student all work in unison.</p>
+
+<div class="rec"><b>The one rule:</b> the admin picks a <b>specific challenge</b> (grouped + labelled by family), never a fuzzy <code>(stream, plan)</code> resolved through a money gate. That single change makes every family reachable — demo (<code>is_demo=true</code>) and institutional (<code>is_listed=false</code>) included — while public checkout keeps using <code>sellable()</code> untouched.</p>
+
+<h2 class="sec">The four lanes today (all must keep working)</h2>
+<table>
+<tr><th>Lane</th><th>Learner</th><th>Resolves via</th><th>Reaches institutional?</th><th>Institution captured?</th></tr>
+<tr><td><b>Demo / test</b></td><td>test student</td><td>batch → <code>Challenge::all()</code></td><td class="ok">yes (findOrFail)</td><td>n/a</td></tr>
+<tr><td><b>School B2B batch</b></td><td>student (minor)</td><td>bulk → <code>sellable()</code></td><td class="bad">NO — sellable excludes it</td><td class="warn">optional</td></tr>
+<tr><td><b>Acharya educators</b></td><td>educator</td><td>batch → <code>Challenge::all()</code></td><td class="ok">yes — but only via batch</td><td class="bad">NO field on batch form</td></tr>
+<tr><td><b>Manual student</b></td><td>student</td><td>single → <code>sellable()</code></td><td class="bad">NO — sellable excludes it</td><td class="warn">optional</td></tr>
+</table>
+
+<h2 class="sec">After — one flow, adapts by family <small style="text-transform:none;letter-spacing:0;color:var(--dim)">(click a lane)</small></h2>
+<div class="mock">
+  <div class="mockhead">Admin · Enrol a learner <small>· step 2 of 3 · adapts to the chosen challenge's family</small></div>
+  <div class="lanes">
+    <button class="lane student on" data-l="student"><span class="d student"></span>Student · B2C</button>
+    <button class="lane b2b" data-l="b2b"><span class="d b2b"></span>School batch · B2B</button>
+    <button class="lane acharya" data-l="acharya"><span class="d acharya"></span>Acharya · educator</button>
+    <button class="lane demo" data-l="demo"><span class="d demo"></span>Demo · test</button>
+  </div>
+  <div class="stage">
+    <div class="card">
+      <h3>Metadata fields (shown / required by family)</h3>
+      <div class="field"><span class="lbl">Date of birth</span><span id="f_dob" class="req required">required</span></div>
+      <div class="field"><span class="lbl">Class / grade</span><span id="f_class" class="req optional">optional</span></div>
+      <div class="field"><span class="lbl">Board</span><span id="f_board" class="req optional">optional</span></div>
+      <div class="field"><span class="lbl">Guardian (if minor)</span><span id="f_guardian" class="req optional">by age</span></div>
+      <div class="field"><span class="lbl">Institution / school</span><span id="f_inst" class="req optional">optional</span></div>
+      <div class="field"><span class="lbl">Preferred language</span><span id="f_lang" class="req required">required</span></div>
+    </div>
+    <div class="card">
+      <h3>Resolution · funding · window</h3>
+      <div class="kv">Challenge picker group: <b id="g_group">Public B2C (7 streams × 3 tiers)</b></div>
+      <div class="kv">Resolver: <code id="g_resolver">by challenge id (any real challenge)</code></div>
+      <div class="kv">Tier: <b id="g_tier">999 / 1999 / 4999</b></div>
+      <div class="kv">Funding: <span class="pill" id="g_funding">await-payment / waiver</span></div>
+      <div class="kv">Placement window: <b id="g_window">rolling (per-student)</b></div>
+      <div class="kv">Onboarding it hands to: <b id="g_onb">student shape (manual by tier, class+board)</b></div>
+    </div>
+  </div>
+  <div class="note" id="g_note">B2C manual enrol — the classic path. Class/board optional (captured at onboarding), guardian auto-gated by DOB, institution optional.</div>
+</div>
+
+<h2 class="sec">One design across ALL admin doors (single · bulk-CSV · batch)</h2>
+<p class="lede">The same family-aware contract applies to every admin entry point — the CSV bulk uploader included. Whichever door the admin uses, the challenge is resolved the same way and the same family rules apply.</p>
+<table>
+<tr><th>Admin door</th><th>Today</th><th>After (same contract)</th></tr>
+<tr><td><b>Single enrol</b> <code>students/create</code></td><td>free-text stream → <code>sellable()</code></td><td>family-labelled challenge picker → resolve by id; family-aware fields</td></tr>
+<tr><td><b>Bulk CSV upload</b> <code>students/bulk-upload</code></td><td>CSV <code>Stream+Plan</code> → <code>sellable()</code> (institutional silently unreachable)</td><td>CSV resolves against <code>PROGRAMS ∪ INSTITUTIONAL_PROGRAMS</code> (+demo); <b>institution required</b> when the resolved challenge is institutional; per-row family validated</td></tr>
+<tr><td><b>Batch create</b> <code>batches/create</code></td><td>challenge-by-title <code>Challenge::all()</code>; <b>no institution field</b></td><td>same picker grouped by family; <b>add the institution field</b> (required for institutional); cohort default by family</td></tr>
+</table>
+<div class="rec" style="margin-top:14px"><b>Bulk CSV specifics:</b> the <code>Stream</code> column resolves through the SAME family-aware lookup (so <code>acharya_foundation</code> is reachable), the upload's single <code>institution_id</code> becomes <b>required whenever the resolved stream is institutional</b>, and each row inherits the resolved challenge's family shape (educator rows skip class/board; student rows keep them). Demo rows stay supported.</p>
+
+<h2 class="sec">Gap → fix</h2>
+<table>
+<tr><th>#</th><th>Gap</th><th>Fix</th></tr>
+<tr><td>P0</td><td><code>sellable()</code> excludes institutional from single-enrol + bulk-import</td><td>Resolve by <b>chosen challenge id</b> (family-labelled picker); keep <code>sellable()</code> for public checkout only</td></tr>
+<tr><td>P0</td><td>Demo works only via batch <code>findOrFail</code> — a naive <code>enrollable=is_demo:false</code> would break it</td><td>Picker <b>includes demos</b> as their own labelled group; <b>demo coexists unchanged</b></td></tr>
+<tr><td>P1</td><td>Stream pickers inconsistent (free-text · sellable-only · challenge-by-title)</td><td>One picker sourced from <code>PROGRAMS ∪ INSTITUTIONAL_PROGRAMS</code> (+demos), grouped &amp; labelled by family</td></tr>
+<tr><td>P1</td><td><code>institution_id</code> optional everywhere; batch form has <b>no</b> institution field</td><td><b>Required</b> when <code>Challenge::isInstitutional()</code>; add the field to the batch form; enforce in <code>EnrolmentService</code></td></tr>
+<tr><td>P2</td><td>Class/board shown generically; educator (<code>shows_board=false</code>) ignored</td><td>Enrol form reads the <code>OnboardingFamily</code> shape — hides class/board for educators</td></tr>
+<tr><td>P2</td><td>Cohort-vs-rolling is path/flag-based, not family-aware</td><td>Derive default from family (institutional→cohort, B2C→rolling); admin can still override</td></tr>
+</table>
+
+<h2 class="sec">Invariants held</h2>
+<ul class="tick">
+<li><b>Money isolation unchanged</b> — public checkout/webhook keep <code>sellable()</code> (<code>is_listed=true</code>); institutional stays off the storefront.</li>
+<li><b>Demo coexists</b> — demos remain a first-class enrol target, exactly as today.</li>
+<li><b>One taxonomy</b> — the enrol form and onboarding both read <code>Challenge::onboardingFamily()</code> / <code>isInstitutional()</code>; they can't drift.</li>
+<li><b>Guardian already safe</b> — linkage is age-gated, so an adult educator never trips it.</li>
+</ul>
+
+<script>
+  var M = {
+    student:{group:'Public B2C (7 streams × 3 tiers)',resolver:'by challenge id (any real challenge)',tier:'999 / 1999 / 4999',funding:'await-payment / waiver',window:'rolling (per-student)',onb:'student shape (manual by tier, class+board)',
+      f:{dob:'required',class:'optional',board:'optional',guardian:'by age',inst:'optional',lang:'required'},
+      note:'B2C manual enrol — the classic path. Class/board optional (captured at onboarding), guardian auto-gated by DOB, institution optional.'},
+    b2b:{group:'Institutional · B2B school (student learners)',resolver:'by challenge id (student stream)',tier:'999 / 1999 / 4999',funding:'external (school-paid)',window:'cohort / batch',onb:'student shape (class+board + guardian if minor)',
+      f:{dob:'required',class:'required',board:'required',guardian:'by age',inst:'required',lang:'required'},
+      note:'A school pays for a set of students; admin ingests them as a cohort. Student learners → class/board/guardian apply. Institution REQUIRED (whose students). Funding external, placed as a batch.'},
+    acharya:{group:'Institutional · Mission Acharya (educators)',resolver:'by challenge id (acharya_*, is_listed=false)',tier:'4999 only (locked)',funding:'external',window:'cohort / batch',onb:'educator shape (educator manual, no class/board, 8-day)',
+      f:{dob:'required',class:'hidden',board:'hidden',guardian:'hidden',inst:'required',lang:'required'},
+      note:'Teachers enrolled by their institution. No class/board/guardian (educator family). Institution REQUIRED. Tier locked to 4999. Onboarding auto-switches to the educator shape.'},
+    demo:{group:'Demo / test (is_demo=true)',resolver:'by challenge id (demo)',tier:'any',funding:'waiver · reason=demo',window:'admin-chosen',onb:'follows the demo challenge’s stream shape',
+      f:{dob:'optional',class:'optional',board:'optional',guardian:'hidden',inst:'hidden',lang:'optional'},
+      note:'Internal demo/test setup — unchanged. Demo challenges remain a first-class, labelled group in the picker; funding is a demo waiver. Nothing here regresses.'}
+  };
+  function cls(v){return v==='required'?'required':v==='hidden'?'hidden':(v==='4999 only (locked)'?'locked':'optional');}
+  function set(l){
+    var m=M[l];
+    document.querySelectorAll('.lane').forEach(function(b){b.classList.toggle('on',b.dataset.l===l);});
+    ['dob','class','board','guardian','inst','lang'].forEach(function(k){
+      var el=document.getElementById('f_'+({class:'class'}[k]||k)); var mapk={dob:'dob',class:'class',board:'board',guardian:'guardian',inst:'inst',lang:'lang'}[k];
+      var v=m.f[mapk]; el.textContent=v; el.className='req '+(v==='required'?'required':v==='hidden'?'hidden':v==='by age'?'optional':'optional');
+    });
+    document.getElementById('g_group').textContent=m.group;
+    document.getElementById('g_resolver').textContent=m.resolver;
+    document.getElementById('g_tier').textContent=m.tier; document.getElementById('g_tier').className=(l==='acharya'?'':'');
+    document.getElementById('g_funding').textContent=m.funding;
+    document.getElementById('g_window').textContent=m.window;
+    document.getElementById('g_onb').textContent=m.onb;
+    document.getElementById('g_note').textContent=m.note;
+  }
+  document.querySelectorAll('.lane').forEach(function(b){b.onclick=function(){set(b.dataset.l);};});
+  set('student');
+</script>
+</div></body></html>
