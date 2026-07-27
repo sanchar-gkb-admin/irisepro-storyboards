@@ -1,0 +1,106 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zero-Blip Stream Rollout — Engineering Design</title>
+<style>
+  :root{--bg:#f6f6f4;--panel:#fff;--ink:#1d222b;--soft:#555d6b;--dim:#89909e;--line:#e5e3dd;--card:#fafaf7;--field:#f1efe9;
+    --brand:#F5821F;--brand2:#b95b0c;--blue:#3061d6;--green:#1f9d57;--amber:#b9820a;--red:#cf3f4a;--chip:#eeeae2;--code:#7a3d10}
+  @media (prefers-color-scheme: dark){:root{--bg:#0f0f14;--panel:#181820;--ink:#e9e7ef;--soft:#a3a0b0;--dim:#767084;--line:#282631;--card:#1f1e28;--field:#232230;--chip:#26232f;--code:#ffb066}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 -apple-system,system-ui,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:900px;margin:0 auto;padding:38px 22px 90px}
+  .kick{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand2);font-weight:800}
+  h1{font-size:29px;line-height:1.15;margin:8px 0 6px;letter-spacing:-.02em}
+  .meta{color:var(--dim);font-size:13px;margin:0 0 22px}
+  h2{font-size:19px;margin:38px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+  h3{font-size:15.5px;margin:20px 0 6px}
+  p{margin:0 0 11px}.soft{color:var(--soft)}
+  ul,ol{margin:6px 0 13px;padding-left:22px}li{margin:4px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--code);background:var(--chip);padding:1px 5px;border-radius:5px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0 16px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--card);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--soft)}
+  .pill{display:inline-block;font-size:10.5px;font-weight:800;padding:1px 8px;border-radius:999px;white-space:nowrap}
+  .p0{background:rgba(207,63,74,.16);color:#e0636d}.p1{background:rgba(185,130,10,.18);color:var(--amber)}.p2{background:var(--chip);color:var(--soft)}
+  .done{background:rgba(31,157,87,.16);color:var(--green)}
+  .callout{border-left:3px solid var(--brand);background:var(--card);padding:11px 14px;border-radius:0 10px 10px 0;margin:13px 0;font-size:14px}
+  .grid{display:grid;gap:10px}@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+  .guar{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+  .guar b{display:block;margin-bottom:3px}
+  a{color:var(--blue)}
+</style></head><body><div class="wrap">
+<div class="kick">Engineering Design</div>
+<h1>Zero-Blip New Stream Rollout</h1>
+<p class="meta">Companion to the <a href="https://sanchar-gkb-admin.github.io/irisepro-storyboards/stream-authoring-prd.html">Stream &amp; Scorecard Authoring PRD</a> · engine + Backend · v1 draft</p>
+
+<div class="callout"><b>Thesis.</b> "Add a stream = clone-and-modify data, live in minutes, zero disruption" is achievable because the platform already carries most of the machinery (registries, family shapes, a two-engine parity gate, a golden-output freeze, a deploy canary). This doc inventories what exists, the gap to full data-drive, and the engineering that closes it — organised around the five <b>Zero-Blip guarantees</b>.</div>
+
+<h2>1 · The five Zero-Blip guarantees (and their machinery)</h2>
+<div class="grid">
+  <div class="guar"><b>① Isolation</b><span class="soft">A new/edited stream cannot change any existing stream's output. Enforced by the <b>two-engine score-parity gate</b> (<code>scripts/two-engine-score-parity.py</code>, origin/main→HEAD, additive-only allow-list) + the <b>Golden invariance freeze</b> (<code>tests/Golden/ScorecardInvarianceTest.php</code> byte-asserts frozen baselines).</span></div>
+  <div class="guar"><b>② Completeness</b><span class="soft">Can't publish an under-specified stream. Today: engine fail-loud (<code>ability_notes.py</code> KeyError on a missing §1-F note; <code>ScorecardInputBuilder</code> throws <code>SC_UNKNOWN_STREAM</code>). Target: the same invariants as author-time validation.</span></div>
+  <div class="guar"><b>③ Canary render</b><span class="soft">The real card is generated + rendered before go-live. Today: <code>scorecards:selftest</code> is a deploy gate (<code>deploy.sh:448,533</code>) + hourly <code>scorecards:delivery-canary</code>. Gap: neither sweeps per-stream (see §3).</span></div>
+  <div class="guar"><b>④ Versioned publish / rollback</b><span class="soft">Today streams live in version-controlled config → PR + rollback. Target: a versioned stream-definition record so a published stream can be rolled back like config.</span></div>
+  <div class="guar"><b>⑤ No downtime</b><span class="soft">Stream = data, not a code path. Engine already branches on data markers (<code>has_pathways</code>, <code>benchmark_mode</code>), so a stream ships without new branches. Feature-flag (<code>features.institutional_streams</code>) gates a whole category off/on with no deploy.</span></div>
+</div>
+
+<h2>2 · Current architecture — the ~70% spine (what's already data)</h2>
+<ul>
+<li><b>Stream registry</b> — <code>SellableChallengeSeeder</code>: <code>PROGRAMS</code> / <code>INSTITUTIONAL_PROGRAMS</code> / <code>ONBOARDING_FAMILY</code> / <code>TIERS</code>, consumed everywhere (form, validation, E2E guard) — never re-hardcoded.</li>
+<li><b>Onboarding shape</b> — <code>OnboardingFamily::SHAPES</code> turns manual / profile-fields / board / pace / consent into data; the 4 readers (<code>OnboardingService</code>, <code>OnboardingDiff</code>, <code>Enrollment::availableModes</code>, <code>MobileStudentController</code>) read the shape, no per-family <code>if</code>.</li>
+<li><b>Category predicates</b> — <code>Challenge::isInstitutional()/onboardingFamily()/isEducatorStream()</code> derive from the registry, no stored/drifting flags.</li>
+<li><b>Engine data markers</b> — <code>assemble.py</code>/<code>validate.py</code> branch on <code>prog.get("has_pathways")</code>/<code>benchmark_mode</code>; §7 suppression, single-vs-triple benchmark, output gate all key off data. <code>benchmarks.py::_institutional_stream()</code> is a factory (a new band = one call).</li>
+</ul>
+
+<h2>3 · Gap analysis — where a new stream still forces CODE</h2>
+<p>Verdict from the velocity red-team: <b>same-family stream = MODERATE</b> (~3 metadata + benchmark numbers / §1-F notes / test arrays); <b>new family = HEAVY</b> (~4 metadata + a DB migration, a manual view, consent code, render wording, §8 voice). The code-forcing hotspots — each is a Zero-Blip blocker:</p>
+<table>
+<tr><th>Hotspot</th><th>Where</th><th>Move to…</th><th>Pri</th></tr>
+<tr><td><code>ADULT_STREAMS</code> hardcoded list</td><td><code>ScorecardMetaBuilder.php:23</code></td><td>derive "adult" from the family (consent=self / benchmark single)</td><td><span class="pill p1">P1</span></td></tr>
+<tr><td><code>consentPolicy()</code> declared but NOT wired — the live gate still does raw <code>age&lt;18</code></td><td><code>OnboardingFamily.php:74</code> · <code>OnboardingService.php:73</code></td><td>wire the gate to consult the family's policy (DPDPA — flagged + golden-tested)</td><td><span class="pill p1">P1</span></td></tr>
+<tr><td>Render reframing — per-family wording as hardcoded English string-pairs</td><td><code>scorecard-full.html</code> <code>bMap</code>/§8 branch</td><td>emit <code>reframing:[{from,to}]</code> from the engine payload; generic sweep in the template. Unblocks Kannada.</td><td><span class="pill p1">P1</span></td></tr>
+<tr><td>Enrolment fields hardcoded per family (blade + migration)</td><td>admin blades · <code>OnboardingFamily.profile_fields</code></td><td>a scoped declarative field-spec (name/type/label/validation/column)</td><td><span class="pill p2">P2</span></td></tr>
+<tr><td>Manual blade selector ternary</td><td><code>onboarding/index.blade.php:350</code></td><td>a <code>SHAPES.manual</code> lookup (keep the bespoke views)</td><td><span class="pill p2">P2</span></td></tr>
+<tr><td>Hardcoded stream/family lists in lockstep</td><td><code>ADULT_STREAMS</code>, fixture <code>STREAMS</code>, <code>ACHARYA_STREAMS</code>, <code>_TIERS</code></td><td>one registry; derive the rest</td><td><span class="pill p2">P2</span></td></tr>
+</table>
+<p class="soft"><b>Deliberately kept as authored content</b> (a DSL here would be over-engineering, and the fail-loud guards are a feature): benchmark numbers, §1-F / §6 notes, the bespoke manual documents. In the authoring tool these are simply <em>fields the rubric owner fills</em>.</p>
+
+<h2>4 · Completeness &amp; integrity findings (the second red-team)</h2>
+<table>
+<tr><th>Finding</th><th>State</th><th>Enforce at</th></tr>
+<tr><td>Card decided "minor" from board presence, consent from DOB — could diverge</td><td><span class="pill done">FIXED</span> #1415 + engine #13</td><td><code>ScorecardMetaBuilder</code> emits <code>meta.is_minor</code> from <code>Student::isMinor()</code></td></tr>
+<tr><td>Force-placement override could skip a minor's §9 consent</td><td><span class="pill done">FIXED</span> #1414 (latent bypass — no live caller yet)</td><td><code>OnboardingService::minorConsentSatisfied()</code> — one source, used by gate + force guard</td></tr>
+<tr><td>Institution never captured on the batch door; never <em>required</em> for institutional</td><td><span class="pill p1">P1</span></td><td><code>EnrolmentService::enrol()</code> — <code>isInstitutional() ⇒ institution_id required + exists</code></td></tr>
+<tr><td><code>career_readiness</code> (live) falls to the <code>student</code> family (needs class/board) yet is classed adult — shapes disagree</td><td><span class="pill p1">P1</span> <span class="soft">confirm vs prod</span></td><td>registry: give it (and future adult streams) an adult family shape</td></tr>
+<tr><td>Non-resolvable <code>challenge_id</code> silently degrades to plan-pending; institutional⇒4999 not re-checked at enrol</td><td><span class="pill p2">P2</span></td><td><code>EnrolmentService::enrol()</code></td></tr>
+</table>
+<div class="callout"><b>The single strongest lever:</b> most integrity checks belong in <b><code>EnrolmentService::enrol()</code> / <code>enrolIntoManualBatch</code></b> — the one convergent front door — so the storefront webhook, single-enrol, bulk-CSV and batch doors all inherit them. The exception is minor-determination, which belongs at the consumption seams (<code>ScorecardMetaBuilder</code>, <code>assertOnboardingComplete</code>) where the decision is actually made.</div>
+
+<h2>5 · Target architecture</h2>
+<ol>
+<li><b>One stream registry as the source of truth</b> — a versioned record per stream: identity (program_key, label, tier, listing), family, onboarding shape, enrolment field-spec, and a reference to its scorecard definition. Everything else derives; nothing enumerates streams independently.</li>
+<li><b>Section-keyed scorecard store</b> — today's <code>benchmarks.py</code> / <code>ability_notes.py</code> / <code>section6_content.json</code> reorganised into a per-stream, per-section authorable store (the section editor's backing model). The engine reads it exactly as it reads the current data files.</li>
+<li><b>Consent as data</b> — <code>consentPolicy()</code> wired into the gate; a family's basis (by-age / self / institution-attested) is honoured, not hardcoded.</li>
+<li><b>Reframing as data</b> — per-family wording travels in the engine payload; the render applies a generic sweep. Enables new families + Kannada with no template edit.</li>
+<li><b>Field-spec as data</b> — <code>profile_fields</code> carries type/label/validation/column; drives the enrol form, request validation, and storage. Boot-time assertion: every declared field maps to a real column.</li>
+<li><b>Integrity choke</b> — <code>EnrolmentService::enrol()</code> enforces referential + family + institution + tier invariants for every door.</li>
+</ol>
+
+<h2>6 · Build plan (maps to the PRD phases)</h2>
+<table>
+<tr><th>Phase</th><th>Engineering</th><th>Zero-Blip payoff</th></tr>
+<tr><td><b>1 · Enrolment</b></td><td>family-aware admin enrolment across all doors; institution required-at-<code>enrol()</code>; the P1 integrity guards</td><td>selling to schools works; ① isolation + integrity at the front door</td></tr>
+<tr><td><b>2 · As-data</b></td><td>kill <code>ADULT_STREAMS</code>; wire <code>consentPolicy()</code>; reframing→payload; field-spec; single registry; per-stream canary + golden coverage for new streams</td><td>same-family stream becomes pure data; ②③ complete; Kannada unblocked</td></tr>
+<tr><td><b>3 · Authoring tool</b></td><td>clone-a-stream → section editor over the section-keyed store → live canary render → approval → versioned publish/rollback</td><td>self-serve, no-deploy rollout; all five guarantees enforced <em>in the tool</em></td></tr>
+</table>
+
+<h2>7 · Risks</h2>
+<ul>
+<li><b>Consent rewiring</b> touches the DPDPA/WORM path — behind the existing <code>institution_attested_enabled</code>-style flag, with golden tests (a <code>self</code> family never triggers guardian requirement; a <code>by_age</code> minor still does).</li>
+<li><b>funding_source enum widening</b> (employer billing) collides with "tracked revenue = razorpay only" (<code>Enrollment::scopeTrackedRevenue</code>) — any new value must be explicitly classified.</li>
+<li><b>Field-spec ↔ column coupling</b> — a shape can name a field with no column; guard with a boot-time assertion.</li>
+<li><b>New tier/task shapes</b> — <code>validate.py</code> keys "7-task-capable" off <code>top5</code> and tier off <code>_TIERS={5,15,64}</code>; the tier universe must become data before a differently-shaped stream (e.g. a 2-tier corporate) ships.</li>
+</ul>
+
+<h2>8 · Appendix — file index</h2>
+<p class="soft"><code>SellableChallengeSeeder.php</code> (registries) · <code>OnboardingFamily.php</code> (SHAPES, consentPolicy) · <code>ScorecardMetaBuilder.php</code> (ADULT_STREAMS, is_minor) · <code>OnboardingService.php</code> (gate, minorConsentSatisfied) · <code>EnrolmentService.php</code> (the enrol choke, force guard) · <code>config/scorecard.php</code> (program_map/tier_map) · engine <code>benchmarks.py</code> · <code>assemble.py</code> · <code>validate.py</code> · <code>ability_notes.py</code> · <code>design/scorecard-full.html</code> (IRP_MINOR, reframing) · <code>tests/Golden/ScorecardInvarianceTest.php</code> + <code>scripts/rebaseline-golden-from-main.sh</code> · <code>scripts/two-engine-score-parity.py</code> · <code>ScorecardsSelftest.php</code> · <code>ci.yml</code> (engine SHA pin) · <code>deploy.sh</code> (publish + selftest gates).</p>
+</div></body></html>
