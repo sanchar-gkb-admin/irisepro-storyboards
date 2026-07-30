@@ -45,10 +45,20 @@
   .lede { font-size:clamp(1.0625rem,2vw,1.3125rem); line-height:1.55; color:var(--muted); max-width:46ch; }
   .narr { font-family:var(--serif); font-size:clamp(1.0625rem,2vw,1.1875rem); line-height:1.68; color:var(--fg); }
 
-  /* provenance tags — the point of this revision */
-  .tag { font-family:var(--mono); font-size:0.5rem; font-weight:600; letter-spacing:0.1em;
+  /* ---- provenance layer: OFF by default so the page reads as the page ---- */
+  .prov-toggle { position:absolute; opacity:0; pointer-events:none; }
+  .tag { display:none; font-family:var(--mono); font-size:0.5rem; font-weight:600; letter-spacing:0.1em;
     text-transform:uppercase; vertical-align:0.4em; padding:0.1rem 0.25rem; border-radius:0.1875rem;
     margin-left:0.3rem; white-space:nowrap; }
+  #prov:checked ~ * .tag { display:inline-block; }
+  .provnote { display:none; }
+  #prov:checked ~ * .provnote { display:block; }
+  .prov-btn { cursor:pointer; margin-left:0.75rem; border:1px solid currentColor; border-radius:2rem;
+    padding:0.1rem 0.5rem; font-size:0.625rem; opacity:0.75; }
+  .prov-btn:hover { opacity:1; }
+  .prov-btn::after { content:" · off"; }
+  #prov:checked ~ .proto .prov-btn::after { content:" · on"; }
+  #prov:focus-visible ~ .proto .prov-btn { outline:2px solid var(--accent-fg); outline-offset:2px; }
   .tag.new { background:rgba(63,147,224,0.18); color:var(--leaf); border:1px solid rgba(63,147,224,0.4); }
   .tag.edit { background:rgba(245,130,31,0.15); color:var(--accent-strong); border:1px solid rgba(245,130,31,0.4); }
 
@@ -56,7 +66,8 @@
   .proto { background:var(--accent); color:var(--accent-fg); font-family:var(--mono); font-size:0.6875rem;
     letter-spacing:0.08em; text-transform:uppercase; text-align:center; padding:0.5rem var(--gut); font-weight:600; }
   .proto a { color:var(--accent-fg); }
-  .legend { background:var(--forest); border-bottom:1px solid var(--border); padding:0.75rem var(--gut); }
+  .legend { display:none; background:var(--forest); border-bottom:1px solid var(--border); padding:0.75rem var(--gut); }
+  #prov:checked ~ .legend { display:block; }
   .legend-in { max-width:var(--max); margin:0 auto; display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; align-items:center;
     font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.06em; color:var(--muted); }
   .legend-in b { color:var(--fg); font-weight:600; }
@@ -300,8 +311,11 @@
 </head>
 <body>
 
+<input type="checkbox" id="prov" class="prov-toggle">
+
 <div class="proto">
   Prototype · not the live site · <a href="../">see the storyboard</a>
+  <label for="prov" class="prov-btn">Provenance</label>
 </div>
 <div class="legend">
   <div class="legend-in">
@@ -526,7 +540,7 @@
         <div class="task">
           <span class="t-n">Task 01</span>
           <h3>Ask your parents about their struggles. Listen. Thank them.<span class="tag new">new</span></h3>
-          <p>Drawn from Nayana's own account of her first task — shown here as a task rather than left inside a testimonial.</p>
+          <p class="provnote">Drawn from Nayana's own account of her first task — shown here as a task rather than left inside a testimonial.</p>
         </div>
         <div class="task">
           <span class="t-n">Task 02</span>
@@ -592,7 +606,7 @@
             <div class="path"><h3>Entrepreneurship Pathway™</h3><p class="p-d">Startups, innovation, enterprise &amp; business leadership.</p><ul><li>Decision-Making</li><li>Leadership Ability</li><li>Planning</li><li>Problem-Solving</li><li>Courage</li></ul></div>
             <div class="path"><h3>CA • Finance • Banking Pathway™</h3><p class="p-d">Chartered Accountancy, finance, banking, investment.</p><ul><li>Attention to Detail</li><li>Logical Reasoning</li><li>Concentration</li><li>Discipline</li><li>Comprehension</li></ul></div>
           </div>
-          <p style="font-size:0.75rem;color:var(--muted);line-height:1.6">The six named public figures are held back pending a decision — unaffiliated, then disclaimed, and all six men.<span class="tag edit">edited</span></p>
+          <p class="provnote" style="font-size:0.75rem;color:var(--muted);line-height:1.6">The six named public figures are held back pending a decision — unaffiliated, then disclaimed, and all six men.<span class="tag edit">edited</span></p>
         </div>
       </div>
     </div>
@@ -737,7 +751,7 @@
         <div class="slot"><b>Face</b></div><div class="slot"><b>Face</b></div><div class="slot"><b>Face</b></div>
         <div class="slot"><b>Face</b></div><div class="slot"><b>Face</b></div><div class="slot"><b>Face</b></div>
       </div>
-      <p style="margin-top:1rem;font-size:0.8125rem;font-family:var(--mono);letter-spacing:0.04em;color:var(--muted)">Many children, many districts — the same idea as the opening frame, at national scale.</p>
+      <p class="provnote" style="margin-top:1rem;font-size:0.8125rem;font-family:var(--mono);letter-spacing:0.04em;color:var(--muted)">Many children, many districts — the same idea as the opening frame, at national scale.</p>
 
       <p class="lede" style="margin-top:2rem;font-size:1.125rem;color:var(--fg)">Check your ability score. Strengthen your success core.</p>
       <div class="cta-row" style="margin-top:1.5rem">
