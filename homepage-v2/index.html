@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>yashho.com — Homepage Storyboard</title>
+<style>
+  :root {
+    --paper:#F4F6F7; --card:#FFFFFF; --ink:#151A21; --ink-soft:#3B444E; --muted:#69737D;
+    --rule:#C7CED4; --rule-soft:#DEE3E7;
+    --signal:#A66410; --signal-bg:#F7EDDC;
+    --cut:#8E3226; --cut-bg:#F6E6E3; --keep:#1F5C52; --keep-bg:#E2EFEB;
+    --warm:#B4531C; --cool:#2C5A73;
+    --sans:"Helvetica Neue",Helvetica,ui-sans-serif,system-ui,Arial,sans-serif;
+    --serif:Georgia,"Iowan Old Style","Times New Roman",Times,serif;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper:#0F1317; --card:#171C22; --ink:#E7EBEE; --ink-soft:#B9C2CA; --muted:#8A949D;
+      --rule:#333C45; --rule-soft:#262E36; --signal:#E0A83F; --signal-bg:#2B2113;
+      --cut:#D97A6A; --cut-bg:#2C1A17; --keep:#6FC0AE; --keep-bg:#12241F;
+      --warm:#E28B54; --cool:#7FB2CC; }
+  }
+
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--serif);
+    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:66rem; margin:0 auto; padding:2.5rem 1.5rem 5rem; }
+  .lbl { font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--muted); font-weight:500; }
+  h1,h2,h3,h4 { font-family:var(--sans); text-wrap:balance; margin:0; }
+  :focus-visible { outline:2px solid var(--signal); outline-offset:2px; }
+
+  .internal { font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted); border:1px dashed var(--rule); padding:0.4375rem 0.625rem; margin-bottom:1.5rem;
+    display:inline-block; }
+
+  .masthead { border-top:3px solid var(--ink); padding-top:1rem; display:flex; flex-direction:column; gap:1.25rem; }
+  .mast-meta { display:flex; flex-wrap:wrap; gap:0.5rem 2rem; justify-content:space-between; align-items:baseline; }
+  .masthead h1 { font-size:clamp(1.75rem,4.6vw,2.625rem); line-height:1.07; letter-spacing:-0.022em; font-weight:700; }
+  .thesis { font-size:clamp(1.0625rem,2vw,1.1875rem); line-height:1.5; color:var(--ink-soft); max-width:48ch; margin:0; }
+
+  .budget { margin:2.5rem 0 0; display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+  .bud { border:1px solid var(--rule); padding:1rem 1.125rem; display:flex; flex-direction:column; gap:0.5rem; }
+  .bud.old { border-left:4px solid var(--cut); }
+  .bud.new { border-left:4px solid var(--keep); }
+  .bud .big { font-family:var(--mono); font-size:2rem; line-height:1; font-variant-numeric:tabular-nums; font-weight:500; }
+  .bud.old .big { color:var(--cut); } .bud.new .big { color:var(--keep); }
+  .bud p { margin:0; font-size:0.875rem; color:var(--ink-soft); }
+  .bud h3 { font-size:0.9375rem; }
+
+  section { margin-top:3.25rem; }
+  .sec-head { display:flex; align-items:baseline; gap:1rem; border-bottom:1px solid var(--ink);
+    padding-bottom:0.5rem; margin-bottom:1.5rem; }
+  .sec-head h2 { font-size:1.0625rem; letter-spacing:0.02em; font-weight:700; }
+  .sec-head .lbl { margin-left:auto; }
+  .intro { color:var(--ink-soft); max-width:70ch; margin:0 0 1.5rem; }
+
+  .arc { border:1px solid var(--rule); background:var(--card); padding:1.25rem; overflow-x:auto; }
+  .arc svg { display:block; width:100%; min-width:38rem; height:auto; }
+  .arc-key { display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; margin-top:0.875rem; }
+  .arc-key span { display:inline-flex; align-items:center; gap:0.4rem; }
+  .kdot { width:1.375rem; height:0.1875rem; }
+
+  .panel { border-top:1px solid var(--rule); padding-top:1.25rem; margin-top:2.25rem;
+    display:grid; grid-template-columns:5.5rem 1fr; gap:0 1.5rem; }
+  .p-rail { display:flex; flex-direction:column; gap:0.5rem; }
+  .p-no { font-family:var(--mono); font-size:1.5rem; font-weight:500; color:var(--signal);
+    font-variant-numeric:tabular-nums; line-height:1; }
+  .p-dur { font-family:var(--mono); font-size:0.8125rem; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .p-temp { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.1em; text-transform:uppercase; }
+  .p-temp.hot { color:var(--warm); } .p-temp.cold { color:var(--cool); }
+
+  .p-body { display:flex; flex-direction:column; gap:0.875rem; min-width:0; }
+  .p-slug { display:flex; flex-wrap:wrap; align-items:baseline; gap:0.5rem 0.875rem; }
+  .p-slug h3 { font-size:1.125rem; letter-spacing:-0.012em; line-height:1.25; font-weight:700; }
+  .p-job { font-family:var(--mono); font-size:0.75rem; color:var(--muted); letter-spacing:0.04em; }
+
+  .frame { border:1px solid var(--rule); background:var(--card); padding:1.125rem 1.25rem;
+    display:flex; flex-direction:column; gap:0.75rem; }
+  .frame .hl { font-family:var(--sans); font-size:clamp(1.125rem,2.4vw,1.4375rem); font-weight:700;
+    line-height:1.2; letter-spacing:-0.018em; margin:0; text-wrap:balance; }
+  .frame .sub { margin:0; font-size:1rem; color:var(--ink-soft); }
+  .frame .draft { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--signal); }
+
+  .onscreen { display:flex; flex-wrap:wrap; gap:0.375rem; }
+  .onscreen b { font-family:var(--mono); font-size:0.6875rem; font-weight:500; letter-spacing:0.04em;
+    background:var(--paper); border:1px solid var(--rule); padding:0.1875rem 0.4375rem; color:var(--ink-soft); }
+
+  .note { margin:0; font-size:0.9375rem; color:var(--ink-soft); }
+  .note strong { color:var(--ink); }
+  .blocked { font-family:var(--mono); font-size:0.8125rem; line-height:1.5; background:var(--cut-bg);
+    color:var(--ink); border-left:3px solid var(--cut); padding:0.625rem 0.875rem; margin:0; }
+  .carries { font-family:var(--mono); font-size:0.8125rem; line-height:1.5; background:var(--keep-bg);
+    color:var(--ink); border-left:3px solid var(--keep); padding:0.625rem 0.875rem; margin:0; }
+
+  .gaps { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+  .gap-c { border:1px dashed var(--rule); padding:1rem 1.125rem; display:flex; flex-direction:column; gap:0.5rem; }
+  .gap-c p { margin:0; font-size:0.9375rem; color:var(--ink-soft); }
+  .gap-c strong { font-family:var(--sans); font-size:0.9375rem; color:var(--ink); }
+
+  footer { margin-top:3.5rem; padding-top:1rem; border-top:1px solid var(--rule);
+    display:flex; flex-wrap:wrap; gap:0.5rem 2rem; justify-content:space-between; }
+
+  @media (max-width:46rem) {
+    .panel { grid-template-columns:1fr; gap:0.75rem; }
+    .p-rail { flex-direction:row; align-items:baseline; gap:1rem; }
+    .budget, .gaps { grid-template-columns:1fr; }
+  }
+  @media print {
+    :root { --paper:#fff; --card:#fff; --ink:#000; --ink-soft:#222; --muted:#555; --rule:#999; --rule-soft:#ccc; }
+    body { font-size:10pt; }
+    .wrap { max-width:none; padding:0; }
+    .panel, .arc, section { break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="internal">Internal working document · not for distribution</span>
+
+  <header class="masthead">
+    <div class="mast-meta">
+      <span class="lbl">Homepage storyboard · yashho.com · 11 panels</span>
+      <span class="lbl">30 July 2026</span>
+    </div>
+    <h1>Eleven frames.<br>Four minutes. One arc.</h1>
+    <p class="thesis">A rundown, not a wireframe. Every panel carries a job, a duration and a temperature — so the shape of the page is visible before a single line of it is built.</p>
+  </header>
+
+  <div class="budget">
+    <div class="bud old">
+      <h3>Today</h3>
+      <div class="big">~11:00</div>
+      <p>19 sections · 7 swipe carousels · 7 calls-to-action · no in-page navigation. Because the carousels scroll sideways inside a page that scrolls down, the effective length is <strong>unbounded</strong> — a visitor cannot tell how much is left. <em>(Read time is an estimate, not a measurement.)</em></p>
+    </div>
+    <div class="bud new">
+      <h3>Target</h3>
+      <div class="big">4:20</div>
+      <p>11 sections · 1 carousel · 3 calls-to-action · a navigation map at the top. Every panel below has a stated duration, and they add up to a budget. <strong>A page with a time budget cannot feel infinite.</strong></p>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <h2>The arc</h2>
+      <span class="lbl">Emotional temperature across the page</span>
+    </div>
+    <p class="intro">This is the part a section list cannot show. The page today runs at one temperature — argument — for nineteen sections, so there is no rise and no release. The new order is built like a broadcast hour: a warm open, an emotional peak early, a cool practical middle where the decision is actually made, and a climb to the national close.</p>
+    <div class="arc">
+      <svg viewBox="0 0 760 220" role="img" aria-label="Emotional temperature curve comparing the current 19-section page against the proposed 11-panel order. The current page stays flat at a low argumentative temperature. The proposed order opens warm, peaks at the founder's mother and the Yashodarshi panels, cools through the practical middle, then climbs highest at the national close.">
+        <g stroke="var(--rule-soft)" stroke-width="1">
+          <line x1="40" y1="20" x2="740" y2="20"/>
+          <line x1="40" y1="70" x2="740" y2="70"/>
+          <line x1="40" y1="120" x2="740" y2="120"/>
+          <line x1="40" y1="170" x2="740" y2="170"/>
+        </g>
+        <g font-family="var(--mono)" font-size="9" fill="var(--muted)">
+          <text x="0" y="24">peak</text>
+          <text x="0" y="124">warm</text>
+          <text x="0" y="174">cool</text>
+        </g>
+        <polyline fill="none" stroke="var(--cut)" stroke-width="2" stroke-dasharray="4 3"
+          points="60,158 120,160 180,155 240,158 300,157 360,159 420,156 480,158 540,157 600,159 660,157 720,160"/>
+        <polyline fill="none" stroke="var(--keep)" stroke-width="2.5"
+          points="60,120 122,100 184,40 246,60 308,40 370,140 432,140 494,175 556,175 618,185 680,20"/>
+        <g fill="var(--keep)">
+          <circle cx="60" cy="120" r="4"/><circle cx="122" cy="100" r="4"/><circle cx="184" cy="40" r="5"/>
+          <circle cx="246" cy="60" r="4"/><circle cx="308" cy="40" r="5"/><circle cx="370" cy="140" r="4"/>
+          <circle cx="432" cy="140" r="4"/><circle cx="494" cy="175" r="4"/><circle cx="556" cy="175" r="4"/>
+          <circle cx="618" cy="185" r="4"/><circle cx="680" cy="20" r="6"/>
+        </g>
+        <g font-family="var(--mono)" font-size="9" fill="var(--muted)" text-anchor="middle">
+          <text x="60" y="208">01</text><text x="122" y="208">02</text><text x="184" y="208">03</text>
+          <text x="246" y="208">04</text><text x="308" y="208">05</text><text x="370" y="208">06</text>
+          <text x="432" y="208">07</text><text x="494" y="208">08</text><text x="556" y="208">09</text>
+          <text x="618" y="208">10</text><text x="680" y="208">11</text>
+        </g>
+      </svg>
+      <div class="arc-key">
+        <span class="lbl"><span class="kdot" style="background:var(--keep)"></span>Proposed 11-panel order</span>
+        <span class="lbl"><span class="kdot" style="background:var(--cut)"></span>Today — 19 sections, one temperature</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>The panels</h2>
+      <span class="lbl">Draft headlines · the founder's voice overrides all of it</span>
+    </div>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">01</span><span class="p-dur">0:15</span><span class="p-temp hot">warm</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>Open on a person</h3><span class="p-job">JOB — recognition, in eight seconds</span></div>
+        <div class="frame">
+          <span class="draft">Draft</span>
+          <p class="hl">Every child is already someone.</p>
+          <p class="sub">We help them meet that person — and we can measure what we find.</p>
+        </div>
+        <div class="onscreen"><b>ONE FACE, HELD</b><b>NO FRAMEWORK</b><b>PHONE NUMBER</b><b>NAV MAP</b><b>CTA ×1</b></div>
+        <p class="note">A single child's face, looking at camera — not a group, not a collage, not a stock classroom. <strong>The hero is a person, because the product is a person seeing a person.</strong> The positioning claims move down to the method panel, where there is room to evidence them.</p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">02</span><span class="p-dur">0:30</span><span class="p-temp hot">warm</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>The stance</h3><span class="p-job">JOB — state the conviction once, at full volume</span></div>
+        <div class="frame">
+          <span class="draft">Founder's own words</span>
+          <p class="hl">If every child and every adult realised who they truly are, they would naturally perform at their best potential — and the nation would automatically rise.</p>
+          <p class="sub">No one wins the world outside until they have won the world inside.</p>
+        </div>
+        <div class="onscreen"><b>ROOT → FRUIT, WITH A GARDENER</b><b>ONE DIAGRAM</b><b>NO CAROUSEL</b></div>
+        <p class="carries">CARRIES → today's sections 5, 6, 8, 9, 10, 11. Six sections of argument become one section of conviction.</p>
+        <p class="note">The tree finally has hands in it. And the 64 abilities are named here as the <em>map</em> of the inner world rather than as the root itself — which is what makes the metaphor land as a belief instead of a diagram.</p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">03</span><span class="p-dur">0:25</span><span class="p-temp hot">peak</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>Why this exists — the mother</h3><span class="p-job">JOB — earn trust before anything is asked for</span></div>
+        <div class="frame">
+          <span class="draft">Draft — built from the founder's own line</span>
+          <p class="hl">My mother saw something in me before the world did.</p>
+          <p class="sub">She had no framework and no scan. She simply saw me — and that is why a Civil Services officer and a news chief exist. YASHHO is the attempt to give every child that same seeing.</p>
+        </div>
+        <div class="onscreen"><b>FOUNDER PORTRAIT</b><b>~80 WORDS</b><b>LINK → /success-doctor</b></div>
+        <p class="note">Eighty words, not eight hundred. This panel is the <strong>proof of the thesis</strong> — his own life demonstrates that being truly seen changes an outcome. The full four-part story gets its own page for anyone who wants the depth.</p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">04</span><span class="p-dur">0:45</span><span class="p-temp hot">high</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>One journey, in full</h3><span class="p-job">JOB — one story, not fifteen quotes</span></div>
+        <div class="frame">
+          <span class="draft">Structure only — content blocked</span>
+          <p class="hl">Where she started. What the scan found. What her mother noticed.</p>
+          <p class="sub">One named student, beginning to now — and the Yashodarshi who stayed with her, introduced here by name so panel 05 already has a face attached.</p>
+        </div>
+        <div class="onscreen"><b>VIDEO OR PHOTO SEQUENCE</b><b>ONE CHILD</b><b>NAMES THE YASHODARSHI</b></div>
+        <p class="blocked">BLOCKED → needs one real journey. Fifteen one-line testimonials exist; a complete story does not yet. Nothing here will be invented.</p>
+        <p class="note">The most concrete line available is currently inside a testimonial carousel: <em>"In my very first task I overcame my fear. I asked my parents about their struggles, listened, and thanked them."</em> <strong>That belongs in a story, not in a review.</strong></p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">05</span><span class="p-dur">0:40</span><span class="p-temp hot">peak</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>Meet your Yashodarshi</h3><span class="p-job">JOB — the soul, made concrete</span></div>
+        <div class="frame">
+          <span class="draft">Structure only — content blocked</span>
+          <p class="hl">One who sees your glory before you can.</p>
+          <p class="sub">Yasho — glory. Darshi — one who sees. They run the tasks, they do the evaluation, and they write the scorecard. Every rupee you pay reaches your child through one of them.</p>
+        </div>
+        <div class="onscreen"><b>REAL FACES + NAMES</b><b>SELECTION</b><b>TRAINING</b><b>CHILDREN PER MENTOR</b><b>A WEEK IN THE LIFE</b></div>
+        <p class="blocked">BLOCKED → needs real Yashodarshis: names, photographs, selection, training, ratio. This panel is the point of the redesign and it cannot be faked.</p>
+        <p class="note">Placed <strong>before</strong> the tasks and the scorecard deliberately — so both of those read as human-delivered rather than machine-generated. This is also where the mother line closes: <em>a Yashodarshi is that mother, made available to a child whose own cannot afford to be one.</em></p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">06</span><span class="p-dur">0:30</span><span class="p-temp cold">cooling</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>What actually happens</h3><span class="p-job">JOB — remove every remaining mystery</span></div>
+        <div class="frame">
+          <span class="draft">Draft</span>
+          <p class="hl">Twenty-one tasks. Here are three of them.</p>
+          <p class="sub">Ask your parents about their struggles. Listen. Thank them.</p>
+        </div>
+        <div class="onscreen"><b>3 REAL TASKS, SHOWN</b><b>TIME PER WEEK</b><b>ONLINE / IN PERSON</b><b>LANGUAGE</b><b>AGE FROM CLASS 5</b></div>
+        <p class="note">Stating the actual hours reassures far more than "very little" does. <strong>And state the language</strong> — Kannada is central to this company, and a Kannada-speaking parent will want to know whether the mentoring happens in it.</p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">07</span><span class="p-dur">0:25</span><span class="p-temp cold">cool</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>What you receive</h3><span class="p-job">JOB — show the thing being bought</span></div>
+        <div class="frame">
+          <span class="draft">Draft</span>
+          <p class="hl">A trained Yashodarshi watched your daughter across 21 tasks and six hours — and wrote down what she saw. Six hundred and thirty times.</p>
+          <p class="sub">Then she signed it.</p>
+        </div>
+        <div class="onscreen"><b>REAL SCORECARD PAGES</b><b>SIGNED — NAME + PHOTO</b><b>6 PATHWAYS AS A GRID</b></div>
+        <p class="carries">CARRIES → today's section 13, as a grid rather than a carousel, so all six pathways are seen instead of one.</p>
+        <p class="note">The scorecard is the thing being bought, so it should be visible. <strong>Signing it is the cheapest change on this list and the largest</strong> — it turns a report into a relationship. One further note: the six aspirational figures are currently all men, while the named students are overwhelmingly girls — worth revisiting who that pantheon is for.</p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">08</span><span class="p-dur">0:30</span><span class="p-temp cold">coolest</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>How we measure — and what we won't claim</h3><span class="p-job">JOB — convert honesty into credibility</span></div>
+        <div class="frame">
+          <span class="draft">His own FAQ answer, promoted</span>
+          <p class="hl">We don't promise specific marks or ranks. Anyone who does is being dishonest.</p>
+          <p class="sub">What we can tell you is how a Yashodarshi is calibrated, so that one evaluator's 82% means what another's does.</p>
+        </div>
+        <div class="onscreen"><b>SCAN → MAP → CALIBRATE → STRENGTHEN</b><b>EVALUATOR TRAINING</b><b>NATIONAL BENCHMARK AS CALIBRATION</b><b>STATED LIMITS</b></div>
+        <p class="carries">CARRIES → today's benchmark tables, folded in here as the calibration story rather than shown to families as a ranking.</p>
+        <p class="note">Because the scoring is human judgment, this is where the real science lives — <strong>evaluator consistency, not the framework's existence.</strong> The marks-loss table steps aside here: the honest answer above it does more persuasive work, and it removes a figure that would otherwise need sourcing.</p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">09</span><span class="p-dur">0:25</span><span class="p-temp cold">cool</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>Pricing, whole and honest</h3><span class="p-job">JOB — no surprises later</span></div>
+        <div class="frame">
+          <span class="draft">Draft</span>
+          <p class="hl">The scan, and the year that follows. Both numbers, in one place.</p>
+          <p class="sub">₹999 · ₹1,999 · ₹4,999 for the scan. GODPARENT at ₹82 a day — about ₹30,000 across a year. Cancellable any time.</p>
+        </div>
+        <div class="onscreen"><b>3 TIERS, NOT A CAROUSEL</b><b>GODPARENT ON THE SAME SCREEN</b><b>YEAR-ONE TOTAL STATED</b></div>
+        <p class="note">Today the ₹82/day figure lives in FAQ answer four and on a separate page, so the full commitment surfaces late. <strong>Showing both numbers together protects exactly the trust the rest of the page is built to earn.</strong></p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">10</span><span class="p-dur">0:20</span><span class="p-temp cold">coolest</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>Questions</h3><span class="p-job">JOB — answer the three different people reading</span></div>
+        <div class="frame">
+          <span class="draft">Draft</span>
+          <p class="hl">For parents. For students. For adults and professionals.</p>
+          <p class="sub">Three sets, because a sixteen-year-old and her mother are not asking the same thing — and a twenty-six-year-old is asking neither.</p>
+        </div>
+        <div class="onscreen"><b>3 TABS</b><b>STUDENT-FACING SET — NEW</b><b>ADULT SET — NEW</b><b>CONNECT THE KAS PATH</b></div>
+        <p class="note">Today it is titled "Questions parents ask," so a student reads a page about herself written entirely to her mother. The adult set also matters commercially: five of the fifteen testimonials are IAS aspirants, and <strong>adult-facing KAS material already exists and can be connected here.</strong></p>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="p-rail"><span class="p-no">11</span><span class="p-dur">0:15</span><span class="p-temp hot">highest</span></div>
+      <div class="p-body">
+        <div class="p-slug"><h3>One nation. Every child rising.</h3><span class="p-job">JOB — the mission, as the release</span></div>
+        <div class="frame">
+          <span class="draft">Draft</span>
+          <p class="hl">One nation. Every child rising.</p>
+          <p class="sub">India does not rise by finding its best child. India rises when not one child is wasted. Realise who you are, and you will perform at your best naturally — the nation rises automatically.</p>
+        </div>
+        <div class="onscreen"><b>MANY FACES, MANY DISTRICTS</b><b>FINAL CTA</b><b>PHONE NUMBER</b><b>JAI HIND</b></div>
+        <p class="note">Panel 01 opens on <em>one</em> face. Panel 11 closes on <em>many</em> — the same idea at national scale, which is the whole arc in two frames. This is where "iRise — India Rise" is finally said out loud, and it sits at the highest point on the page for a reason: <strong>it is the purpose, so it gets the last word.</strong></p>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Before panels 04 and 05 can be drawn</h2>
+      <span class="lbl">Two blockers · nothing invented</span>
+    </div>
+    <div class="gaps">
+      <div class="gap-c">
+        <strong>The Yashodarshis, for real</strong>
+        <p>Names, photographs, how they are selected and trained, how many children one holds at a time, what a parent can expect in a given week.</p>
+        <p>And the part that carries the most weight, because the scoring is the heart of the operation: <strong>how evaluation consistency is achieved and checked</strong> — what keeps one Yashodarshi's 82% meaning what another's does.</p>
+      </div>
+      <div class="gap-c">
+        <strong>One child's full journey</strong>
+        <p>One named student: where she started, what the scan found, the tasks she did, what her mother noticed at home, where she is now — and the Yashodarshi who stayed with her.</p>
+        <p>Ideally on video. A single three-minute story will outperform every explanation section on the page today.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="lbl">Storyboard · YASHHO™ · iRisePro Academy for Human Excellence</span>
+    <span class="lbl">Companion to the editorial rundown, Rev. 2</span>
+  </footer>
+
+</div>
+</body>
+</html>
