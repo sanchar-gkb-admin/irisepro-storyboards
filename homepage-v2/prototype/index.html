@@ -357,22 +357,83 @@
   .p-disc { margin-top:1.5rem; text-align:center; font-family:var(--mono); font-size:0.625rem;
     color:var(--muted); line-height:1.7; }
 
-  /* ---- method ---- */
-  .method { display:grid; grid-template-columns:1fr; gap:0.75rem; margin-top:2rem; }
-  @media (min-width:36rem) { .method { grid-template-columns:1fr 1fr; } }
-  @media (min-width:64rem) { .method { grid-template-columns:repeat(5,1fr); gap:0.875rem; margin-top:2.25rem; } }
-  .m-step { border:1px solid var(--border); background:var(--surface); border-radius:0.75rem; padding:1rem;
-    display:flex; flex-direction:column; gap:0.4375rem; }
-  .m-step .m-k { font-family:var(--mono); font-size:0.5625rem; letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--accent-strong); font-weight:700; }
-  .m-step h3 { font-size:0.9375rem; }
-  .m-step p { font-size:0.8125rem; color:var(--muted); line-height:1.5; }
+  /* ---- method: the pledge ---- */
+  .pledge { position:relative; margin-top:0.5rem; padding:1.5rem 1.25rem; border-radius:1rem;
+    border:1px solid rgba(245,130,31,0.35); background:
+      radial-gradient(120% 100% at 50% 0%, rgba(245,130,31,0.12), transparent 70%), var(--surface); }
+  .pledge .quo { font-family:var(--serif); font-size:2.75rem; line-height:0.6; color:var(--accent);
+    opacity:0.5; display:block; height:1rem; }
+  .pledge p { font-size:1.1875rem; font-weight:700; line-height:1.3; letter-spacing:-0.018em; color:#fff; }
+  @media (min-width:48rem) { .pledge { padding:2rem 2.25rem; } .pledge p { font-size:1.5rem; } }
+  @media (min-width:64rem) { .pledge p { font-size:1.75rem; max-width:36ch; } }
 
-  .limits { margin-top:1.75rem; border:1px solid var(--border); background:var(--surface); border-radius:0.75rem;
-    padding:1.25rem; display:flex; flex-direction:column; gap:0.75rem; }
-  .limits h3 { font-size:1rem; }
-  .limits ul { margin:0; padding-left:1.0625rem; display:flex; flex-direction:column; gap:0.5rem; }
-  .limits li { font-size:0.9375rem; color:var(--muted); line-height:1.55; }
+  /* ---- method: the contrast ---- */
+  .versus { display:grid; grid-template-columns:1fr; gap:0.75rem; margin-top:1.5rem; align-items:stretch; }
+  .vs-side { border:1px solid var(--border); border-radius:0.875rem; padding:1.125rem; background:var(--surface-2);
+    display:flex; flex-direction:column; gap:0.75rem; }
+  .vs-side .vs-k { font-family:var(--mono); font-size:0.5625rem; letter-spacing:0.16em; text-transform:uppercase;
+    font-weight:700; color:var(--muted); }
+  .vs-side .vs-list { display:flex; flex-wrap:wrap; gap:0.375rem; }
+  .vs-side .vs-list span { font-size:0.8125rem; border:1px solid var(--border); border-radius:2rem;
+    padding:0.3125rem 0.6875rem; color:#8a8f96; }
+  .vs-mid { display:flex; align-items:center; justify-content:center; color:var(--accent-strong); }
+  .vs-mid svg { transform:rotate(90deg); }
+  .vs-side.ours { border-color:rgba(245,130,31,0.4); background:rgba(245,130,31,0.06); }
+  .vs-side.ours .vs-k { color:var(--accent-strong); }
+  .vs-side.ours strong { font-size:1.375rem; font-weight:800; letter-spacing:-0.02em; color:#fff; line-height:1.2; }
+  .vs-side.ours em { font-style:normal; color:var(--accent-strong); }
+  @media (min-width:48rem) {
+    .versus { grid-template-columns:1fr auto 1fr; gap:1rem; }
+    .vs-mid svg { transform:none; }
+    .vs-side.ours strong { font-size:1.625rem; }
+  }
+
+  /* ---- method: the illuminated progression ---- */
+  .method { position:relative; display:flex; flex-direction:column; gap:0; margin-top:2rem; }
+  .m-step { position:relative; display:grid; grid-template-columns:2.75rem 1fr; gap:0 0.875rem;
+    padding-bottom:1.25rem; }
+  .m-step:not(:last-child)::before { content:""; position:absolute; left:1.3125rem; top:2.5rem; bottom:0;
+    width:2px; background:linear-gradient(to bottom, var(--border), rgba(245,130,31,0.35)); }
+  .m-num { width:2.625rem; height:2.625rem; border-radius:0.875rem; display:flex; align-items:center;
+    justify-content:center; font-family:var(--mono); font-size:0.8125rem; font-weight:700;
+    position:relative; z-index:1; }
+  .m-body { display:flex; flex-direction:column; gap:0.3125rem; padding-top:0.375rem; min-width:0; }
+  .m-body .m-k { font-family:var(--mono); font-size:0.5625rem; letter-spacing:0.16em; text-transform:uppercase;
+    font-weight:700; color:var(--accent-strong); }
+  .m-body h3 { font-size:1rem; line-height:1.28; }
+  .m-body p { font-size:0.875rem; color:var(--muted); line-height:1.55; }
+  /* the rail lights up across the five steps — the lamp, applied to a process */
+  .s1 .m-num { background:rgba(245,130,31,0.10); border:1px solid rgba(245,130,31,0.25); color:#b9855a; }
+  .s2 .m-num { background:rgba(245,130,31,0.17); border:1px solid rgba(245,130,31,0.35); color:#cf9450; }
+  .s3 .m-num { background:rgba(245,130,31,0.26); border:1px solid rgba(245,130,31,0.48); color:var(--accent-strong); }
+  .s4 .m-num { background:rgba(245,130,31,0.38); border:1px solid rgba(245,130,31,0.62); color:var(--accent-bright); }
+  .s5 .m-num { background:var(--accent); border:1px solid var(--accent-bright); color:var(--accent-fg);
+    box-shadow:0 0 22px -4px rgba(245,130,31,0.6); }
+  .s5 h3 { color:#fff; }
+  @media (min-width:64rem) {
+    .method { flex-direction:row; gap:0.875rem; margin-top:2.5rem; }
+    .m-step { flex:1 1 0; grid-template-columns:1fr; gap:0.75rem; padding-bottom:0;
+      border:1px solid var(--border); border-radius:0.875rem; padding:1.125rem; background:var(--surface); }
+    .m-step:not(:last-child)::before { left:auto; right:-0.6875rem; top:2.3rem; bottom:auto;
+      width:0.6875rem; height:2px; background:rgba(245,130,31,0.4); }
+    .m-step.s5 { border-color:rgba(245,130,31,0.45); background:rgba(245,130,31,0.07); }
+    .m-body { padding-top:0; }
+  }
+
+  /* ---- method: the honesty ledger ---- */
+  .ledger { display:grid; grid-template-columns:1fr; gap:0.75rem; margin-top:1.75rem; }
+  @media (min-width:48rem) { .ledger { grid-template-columns:1fr 1fr; gap:1rem; } }
+  .led { border:1px solid var(--border); background:var(--surface); border-radius:0.875rem; padding:1.25rem;
+    display:flex; flex-direction:column; gap:0.875rem; }
+  .led.do { border-left:3px solid var(--leaf); }
+  .led.dont { border-left:3px solid var(--accent); }
+  .led h3 { font-size:0.9375rem; }
+  .led ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.6875rem; }
+  .led li { display:grid; grid-template-columns:1.125rem 1fr; gap:0.5rem; font-size:0.875rem;
+    color:var(--muted); line-height:1.55; }
+  .led li i { font-style:normal; font-weight:700; padding-top:0.05rem; }
+  .led.do li i { color:var(--leaf); }
+  .led.dont li i { color:var(--accent-strong); }
 
   /* ---- pricing ---- */
   .tiers { display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem; align-items:start; }
@@ -926,28 +987,68 @@
   <!-- 09 ===== HOW IT WORKS ===== -->
   <section id="method" class="band">
     <div class="wrap">
-      <div class="head-stack">
-        <p class="eyebrow">The Success Doctor logic</p>
-        <h2 class="sec-title">We don't promise specific marks or ranks—anyone who does is being dishonest.</h2>
-        <p class="lede">Most systems try to improve marks through more classes, more tests and more pressure. YASHHO works at the root.</p>
+      <p class="eyebrow">The Success Doctor logic</p>
+
+      <div class="pledge">
+        <span class="quo" aria-hidden="true">&ldquo;</span>
+        <p>We don't promise specific marks or ranks—anyone who does is being dishonest.</p>
+      </div>
+
+      <div class="versus">
+        <div class="vs-side">
+          <span class="vs-k">Most systems try to improve marks through</span>
+          <div class="vs-list"><span>more classes</span><span>more tests</span><span>more pressure</span></div>
+        </div>
+        <div class="vs-mid" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg>
+        </div>
+        <div class="vs-side ours">
+          <span class="vs-k">YASHHO</span>
+          <strong>works at <em>the root</em>.</strong>
+        </div>
       </div>
 
       <div class="method">
-        <div class="m-step"><span class="m-k">Scan</span><h3>Identify hidden ability gaps</h3><p>Through the Foundation 21-Task Success-Root System™.</p></div>
-        <div class="m-step"><span class="m-k">Map</span><h3>Map the child</h3><p>Across the YASHHO™ AACE64™ Essential Success Abilities Framework.</p></div>
-        <div class="m-step"><span class="m-k">Calibrate<span class="tag edit">edited</span></span><h3>Calibrate the evaluator</h3><p>Benchmarks against national and global superperformers exist to calibrate the Yashodarshi — so one evaluator's score means what another's does. <em style="color:var(--accent-strong);font-style:normal">Protocol to confirm — KMM.</em></p></div>
-        <div class="m-step"><span class="m-k">Strengthen</span><h3>Focus consistently on all 64</h3><p>Through the Personalised Annual Success Strengthening System™.</p></div>
-        <div class="m-step"><span class="m-k">Succeed</span><h3>The Success-Root strengthens</h3><p>The child becomes more focused, confident, disciplined, emotionally steady, career-ready and performance-ready.</p></div>
+        <div class="m-step s1">
+          <span class="m-num">01</span>
+          <div class="m-body"><span class="m-k">Scan</span><h3>Identify hidden ability gaps</h3><p>Through the Foundation 21-Task Success-Root System™.</p></div>
+        </div>
+        <div class="m-step s2">
+          <span class="m-num">02</span>
+          <div class="m-body"><span class="m-k">Map</span><h3>Map the child</h3><p>Across the YASHHO™ AACE64™ Essential Success Abilities Framework.</p></div>
+        </div>
+        <div class="m-step s3">
+          <span class="m-num">03</span>
+          <div class="m-body"><span class="m-k">Calibrate<span class="tag edit">edited</span></span><h3>Calibrate the evaluator</h3><p>Benchmarks against national and global superperformers exist to calibrate the Yashodarshi — so one evaluator's score means what another's does. <em style="color:var(--accent-strong);font-style:normal">Protocol to confirm — KMM.</em></p></div>
+        </div>
+        <div class="m-step s4">
+          <span class="m-num">04</span>
+          <div class="m-body"><span class="m-k">Strengthen</span><h3>Focus consistently on all 64</h3><p>Through the Personalised Annual Success Strengthening System™.</p></div>
+        </div>
+        <div class="m-step s5">
+          <span class="m-num">05</span>
+          <div class="m-body"><span class="m-k">Succeed</span><h3>The Success-Root strengthens</h3><p>The child becomes more focused, confident, disciplined, emotionally steady, career-ready and performance-ready.</p></div>
+        </div>
       </div>
 
-      <div class="limits">
-        <h3>What we do, and what we won't claim</h3>
-        <ul>
-          <li>What we do is scientifically strengthen the abilities that improve academic performance, confidence and clarity. The outcome ranges we show are observed, not guaranteed, and depend on each child's engagement.</li>
-          <li>Progress is tracked through the initial 64-ability scan, daily progress and happiness reports, personalised growth mapping, and benchmark analysis—so you always see how your child is strengthening.</li>
-          <li>We do not rank your child against other people's children. The benchmark calibrates our evaluators; it is not a ladder we place your daughter on.<span class="tag edit">edited</span></li>
-          <li>YASHHO™ is not tuition, coaching, counselling or motivation. It is scientific success strengthening, working alongside (not replacing) your child's school.</li>
-        </ul>
+      <div class="ledger">
+        <div class="led do">
+          <h3>What we do</h3>
+          <ul>
+            <li><i>✓</i><span>Scientifically strengthen the abilities that improve academic performance, confidence and clarity.</span></li>
+            <li><i>✓</i><span>Track progress through the initial 64-ability scan, daily progress and happiness reports, personalised growth mapping, and benchmark analysis—so you always see how your child is strengthening.</span></li>
+            <li><i>✓</i><span>Work alongside (not replacing) your child's school.</span></li>
+          </ul>
+        </div>
+        <div class="led dont">
+          <h3>What we will not claim</h3>
+          <ul>
+            <li><i>✕</i><span>We don't promise specific marks or ranks. The outcome ranges we show are observed, not guaranteed, and depend on each child's engagement.</span></li>
+            <li><i>✕</i><span>We do not rank your child against other people's children. The benchmark calibrates our evaluators; it is not a ladder we place your daughter on.<span class="tag edit">edited</span></span></li>
+            <li><i>✕</i><span>YASHHO™ is not tuition, coaching, counselling or motivation.</span></li>
+            <li><i>✕</i><span>Not a medical, diagnostic or healthcare service. "Success Doctor" is a brand expression.</span></li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
