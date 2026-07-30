@@ -5,308 +5,456 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
+<meta name="theme-color" content="#0a1626">
 <title>YASHHO — homepage prototype (same words, new order)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ============================================================
-     Tokens taken from the live site (src/app/globals.css):
-     navy ground + brand orange, Montserrat. The orange is used
-     here as LIGHT — a lamp against night navy — rather than only
-     as buttons. Single-theme by choice: the brand is dark.
-     ============================================================ */
+  /* ==========================================================
+     MOBILE FIRST. Base styles are the phone; min-width queries
+     enhance upward at 48rem (tablet) and 64rem (desktop).
+     Tokens are the live site's own (src/app/globals.css):
+     navy ground + brand orange + Montserrat. The orange is used
+     as LIGHT — a lamp against night navy. Single theme by
+     choice: the brand is dark.
+     ========================================================== */
   :root {
     --forest:#081325; --bg:#0a1626; --surface:#10223c; --surface-2:#0d1c31;
     --fg:#eaf1f9; --muted:#8ea3bd; --border:#1d3354;
     --accent:#f5821f; --accent-strong:#ff9b3d; --accent-bright:#ffb259;
-    --accent-soft:#1d2f4d; --accent-fg:#1a0e02;
-    --leaf:#3f93e0; --leaf-soft:#16294a;
+    --accent-fg:#1a0e02; --leaf:#3f93e0; --leaf-soft:#16294a;
     --display:"Montserrat","Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;
     --serif:Georgia,"Iowan Old Style","Times New Roman",Times,serif;
     --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
-    --gut:1.5rem; --max:70rem;
+    --gut:1.125rem;          /* phone gutter */
+    --max:70rem;
+    --bar:4.25rem;           /* sticky mobile action bar height */
   }
+  @media (min-width:48rem) { :root { --gut:1.5rem; --bar:0rem; } }
+
   *,*::before,*::after { box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  @media (prefers-reduced-motion: reduce) { html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
-  body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--display);
-    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
-  h1,h2,h3,h4 { margin:0; font-family:var(--display); font-weight:700; text-wrap:balance;
-    letter-spacing:-0.02em; line-height:1.1; }
+  html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  @media (prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
+
+  body {
+    margin:0; background:var(--bg); color:var(--fg); font-family:var(--display);
+    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+    padding-bottom:var(--bar);            /* clear the mobile action bar */
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4 { margin:0; font-weight:700; text-wrap:balance; letter-spacing:-0.02em; line-height:1.14; }
   p { margin:0; }
   a { color:var(--accent-strong); }
   :focus-visible { outline:2px solid var(--accent-strong); outline-offset:3px; }
   img,svg { max-width:100%; }
 
   .wrap { width:100%; max-width:var(--max); margin:0 auto; padding-inline:var(--gut); }
-  .eyebrow { font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.18em; text-transform:uppercase;
-    color:var(--accent-strong); font-weight:500; }
-  .lede { font-size:clamp(1.0625rem,2vw,1.3125rem); line-height:1.55; color:var(--muted); max-width:46ch; }
-  .narr { font-family:var(--serif); font-size:clamp(1.0625rem,2vw,1.1875rem); line-height:1.68; color:var(--fg); }
+  .eyebrow { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--accent-strong); font-weight:600; }
+  .lede { font-size:1.0625rem; line-height:1.55; color:var(--muted); }
+  .narr { font-family:var(--serif); font-size:1.0625rem; line-height:1.7; color:var(--fg); }
+  @media (min-width:48rem) { .eyebrow{font-size:0.6875rem} .lede{font-size:1.1875rem;max-width:48ch} .narr{font-size:1.125rem} }
+  @media (min-width:64rem) { .lede{font-size:1.3125rem} }
 
   /* ---- provenance layer: OFF by default so the page reads as the page ---- */
   .prov-toggle { position:absolute; opacity:0; pointer-events:none; }
   .tag { display:none; font-family:var(--mono); font-size:0.5rem; font-weight:600; letter-spacing:0.1em;
     text-transform:uppercase; vertical-align:0.4em; padding:0.1rem 0.25rem; border-radius:0.1875rem;
     margin-left:0.3rem; white-space:nowrap; }
+  .tag.new { background:rgba(63,147,224,0.18); color:var(--leaf); border:1px solid rgba(63,147,224,0.4); }
+  .tag.edit { background:rgba(245,130,31,0.15); color:var(--accent-strong); border:1px solid rgba(245,130,31,0.4); }
   #prov:checked ~ * .tag { display:inline-block; }
   .provnote { display:none; }
   #prov:checked ~ * .provnote { display:block; }
-  .prov-btn { cursor:pointer; margin-left:0.75rem; border:1px solid currentColor; border-radius:2rem;
-    padding:0.1rem 0.5rem; font-size:0.625rem; opacity:0.75; }
-  .prov-btn:hover { opacity:1; }
+  .prov-btn { cursor:pointer; margin-left:0.5rem; border:1px solid currentColor; border-radius:2rem;
+    padding:0.15rem 0.5rem; font-size:0.5625rem; opacity:0.8; display:inline-block; }
   .prov-btn::after { content:" · off"; }
   #prov:checked ~ .proto .prov-btn::after { content:" · on"; }
-  #prov:focus-visible ~ .proto .prov-btn { outline:2px solid var(--accent-fg); outline-offset:2px; }
-  .tag.new { background:rgba(63,147,224,0.18); color:var(--leaf); border:1px solid rgba(63,147,224,0.4); }
-  .tag.edit { background:rgba(245,130,31,0.15); color:var(--accent-strong); border:1px solid rgba(245,130,31,0.4); }
 
-  /* prototype banner */
-  .proto { background:var(--accent); color:var(--accent-fg); font-family:var(--mono); font-size:0.6875rem;
-    letter-spacing:0.08em; text-transform:uppercase; text-align:center; padding:0.5rem var(--gut); font-weight:600; }
+  .proto { background:var(--accent); color:var(--accent-fg); font-family:var(--mono); font-size:0.5625rem;
+    letter-spacing:0.06em; text-transform:uppercase; text-align:center; padding:0.4375rem var(--gut);
+    font-weight:600; line-height:1.7; }
   .proto a { color:var(--accent-fg); }
+  @media (min-width:48rem) { .proto{font-size:0.6875rem; letter-spacing:0.08em} }
+
   .legend { display:none; background:var(--forest); border-bottom:1px solid var(--border); padding:0.75rem var(--gut); }
   #prov:checked ~ .legend { display:block; }
-  .legend-in { max-width:var(--max); margin:0 auto; display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; align-items:center;
-    font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.06em; color:var(--muted); }
+  .legend-in { max-width:var(--max); margin:0 auto; display:flex; flex-direction:column; gap:0.375rem;
+    font-family:var(--mono); font-size:0.625rem; letter-spacing:0.04em; color:var(--muted); line-height:1.6; }
   .legend-in b { color:var(--fg); font-weight:600; }
+  @media (min-width:64rem) { .legend-in { flex-direction:row; flex-wrap:wrap; gap:0.5rem 1.5rem; align-items:center; } }
 
-  /* nav */
-  header.nav { position:sticky; top:0; z-index:50; background:rgba(8,19,37,0.92); backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--border); }
-  .nav-in { display:flex; align-items:center; gap:1.25rem; padding-block:0.75rem; }
-  .mark { font-weight:800; letter-spacing:0.06em; font-size:1.0625rem; }
+  /* ---- nav: scrollable chip strip on phone, inline links on desktop ---- */
+  header.nav { position:sticky; top:0; z-index:50; background:rgba(8,19,37,0.94);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--border); }
+  .nav-in { display:flex; align-items:center; gap:0.75rem; padding-block:0.625rem; }
+  .mark { font-weight:800; letter-spacing:0.05em; font-size:1rem; text-decoration:none; color:inherit; flex:none; }
   .mark span { color:var(--accent-strong); }
-  .nav-links { display:flex; gap:1.125rem; margin-left:auto; font-size:0.8125rem; font-weight:500; }
-  .nav-links a { color:var(--muted); text-decoration:none; }
-  .nav-links a:hover { color:var(--fg); }
+  .nav-links {
+    display:flex; gap:0.5rem; margin-left:auto; overflow-x:auto; scrollbar-width:none;
+    -webkit-overflow-scrolling:touch; font-size:0.75rem; font-weight:600;
+  }
+  .nav-links::-webkit-scrollbar { display:none; }
+  .nav-links a { color:var(--muted); text-decoration:none; white-space:nowrap;
+    border:1px solid var(--border); border-radius:2rem; padding:0.375rem 0.6875rem; }
+  .nav-links a:hover { color:var(--fg); border-color:var(--accent-strong); }
+  .nav-cta { display:none; }
+  @media (min-width:64rem) {
+    .nav-in { gap:1.25rem; padding-block:0.75rem; }
+    .mark { font-size:1.0625rem; }
+    .nav-links { font-size:0.8125rem; gap:1.125rem; overflow:visible; }
+    .nav-links a { border:0; padding:0; }
+    .nav-cta { display:inline-flex; }
+  }
+
+  /* ---- sticky action bar: phone only ---- */
+  .actionbar {
+    position:fixed; inset-inline:0; bottom:0; z-index:60; display:flex; gap:0.625rem;
+    padding:0.625rem var(--gut) calc(0.625rem + env(safe-area-inset-bottom));
+    background:rgba(8,19,37,0.96); backdrop-filter:blur(12px); border-top:1px solid var(--border);
+  }
+  .actionbar .btn { flex:1; }
+  .actionbar .btn.ghost { flex:0 0 auto; }
+  @media (min-width:48rem) { .actionbar { display:none; } }
+
   .btn { display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; background:var(--accent);
-    color:var(--accent-fg); font-weight:700; font-size:0.9375rem; padding:0.6875rem 1.125rem;
-    border-radius:0.5rem; text-decoration:none; border:0; cursor:pointer; }
+    color:var(--accent-fg); font-weight:700; font-size:0.9375rem; padding:0.8125rem 1.125rem;
+    border-radius:0.5rem; text-decoration:none; border:0; cursor:pointer; min-height:2.875rem; text-align:center; }
   .btn:hover { background:var(--accent-bright); }
   .btn.ghost { background:transparent; color:var(--fg); border:1px solid var(--border); }
   .btn.ghost:hover { border-color:var(--accent-strong); }
-  .btn.sm { font-size:0.8125rem; padding:0.5rem 0.875rem; }
-  @media (max-width:62rem) { .nav-links { display:none; } }
+  .btn.sm { font-size:0.8125rem; padding:0.5rem 0.875rem; min-height:2.25rem; }
+  .btn.block { width:100%; }
+  @media (min-width:48rem) { .btn.block { width:auto; } }
 
-  /* sections */
-  section { padding-block:clamp(3.5rem,8vw,6.5rem); position:relative; }
+  /* ---- sections ---- */
+  section { padding-block:3rem; position:relative; }
   section + section { border-top:1px solid var(--border); }
   .band { background:var(--forest); }
   .band-2 { background:var(--surface-2); }
-  .sec-title { font-size:clamp(1.75rem,4.6vw,2.75rem); }
-  .head-stack { display:flex; flex-direction:column; gap:1rem; max-width:54rem; }
+  .sec-title { font-size:1.625rem; }
+  .head-stack { display:flex; flex-direction:column; gap:0.875rem; max-width:54rem; }
+  @media (min-width:48rem) { section{padding-block:4.5rem} .sec-title{font-size:2.125rem} .head-stack{gap:1rem} }
+  @media (min-width:64rem) { section{padding-block:6rem} .sec-title{font-size:2.75rem} }
 
   .lamp::before { content:""; position:absolute; inset:0; pointer-events:none;
-    background:radial-gradient(60% 45% at 50% 0%, rgba(245,130,31,0.16), transparent 70%); }
-  .lamp-l::before { background:radial-gradient(48% 42% at 18% 30%, rgba(245,130,31,0.14), transparent 70%); }
+    background:radial-gradient(80% 40% at 50% 0%, rgba(245,130,31,0.15), transparent 70%); }
+  @media (min-width:64rem) { .lamp::before { background:radial-gradient(60% 45% at 50% 0%, rgba(245,130,31,0.16), transparent 70%); } }
+  .lamp-l::before { background:radial-gradient(80% 40% at 30% 12%, rgba(245,130,31,0.13), transparent 70%); }
 
-  /* content slots */
+  /* ---- content slots ---- */
   .slot { border:1.5px dashed rgba(245,130,31,0.45); background:rgba(245,130,31,0.05); border-radius:0.75rem;
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.375rem;
-    padding:1.25rem; text-align:center; min-height:8rem; }
-  .slot b { font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.12em; text-transform:uppercase;
+    padding:1.125rem; text-align:center; min-height:7rem; }
+  .slot b { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.1em; text-transform:uppercase;
     color:var(--accent-strong); font-weight:600; }
-  .slot span { font-size:0.875rem; color:var(--muted); max-width:34ch; line-height:1.5; }
+  .slot span { font-size:0.8125rem; color:var(--muted); max-width:34ch; line-height:1.5; }
   .slot.face { aspect-ratio:4/5; min-height:0; }
-  .slot.wide { aspect-ratio:16/9; min-height:0; }
+  .slot.wide { aspect-ratio:16/10; min-height:0; }
 
-  /* hero */
-  .hero { padding-block:clamp(3rem,7vw,5.5rem); }
-  .hero-grid { display:grid; grid-template-columns:1.15fr 0.85fr; gap:clamp(2rem,5vw,4rem); align-items:center; }
-  .hero h1 { font-size:clamp(2.125rem,5.8vw,3.875rem); font-weight:800; letter-spacing:-0.032em; }
+  /* ---- hero ---- */
+  .hero-grid { display:grid; grid-template-columns:1fr; gap:1.75rem; align-items:center; }
+  .hero h1 { font-size:2rem; font-weight:800; letter-spacing:-0.03em; line-height:1.08; }
   .hero h1 em { font-style:normal; color:var(--accent-strong); }
-  .fork { display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; }
+  @media (min-width:48rem) { .hero h1{font-size:2.75rem} .hero-grid{gap:2.5rem} }
+  @media (min-width:64rem) { .hero h1{font-size:3.75rem} .hero-grid{grid-template-columns:1.12fr 0.88fr; gap:3.5rem} }
+
+  .fork { display:flex; flex-wrap:wrap; gap:0.4375rem; align-items:center; }
   .fork a { font-size:0.8125rem; font-weight:600; text-decoration:none; color:var(--fg);
-    border:1px solid var(--border); background:var(--surface); border-radius:2rem; padding:0.4375rem 0.875rem; }
+    border:1px solid var(--border); background:var(--surface); border-radius:2rem;
+    padding:0.5rem 0.875rem; min-height:2.25rem; display:inline-flex; align-items:center; }
   .fork a:hover { border-color:var(--accent-strong); }
-  .cta-row { display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center; }
-  .phone { font-family:var(--mono); font-size:0.9375rem; color:var(--fg); text-decoration:none; }
+  .cta-row { display:flex; flex-direction:column; gap:0.75rem; align-items:stretch; }
+  @media (min-width:48rem) { .cta-row { flex-direction:row; flex-wrap:wrap; align-items:center; } }
+  .phone { font-family:var(--mono); font-size:0.9375rem; color:var(--fg); text-decoration:none;
+    display:inline-flex; align-items:center; justify-content:center; min-height:2.75rem; }
   .phone b { color:var(--accent-strong); }
-  @media (max-width:56rem) { .hero-grid { grid-template-columns:1fr; } }
 
-  /* tree */
-  .tree { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:2.5rem; }
-  .node { background:var(--surface); border:1px solid var(--border); border-radius:0.75rem; padding:1.125rem;
-    display:flex; flex-direction:column; gap:0.5rem; }
-  .node.root { border-color:var(--accent); box-shadow:0 0 0 1px rgba(245,130,31,0.25), 0 8px 30px -12px rgba(245,130,31,0.35); }
-  .node .n-k { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
-  .node.root .n-k { color:var(--accent-strong); }
-  .node h3 { font-size:1rem; }
-  .node p { font-size:0.875rem; color:var(--muted); line-height:1.5; }
+  /* ---- Success-Root journey: seedling → Root → Tree → Trunk → Fruit ----
+     Faithful to the original: a scroll-snap journey on phone (the horizontal
+     motion encodes the causal direction), chevrons between layers, root
+     emphasised in orange, fruit deliberately muted. This is the one carousel
+     the page keeps, because here the sequence IS the argument. */
+  .rootsec { position:relative; overflow:hidden; }
+  .rootsec .bgimg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    opacity:0.10; pointer-events:none; }
+  .rootsec .wrap { position:relative; }
+
+  .journey { display:flex; align-items:stretch; gap:0.625rem; margin-top:2rem;
+    overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; padding-bottom:0.75rem; }
+  .journey::-webkit-scrollbar { display:none; }
+  .journey > * { scroll-snap-align:center; }
+
+  .seedcard { position:relative; flex:0 0 80%; min-height:17rem; border-radius:1.25rem;
+    overflow:hidden; border:1px solid rgba(255,255,255,0.1); display:flex; }
+  .seedcard img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .seedcard .scrim { position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(8,19,37,0.9) 8%, transparent 52%); }
+  .seedcard p { position:absolute; inset-inline:1.125rem; bottom:1.125rem; color:#fff;
+    font-size:1.125rem; font-weight:600; line-height:1.35; letter-spacing:-0.015em; }
+
+  .arrow { flex:none; align-self:center; color:var(--accent-strong); display:flex; align-items:center; }
+
+  .node { flex:0 0 80%; background:var(--surface); border:1px solid var(--border); border-radius:1.25rem;
+    padding:1.25rem; display:flex; flex-direction:column; gap:0.5rem; min-height:17rem; }
+  .node .n-ico { width:2.5rem; height:2.5rem; border-radius:0.75rem; display:flex; align-items:center;
+    justify-content:center; background:var(--leaf-soft); color:var(--leaf); margin-bottom:0.25rem; }
+  .node .n-k { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--muted); font-weight:600; }
+  .node h3 { font-size:1.0625rem; line-height:1.25; }
+  .node p { font-size:0.875rem; color:var(--muted); line-height:1.55; }
+  .node.is-root { border-color:var(--accent);
+    box-shadow:0 0 0 1px rgba(245,130,31,0.25), 0 8px 30px -12px rgba(245,130,31,0.35); }
+  .node.is-root .n-ico { background:rgba(245,130,31,0.15); color:var(--accent-strong); }
+  .node.is-root .n-k { color:var(--accent-strong); }
+  .node.is-root h3 { color:#fff; }
+  .node.is-fruit .n-ico { background:rgba(255,255,255,0.06); color:#8a8f96; }
+  .node.is-fruit .n-k, .node.is-fruit h3 { color:#9aa1a9; }
+
+  .swipehint { margin-top:0.25rem; text-align:center; font-family:var(--mono); font-size:0.5625rem;
+    letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); }
+
+  @media (min-width:44rem) { .seedcard, .node { flex:0 0 46%; } }
+  @media (min-width:64rem) {
+    .journey { overflow:visible; gap:0.5rem; margin-top:3rem; padding-bottom:0; }
+    .seedcard, .node { flex:1 1 0; min-width:0; }
+    .swipehint { display:none; }
+  }
   .gardener { margin-top:1.25rem; border-left:3px solid var(--accent); background:rgba(245,130,31,0.07);
-    padding:0.875rem 1.125rem; border-radius:0 0.5rem 0.5rem 0; font-size:1rem; font-weight:600; }
-  @media (max-width:56rem) { .tree { grid-template-columns:1fr 1fr; } }
-  @media (max-width:34rem) { .tree { grid-template-columns:1fr; } }
+    padding:0.875rem 1.125rem; border-radius:0 0.5rem 0.5rem 0; font-size:0.9375rem; font-weight:600; line-height:1.5; }
+  @media (min-width:48rem) { .gardener{font-size:1rem} }
 
-  .two { display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,3.5rem); align-items:center; }
-  .two.narrow-r { grid-template-columns:1.25fr 0.75fr; }
-  @media (max-width:56rem) { .two, .two.narrow-r { grid-template-columns:1fr; } }
-
-  /* chips row (his list-chains, kept verbatim but shown once) */
   .chips { display:flex; flex-wrap:wrap; gap:0.375rem; }
-  .chips i { font-style:normal; font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.04em;
+  .chips i { font-style:normal; font-family:var(--mono); font-size:0.625rem; letter-spacing:0.04em;
     border:1px solid var(--border); border-radius:0.25rem; padding:0.25rem 0.4375rem; color:var(--muted); }
 
-  /* journey */
+  /* ---- generic two-col ---- */
+  .two { display:grid; grid-template-columns:1fr; gap:2rem; align-items:center; }
+  @media (min-width:64rem) { .two { grid-template-columns:1fr 1fr; gap:3.5rem; } .two.narrow-r { grid-template-columns:1.25fr 0.75fr; } }
+  .two.top { align-items:start; }
+
+  /* ---- journey ---- */
   .steps { display:flex; flex-direction:column; }
-  .step { display:grid; grid-template-columns:3.5rem 1fr; gap:0 1.25rem; padding-bottom:1.75rem; position:relative; }
-  .step:not(:last-child)::before { content:""; position:absolute; left:1.1875rem; top:2.25rem; bottom:0;
+  .step { display:grid; grid-template-columns:2.75rem 1fr; gap:0 0.875rem; padding-bottom:1.5rem; position:relative; }
+  .step:not(:last-child)::before { content:""; position:absolute; left:1.0625rem; top:2.125rem; bottom:0;
     width:1.5px; background:var(--border); }
-  .step-n { width:2.375rem; height:2.375rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
-    background:var(--surface); border:1px solid var(--border); font-family:var(--mono); font-size:0.8125rem;
+  .step-n { width:2.125rem; height:2.125rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--surface); border:1px solid var(--border); font-family:var(--mono); font-size:0.75rem;
     color:var(--accent-strong); position:relative; z-index:1; }
-  .step-b { display:flex; flex-direction:column; gap:0.5rem; padding-top:0.375rem; min-width:0; }
-  .step-b h3 { font-size:1rem; }
+  .step-b { display:flex; flex-direction:column; gap:0.5rem; padding-top:0.3125rem; min-width:0; }
+  .step-b h3 { font-size:0.9375rem; }
   .step-b p { font-size:0.9375rem; color:var(--muted); line-height:1.55; }
 
-  blockquote { margin:0; font-family:var(--serif); font-style:italic; font-size:clamp(1.0625rem,2.3vw,1.3125rem);
-    line-height:1.5; color:var(--fg); border-left:3px solid var(--accent); padding-left:1.25rem; }
-  blockquote cite { display:block; font-style:normal; font-family:var(--mono); font-size:0.6875rem;
-    letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:0.75rem; }
-  .quote-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:2rem; }
+  blockquote { margin:0; font-family:var(--serif); font-style:italic; font-size:1.0625rem;
+    line-height:1.5; color:var(--fg); border-left:3px solid var(--accent); padding-left:1rem; }
+  blockquote cite { display:block; font-style:normal; font-family:var(--mono); font-size:0.625rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:0.625rem; }
+  @media (min-width:64rem) { blockquote { font-size:1.25rem; padding-left:1.25rem; } }
+  .quote-grid { display:grid; grid-template-columns:1fr; gap:1.25rem; margin-top:2rem; }
   .quote-grid blockquote { font-size:1rem; }
-  @media (max-width:56rem) { .quote-grid { grid-template-columns:1fr; } }
+  @media (min-width:48rem) { .quote-grid { grid-template-columns:1fr 1fr; gap:1.5rem; } }
 
-  /* mentors + facts */
-  .mentors { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:2.5rem; }
-  @media (max-width:56rem) { .mentors { grid-template-columns:1fr; } }
-  .facts { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:1.75rem; }
-  .fact { border:1px solid var(--border); background:var(--surface); border-radius:0.625rem; padding:1rem; }
-  .fact .f-k { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.12em; text-transform:uppercase;
-    color:var(--muted); display:block; margin-bottom:0.375rem; }
+  /* ---- mentors + facts ---- */
+  .mentors { display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem; }
+  @media (min-width:36rem) { .mentors { grid-template-columns:1fr 1fr; } }
+  @media (min-width:64rem) { .mentors { grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:2.5rem; } }
+  .facts { display:grid; grid-template-columns:1fr; gap:0.75rem; margin-top:1.5rem; }
+  @media (min-width:30rem) { .facts { grid-template-columns:1fr 1fr; } }
+  @media (min-width:64rem) { .facts { grid-template-columns:repeat(4,1fr); gap:1rem; } }
+  .fact { border:1px solid var(--border); background:var(--surface); border-radius:0.625rem; padding:0.875rem 1rem; }
+  .fact .f-k { font-family:var(--mono); font-size:0.5625rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--muted); display:block; margin-bottom:0.3125rem; }
   .fact .f-v { font-size:0.9375rem; font-weight:600; }
-  .fact .f-v.tbc { color:var(--accent-strong); font-family:var(--mono); font-size:0.8125rem; font-weight:500; }
-  @media (max-width:56rem) { .facts { grid-template-columns:1fr 1fr; } }
+  .fact .f-v.tbc { color:var(--accent-strong); font-family:var(--mono); font-size:0.75rem; font-weight:500; }
 
-  /* tasks */
-  .tasks { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:2.5rem; }
-  .task { border:1px solid var(--border); background:var(--surface); border-radius:0.75rem; padding:1.375rem;
-    display:flex; flex-direction:column; gap:0.75rem; }
-  .task .t-n { font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.12em; color:var(--accent-strong); }
-  .task h3 { font-size:1rem; line-height:1.3; }
+  /* ---- tasks ---- */
+  .tasks { display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem; }
+  @media (min-width:48rem) { .tasks { grid-template-columns:1fr 1fr; } }
+  @media (min-width:64rem) { .tasks { grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:2.5rem; } }
+  .task { border:1px solid var(--border); background:var(--surface); border-radius:0.75rem; padding:1.25rem;
+    display:flex; flex-direction:column; gap:0.625rem; }
+  .task .t-n { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--accent-strong); font-weight:700; }
+  .task h3 { font-size:1.0625rem; line-height:1.28; }
   .task p { font-size:0.9375rem; color:var(--muted); line-height:1.55; }
-  @media (max-width:56rem) { .tasks { grid-template-columns:1fr; } }
-  .logistics { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:1.75rem; }
-  @media (max-width:56rem) { .logistics { grid-template-columns:1fr 1fr; } }
+  .task .t-sub { margin-top:auto; padding-top:0.625rem; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:0.6875rem; color:var(--leaf); letter-spacing:0.02em; }
+  .task .t-sub b { color:var(--muted); font-weight:500; }
+  .ipline { margin-top:1.75rem; border-left:3px solid var(--leaf); background:rgba(63,147,224,0.07);
+    padding:0.875rem 1.125rem; border-radius:0 0.5rem 0.5rem 0; font-size:0.9375rem; line-height:1.6;
+    color:var(--fg); }
 
-  /* scorecard */
+  /* ---- scan reveals ---- */
+  .reveals { margin:0.5rem 0 0; padding:0; display:flex; flex-direction:column; gap:0.75rem; }
+  .reveals li { list-style:none; display:flex; gap:0.625rem; font-size:0.9375rem; color:var(--muted); line-height:1.5; }
+  .reveals li::before { content:"◆"; color:var(--accent-strong); flex:none; font-size:0.5625rem; padding-top:0.4rem; }
+  .reveal-q { margin-top:1.5rem; }
+
+  /* ---- scorecard ---- */
   .card-mock { background:var(--surface); border:1px solid var(--border); border-radius:0.875rem; overflow:hidden; }
-  .cm-top { padding:1.125rem 1.25rem; border-bottom:1px solid var(--border); display:flex;
-    justify-content:space-between; gap:1rem; align-items:baseline; flex-wrap:wrap; }
-  .cm-t { font-family:var(--mono); font-size:0.6875rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); }
-  .cm-body { padding:1.25rem; display:flex; flex-direction:column; gap:0.875rem; }
-  .ab { display:grid; grid-template-columns:11rem 1fr 4rem; gap:0.75rem; align-items:center; font-size:0.875rem; }
+  .cm-top { padding:1rem 1.125rem; border-bottom:1px solid var(--border); display:flex; flex-wrap:wrap;
+    justify-content:space-between; gap:0.5rem 1rem; align-items:baseline; }
+  .cm-t { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.11em; text-transform:uppercase; color:var(--muted); }
+  .cm-body { padding:1.125rem; display:flex; flex-direction:column; gap:0.875rem; }
+  .ab { display:grid; grid-template-columns:1fr; gap:0.3125rem; font-size:0.875rem; }
+  .ab .ab-n { font-weight:500; }
+  .ab .ab-v { font-family:var(--mono); font-size:0.75rem; color:var(--accent-strong); }
+  @media (min-width:36rem) { .ab { grid-template-columns:9.5rem 1fr 4rem; gap:0.75rem; align-items:center; }
+    .ab .ab-v { text-align:right; } }
   .track { height:0.5rem; border-radius:1rem; background:var(--leaf-soft); position:relative; overflow:hidden; }
   .track i { position:absolute; inset-block:0; left:0; border-radius:1rem; display:block; }
   .track i.was { background:var(--border); }
   .track i.now { background:var(--accent); }
-  .ab-v { font-family:var(--mono); font-size:0.8125rem; text-align:right; color:var(--accent-strong); }
-  .cm-sign { border-top:1px solid var(--border); padding:1.125rem 1.25rem; display:flex; gap:1rem; align-items:center; }
-  .sig-slot { width:3.5rem; height:3.5rem; border-radius:50%; border:1.5px dashed rgba(245,130,31,0.5); flex:none;
-    display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:0.5625rem;
+  .cm-sign { border-top:1px solid var(--border); padding:1.125rem; display:flex; gap:0.875rem; align-items:center; }
+  .sig-slot { width:3.25rem; height:3.25rem; border-radius:50%; border:1.5px dashed rgba(245,130,31,0.5); flex:none;
+    display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:0.5rem;
     color:var(--accent-strong); }
-  .cm-sign p { font-size:0.875rem; color:var(--muted); line-height:1.5; }
+  .cm-sign p { font-size:0.8125rem; color:var(--muted); line-height:1.5; }
   .cm-sign p b { color:var(--fg); display:block; font-size:0.9375rem; }
-  @media (max-width:34rem) { .ab { grid-template-columns:1fr; gap:0.25rem; } .ab-v { text-align:left; } }
 
-  /* pathways */
-  .paths { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:2.25rem; }
-  .path { border:1px solid var(--border); background:var(--surface); border-radius:0.75rem; padding:1.125rem;
-    display:flex; flex-direction:column; gap:0.625rem; }
-  .path h3 { font-size:0.9375rem; }
-  .path .p-d { font-size:0.8125rem; color:var(--muted); line-height:1.5; }
-  .path ul { margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:0.3125rem; }
-  .path li { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.04em; border:1px solid var(--border);
-    border-radius:0.25rem; padding:0.1875rem 0.375rem; color:var(--muted); }
-  @media (max-width:56rem) { .paths { grid-template-columns:1fr 1fr; } }
-  @media (max-width:34rem) { .paths { grid-template-columns:1fr; } }
+  /* ---- career pathways — faithful to the original card anatomy ---- */
+  .paths { display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem; }
+  @media (min-width:44rem) { .paths { grid-template-columns:1fr 1fr; } }
+  @media (min-width:64rem) { .paths { grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:3rem; } }
 
-  /* method */
-  .method { display:grid; grid-template-columns:repeat(5,1fr); gap:0.875rem; margin-top:2.25rem; }
+  .pcard { border:1px solid var(--border); background:var(--surface); border-radius:0.875rem;
+    overflow:hidden; display:flex; flex-direction:column; }
+  .p-img { position:relative; height:9.5rem; overflow:hidden; flex:none; }
+  @media (min-width:48rem) { .p-img { height:11rem; } }
+  .p-img > img { width:100%; height:100%; object-fit:cover; display:block; }
+  .p-img .scrim { position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(15,31,51,0.96) 6%, rgba(15,31,51,0.28) 52%, transparent 100%); }
+  .p-chip { position:absolute; left:0.6875rem; top:0.6875rem; width:2.125rem; height:2.125rem; border-radius:0.6875rem;
+    background:rgba(8,19,37,0.85); color:var(--accent-bright); display:flex; align-items:center; justify-content:center; }
+  .p-badge { position:absolute; right:0.6875rem; top:0.6875rem; display:inline-flex; align-items:center; gap:0.1875rem;
+    border:1px solid rgba(245,130,31,0.5); background:rgba(245,130,31,0.18); border-radius:2rem;
+    padding:0.1875rem 0.5rem; font-family:var(--mono); font-size:0.5rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-bright); }
+  .p-name { position:absolute; left:0.875rem; right:0.875rem; bottom:0.6875rem; color:#fff;
+    font-size:1rem; font-weight:600; line-height:1.16; letter-spacing:-0.015em; }
+  @media (min-width:64rem) { .p-name { font-size:1.125rem; } }
+
+  .p-bm { position:relative; padding:1.125rem; min-height:10.5rem; flex:1; overflow:hidden; }
+  .p-bm .bm-k { font-family:var(--mono); font-size:0.5625rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.12em; color:var(--accent-strong); }
+  .p-bm .bm-k i { font-style:normal; text-transform:none; }
+  .p-bm .bm-n { margin-top:0.375rem; max-width:60%; font-size:1.25rem; font-weight:600;
+    text-transform:uppercase; line-height:1.04; letter-spacing:-0.02em; color:#fff; }
+  .p-bm .bm-a { position:relative; z-index:1; margin-top:0.625rem; max-width:58%;
+    font-size:0.6875rem; line-height:1.6; color:var(--muted); }
+  .p-bm .portrait { position:absolute; right:-0.375rem; bottom:0; z-index:0; height:10.25rem; width:auto;
+    object-fit:contain; object-position:bottom; pointer-events:none; }
+  @media (min-width:64rem) { .p-bm{min-height:11.75rem} .p-bm .bm-n{font-size:1.5rem} .p-bm .portrait{height:11.6rem} }
+
+  .p-ab { border-top:1px solid var(--border); padding:1.125rem; flex:none; }
+  .p-ab .ab-k { font-family:var(--mono); font-size:0.5625rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.12em; color:var(--leaf); }
+  .p-ab .pills { display:flex; flex-wrap:wrap; gap:0.3125rem; margin-top:0.625rem; }
+  .p-ab .pills span { border:1px solid var(--border); background:var(--bg); border-radius:2rem;
+    padding:0.25rem 0.5625rem; font-size:0.6875rem; font-weight:500; color:rgba(234,241,249,0.82); }
+  .p-disc { margin-top:1.5rem; text-align:center; font-family:var(--mono); font-size:0.625rem;
+    color:var(--muted); line-height:1.7; }
+
+  /* ---- method ---- */
+  .method { display:grid; grid-template-columns:1fr; gap:0.75rem; margin-top:2rem; }
+  @media (min-width:36rem) { .method { grid-template-columns:1fr 1fr; } }
+  @media (min-width:64rem) { .method { grid-template-columns:repeat(5,1fr); gap:0.875rem; margin-top:2.25rem; } }
   .m-step { border:1px solid var(--border); background:var(--surface); border-radius:0.75rem; padding:1rem;
-    display:flex; flex-direction:column; gap:0.5rem; }
-  .m-step .m-k { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--accent-strong); }
+    display:flex; flex-direction:column; gap:0.4375rem; }
+  .m-step .m-k { font-family:var(--mono); font-size:0.5625rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--accent-strong); font-weight:700; }
   .m-step h3 { font-size:0.9375rem; }
   .m-step p { font-size:0.8125rem; color:var(--muted); line-height:1.5; }
-  @media (max-width:62rem) { .method { grid-template-columns:1fr 1fr; } }
-  @media (max-width:34rem) { .method { grid-template-columns:1fr; } }
 
-  .limits { margin-top:2rem; border:1px solid var(--border); background:var(--surface); border-radius:0.75rem;
-    padding:1.375rem 1.5rem; display:flex; flex-direction:column; gap:0.75rem; }
-  .limits h3 { font-size:1.0625rem; }
-  .limits ul { margin:0; padding-left:1.125rem; display:flex; flex-direction:column; gap:0.4375rem; }
-  .limits li { font-size:0.9375rem; color:var(--muted); line-height:1.5; }
+  .limits { margin-top:1.75rem; border:1px solid var(--border); background:var(--surface); border-radius:0.75rem;
+    padding:1.25rem; display:flex; flex-direction:column; gap:0.75rem; }
+  .limits h3 { font-size:1rem; }
+  .limits ul { margin:0; padding-left:1.0625rem; display:flex; flex-direction:column; gap:0.5rem; }
+  .limits li { font-size:0.9375rem; color:var(--muted); line-height:1.55; }
 
-  /* pricing */
-  .tiers { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:2.25rem; align-items:start; }
-  .tier { border:1px solid var(--border); background:var(--surface); border-radius:0.875rem; padding:1.5rem;
-    display:flex; flex-direction:column; gap:0.875rem; }
+  /* ---- pricing ---- */
+  .tiers { display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem; align-items:start; }
+  @media (min-width:48rem) { .tiers { grid-template-columns:1fr 1fr; } }
+  @media (min-width:64rem) { .tiers { grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:2.25rem; } }
+  .tier { border:1px solid var(--border); background:var(--surface); border-radius:0.875rem; padding:1.375rem;
+    display:flex; flex-direction:column; gap:0.8125rem; }
   .tier.lead { border-color:var(--accent); box-shadow:0 0 0 1px rgba(245,130,31,0.25); }
-  .tier .t-tag { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--accent-strong); }
-  .tier h3 { font-size:1.1875rem; }
-  .tier .t-p { font-size:2rem; font-weight:800; letter-spacing:-0.03em; }
+  @media (min-width:48rem) { .tier.lead { grid-column:span 2; } }
+  @media (min-width:64rem) { .tier.lead { grid-column:auto; } }
+  .tier .t-tag { font-family:var(--mono); font-size:0.5625rem; letter-spacing:0.13em; text-transform:uppercase;
+    color:var(--accent-strong); font-weight:700; }
+  .tier h3 { font-size:1.125rem; }
+  .tier .t-p { font-size:1.875rem; font-weight:800; letter-spacing:-0.03em; }
   .tier .t-p small { font-size:0.8125rem; font-weight:500; color:var(--muted); letter-spacing:0; }
-  .tier ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
-  .tier li { font-size:0.875rem; color:var(--muted); line-height:1.45; padding-left:1.125rem; position:relative; }
-  .tier li::before { content:"·"; position:absolute; left:0.3125rem; color:var(--accent-strong); font-weight:700; }
-  @media (max-width:56rem) { .tiers { grid-template-columns:1fr; } }
-  .godparent { margin-top:1.5rem; border:1px solid var(--accent); border-radius:0.875rem; padding:1.5rem;
-    background:rgba(245,130,31,0.07); display:grid; grid-template-columns:1fr auto; gap:1.25rem; align-items:center; }
-  .godparent h3 { font-size:1.1875rem; }
-  .godparent p { font-size:0.9375rem; color:var(--muted); margin-top:0.375rem; max-width:54ch; line-height:1.55; }
-  .total { margin-top:1.25rem; font-family:var(--mono); font-size:0.875rem; color:var(--fg);
-    border-left:3px solid var(--leaf); padding-left:0.875rem; line-height:1.6; }
-  @media (max-width:56rem) { .godparent { grid-template-columns:1fr; } }
+  .tier ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.4375rem; }
+  .tier li { font-size:0.875rem; color:var(--muted); line-height:1.45; padding-left:1rem; position:relative; }
+  .tier li::before { content:"·"; position:absolute; left:0.25rem; color:var(--accent-strong); font-weight:700; }
 
-  /* faq tabs */
-  .tabs { margin-top:2rem; }
+  .godparent { margin-top:1.25rem; border:1px solid var(--accent); border-radius:0.875rem; padding:1.375rem;
+    background:rgba(245,130,31,0.07); display:grid; grid-template-columns:1fr; gap:1rem; }
+  @media (min-width:48rem) { .godparent { grid-template-columns:1fr auto; align-items:center; gap:1.25rem; padding:1.5rem; } }
+  .godparent h3 { font-size:1.125rem; }
+  .godparent p { font-size:0.9375rem; color:var(--muted); margin-top:0.375rem; line-height:1.55; }
+  .gp-price { text-align:left; }
+  @media (min-width:48rem) { .gp-price { text-align:right; } }
+  .total { margin-top:1.25rem; font-family:var(--mono); font-size:0.8125rem; color:var(--fg);
+    border-left:3px solid var(--leaf); padding-left:0.875rem; line-height:1.7; }
+
+  /* ---- faq tabs ---- */
+  .tabs { margin-top:1.75rem; }
   .tabs input { position:absolute; opacity:0; pointer-events:none; }
-  .tabbar { display:flex; flex-wrap:wrap; gap:0.5rem; }
-  .tabbar label { font-size:0.875rem; font-weight:600; border:1px solid var(--border); background:var(--surface);
-    border-radius:2rem; padding:0.5rem 1rem; cursor:pointer; color:var(--muted); }
+  .tabbar { display:flex; gap:0.4375rem; overflow-x:auto; scrollbar-width:none;
+    -webkit-overflow-scrolling:touch; padding-bottom:0.25rem; }
+  .tabbar::-webkit-scrollbar { display:none; }
+  .tabbar label { font-size:0.8125rem; font-weight:600; border:1px solid var(--border); background:var(--surface);
+    border-radius:2rem; padding:0.5625rem 0.9375rem; cursor:pointer; color:var(--muted); white-space:nowrap;
+    min-height:2.375rem; display:inline-flex; align-items:center; }
   .tabbar label:hover { color:var(--fg); }
-  .pane { display:none; margin-top:1.75rem; }
+  .pane { display:none; margin-top:1.5rem; }
   #t1:checked ~ .tabbar label[for="t1"],
   #t2:checked ~ .tabbar label[for="t2"],
   #t3:checked ~ .tabbar label[for="t3"] { background:var(--accent); color:var(--accent-fg); border-color:var(--accent); }
   #t1:checked ~ #p1, #t2:checked ~ #p2, #t3:checked ~ #p3 { display:block; }
-  .qa { border-top:1px solid var(--border); padding-block:1.125rem; display:flex; flex-direction:column; gap:0.5rem; }
-  .qa h3 { font-size:1rem; }
+  .qa { border-top:1px solid var(--border); padding-block:1rem; display:flex; flex-direction:column; gap:0.4375rem; }
+  .qa h3 { font-size:0.9375rem; }
   .qa p { font-size:0.9375rem; color:var(--muted); line-height:1.6; max-width:72ch; }
 
-  /* close */
+  /* ---- close ---- */
   .close-sec { text-align:center; }
-  .close-sec h2 { font-size:clamp(1.875rem,5.6vw,3.5rem); font-weight:800; letter-spacing:-0.032em; }
+  .close-sec h2 { font-size:1.875rem; font-weight:800; letter-spacing:-0.03em; }
+  @media (min-width:48rem) { .close-sec h2 { font-size:2.625rem; } }
+  @media (min-width:64rem) { .close-sec h2 { font-size:3.5rem; } }
   .close-sec .lede { margin-inline:auto; max-width:56ch; }
-  .close-sec .cta-row { justify-content:center; }
-  .close-sec .chips { justify-content:center; }
-  .jai { font-weight:800; font-size:1.375rem; letter-spacing:0.06em; color:var(--accent-strong); margin-top:2.5rem; }
-  .faces { display:grid; grid-template-columns:repeat(6,1fr); gap:0.625rem; margin-top:2.5rem; }
-  .faces .slot { min-height:0; aspect-ratio:1; padding:0.5rem; }
+  .close-sec .cta-row { align-items:stretch; }
+  @media (min-width:48rem) { .close-sec .cta-row { justify-content:center; } }
+  .jai { font-weight:800; font-size:1.25rem; letter-spacing:0.06em; color:var(--accent-strong); margin-top:2rem; }
+  @media (min-width:48rem) { .jai { font-size:1.375rem; margin-top:2.5rem; } }
+  .faces { display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; margin-top:2rem; }
+  @media (min-width:48rem) { .faces { grid-template-columns:repeat(6,1fr); gap:0.625rem; margin-top:2.5rem; } }
+  .faces .slot { min-height:0; aspect-ratio:1; padding:0.375rem; }
   .faces .slot span { display:none; }
-  .faces .slot b { font-size:0.5rem; letter-spacing:0.06em; }
-  @media (max-width:56rem) { .faces { grid-template-columns:repeat(3,1fr); } }
+  .faces .slot b { font-size:0.4375rem; letter-spacing:0.04em; }
 
-  /* footer */
-  footer.site { background:var(--forest); border-top:1px solid var(--border); padding-block:3rem 2rem; }
-  .f-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:2rem; }
-  .f-grid h4 { font-family:var(--mono); font-size:0.625rem; letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--muted); font-weight:500; margin-bottom:0.75rem; }
-  .f-grid ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.4375rem; }
-  .f-grid a { color:var(--muted); text-decoration:none; font-size:0.875rem; }
+  /* ---- footer ---- */
+  footer.site { background:var(--forest); border-top:1px solid var(--border); padding-block:2.5rem 1.75rem; }
+  .f-grid { display:grid; grid-template-columns:1fr; gap:1.75rem; }
+  @media (min-width:48rem) { .f-grid { grid-template-columns:1fr 1fr; gap:2rem; } }
+  @media (min-width:64rem) { .f-grid { grid-template-columns:1.4fr 1fr 1fr; } }
+  .f-grid h4 { font-family:var(--mono); font-size:0.5625rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--muted); font-weight:500; margin-bottom:0.6875rem; }
+  .f-grid ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+  .f-grid a { color:var(--muted); text-decoration:none; font-size:0.875rem; display:inline-block; padding-block:0.125rem; }
   .f-grid a:hover { color:var(--fg); }
   .f-about { font-size:0.875rem; color:var(--muted); line-height:1.6; margin-top:0.75rem; }
-  .f-bottom { margin-top:2.5rem; padding-top:1.25rem; border-top:1px solid var(--border);
-    display:flex; flex-wrap:wrap; gap:0.75rem 2rem; justify-content:space-between; }
-  .f-bottom small, .f-disc { font-size:0.75rem; color:var(--muted); line-height:1.6; }
-  .f-disc { margin-top:1.25rem; max-width:82ch; }
-  @media (max-width:56rem) { .f-grid { grid-template-columns:1fr; } }
+  .f-bottom { margin-top:2rem; padding-top:1.125rem; border-top:1px solid var(--border);
+    display:flex; flex-direction:column; gap:0.5rem; }
+  @media (min-width:48rem) { .f-bottom { flex-direction:row; flex-wrap:wrap; gap:0.75rem 2rem; justify-content:space-between; } }
+  .f-bottom small, .f-disc { font-size:0.6875rem; color:var(--muted); line-height:1.7; }
+  .f-disc { margin-top:1.125rem; }
 
-  @media print { body{background:#fff;color:#000} .proto,header.nav{position:static} }
+  @media print { body{background:#fff;color:#000;padding-bottom:0} .proto,header.nav,.actionbar{position:static;display:none} }
 </style>
 </head>
 <body>
@@ -314,7 +462,7 @@
 <input type="checkbox" id="prov" class="prov-toggle">
 
 <div class="proto">
-  Prototype · not the live site · <a href="../">see the storyboard</a>
+  Prototype · not the live site · <a href="../">storyboard</a>
   <label for="prov" class="prov-btn">Provenance</label>
 </div>
 <div class="legend">
@@ -322,34 +470,34 @@
     <b>Same words. New order.</b>
     <span>Untagged copy is <b>verbatim from yashho.com</b> — his sentences, moved.</span>
     <span><span class="tag new">new</span> only where the section did not exist</span>
-    <span><span class="tag edit">edited</span> words actually changed — there are six</span>
+    <span><span class="tag edit">edited</span> words actually changed — there are five</span>
     <span>Orange dashed frames = content that must come from KMM</span>
   </div>
 </div>
 
 <header class="nav">
   <div class="wrap nav-in">
-    <a href="#top" class="mark" style="text-decoration:none;color:inherit">YASHHO<span>™</span></a>
+    <a href="#top" class="mark">YASHHO<span>™</span></a>
     <nav class="nav-links" aria-label="Main">
       <a href="#root">Success-Root</a>
       <a href="#yashodarshi">Yashodarshis</a>
+      <a href="#careers">Career paths</a>
       <a href="#method">How it works</a>
-      <a href="#receive">Scorecard</a>
       <a href="#pricing">Pricing</a>
       <a href="#doctor">Success Doctor</a>
     </nav>
-    <a class="btn sm" href="#pricing">Start Your Success Scan</a>
+    <a class="btn sm nav-cta" href="#pricing">Start Your Success Scan</a>
   </div>
 </header>
 
 <main id="top">
 
-  <!-- 01 ============== HERO — verbatim ============== -->
+  <!-- 01 ===== HERO — verbatim ===== -->
   <section class="hero lamp">
     <div class="wrap hero-grid">
       <div class="head-stack">
         <div class="fork">
-          <span class="eyebrow" style="margin-right:0.25rem">Who is this for<span class="tag new">new</span></span>
+          <span class="eyebrow" style="width:100%">Who is this for<span class="tag new">new</span></span>
           <a href="#pricing">For my child</a>
           <a href="#faq">For myself</a>
           <a href="#">For my institution</a>
@@ -357,7 +505,7 @@
         <h1>Success is <em>within you</em>. And, within your reach.</h1>
         <p class="lede">World's First, Kannadiga-invented YASHHO ensures you rise, progress, and succeed—scientific, stress-free, personalized.</p>
         <div class="cta-row">
-          <a class="btn" href="#pricing">Start Your Success Scan</a>
+          <a class="btn block" href="#pricing">Start Your Success Scan</a>
           <a class="phone" href="tel:+919972501891"><b>99725 01891</b></a>
         </div>
       </div>
@@ -368,14 +516,15 @@
     </div>
   </section>
 
-  <!-- 02 ============== THE SUCCESS-ROOT — five sections consolidated, all verbatim ============== -->
-  <section id="root" class="band">
+  <!-- 02 ===== THE SUCCESS-ROOT — five sections consolidated, verbatim ===== -->
+  <section id="root" class="band rootsec">
+    <img class="bgimg" src="https://yashho.com/img/seedling.jpg" alt="" aria-hidden="true" loading="lazy">
     <div class="wrap">
       <div class="head-stack">
         <p class="eyebrow">The problem the world missed</p>
         <h2 class="sec-title">Success is no more a miracle. It is not available in the stars. It is not luck. It is not an accident.</h2>
         <p class="lede">Everyone chases the outcomes. No one measures the drivers.</p>
-        <p style="max-width:62ch;color:var(--muted);font-size:1rem;line-height:1.65">
+        <p style="color:var(--muted);font-size:1rem;line-height:1.65;max-width:62ch">
           Marks are visible. Abilities are invisible. But invisible inner abilities drive visible performance.
           Through 14+ years of research, we identified and organised 64 Essential Success Abilities that drive
           learning, performance, careers, leadership, success and happiness.
@@ -387,42 +536,60 @@
         </div>
       </div>
 
-      <div class="head-stack" style="margin-top:3rem">
-        <p class="eyebrow">We nurture the Success-Root</p>
-        <h2 class="sec-title" style="font-size:clamp(1.5rem,3.6vw,2.125rem)">The world focuses on the fruit. We strengthen the root.</h2>
-        <p class="lede">If the root is weak, the fruit suffers. If the root is strengthened, the fruit improves. Everything grows from the roots.</p>
+      <div class="head-stack" style="margin-top:3rem;max-width:44rem;margin-inline:auto;text-align:center;align-items:center">
+        <p class="eyebrow" style="color:var(--accent-bright)">We nurture the Success-Root</p>
+        <h2 class="sec-title">The world focuses on <span style="color:#8a8f96">the fruit</span>. We strengthen <span style="color:var(--accent-strong)">the root</span>.</h2>
+        <p class="lede">If the root is weak, the fruit suffers. If the root is strengthened, the fruit improves.</p>
       </div>
 
-      <div class="tree">
-        <div class="node root">
+      <div class="journey">
+        <article class="seedcard">
+          <img src="https://yashho.com/img/seedling.jpg" alt="A seedling rooting deep into the soil" loading="lazy">
+          <div class="scrim"></div>
+          <p>Everything grows from the roots.</p>
+        </article>
+
+        <div class="arrow" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
+        <article class="node is-root">
+          <span class="n-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 14.4V7.6"/><path d="M8 7.6C8 5.2 6.1 3.3 3.7 3.3c0 2.4 1.9 4.3 4.3 4.3Z"/><path d="M8 7.6c0-2.4 1.9-4.3 4.3-4.3 0 2.4-1.9 4.3-4.3 4.3Z"/></svg></span>
           <span class="n-k">Root</span>
           <h3>64 Essential Success Abilities</h3>
           <p>The YASHHO AACE64™ Framework. This is what we nurture.</p>
-        </div>
-        <div class="node">
+        </article>
+
+        <div class="arrow" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
+        <article class="node">
+          <span class="n-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 14.4v-3.2"/><path d="M8 11.2a4.4 4.4 0 0 0 1.2-8.6 3 3 0 0 0-2.4 0A4.4 4.4 0 0 0 8 11.2Z"/></svg></span>
           <span class="n-k">Tree</span>
           <h3>Skills · Knowledge · Leadership · Personality</h3>
           <p>What grows once the underlying abilities are strong.</p>
-        </div>
-        <div class="node">
+        </article>
+
+        <div class="arrow" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
+        <article class="node">
+          <span class="n-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 1.8v12.4"/><circle cx="8" cy="8" r="2.2"/></svg></span>
           <span class="n-k">Trunk</span>
           <h3>Performance</h3>
           <p>How it all carries through, day to day.</p>
-        </div>
-        <div class="node">
+        </article>
+
+        <div class="arrow" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
+        <article class="node is-fruit">
+          <span class="n-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 4.6c-2.6-1.8-5.6 0-5.6 3.4 0 3 2.6 5.4 5.6 5.4s5.6-2.4 5.6-5.4c0-3.4-3-5.2-5.6-3.4Z"/><path d="M8 4.6V2.2M8 2.6c1-.5 1.8-.4 2.4.2"/></svg></span>
           <span class="n-k">Fruit</span>
           <h3>Marks · Ranks · Degrees · Careers · Success · Happiness</h3>
-          <p>The visible results—the outcome, not the cause.</p>
-        </div>
+          <p>The visible results — the outcome, not the cause.</p>
+        </article>
       </div>
+      <p class="swipehint">‹ swipe the journey ›</p>
 
       <p class="gardener">A root does not strengthen itself. Every garden has a gardener — and ours has a name: <strong style="color:var(--accent-strong)">the Yashodarshi</strong>.<span class="tag new">new</span></p>
 
-      <p class="lede" style="margin-top:2rem;max-width:60ch">Every child is unique. Every student is unique. Every professional is unique. That is precisely why YASHHO follows a different approach—personalised success science.</p>
+      <p class="lede" style="margin-top:1.75rem">Every child is unique. Every student is unique. Every professional is unique. That is precisely why YASHHO follows a different approach—personalised success science.</p>
     </div>
   </section>
 
-  <!-- 03 ============== THE MOTHER — verbatim, moved from position 17 ============== -->
+  <!-- 03 ===== THE MOTHER — verbatim, moved from position 17 ===== -->
   <section id="doctor" class="lamp-l">
     <div class="wrap two narrow-r">
       <div class="head-stack">
@@ -430,7 +597,7 @@
         <h2 class="sec-title">Fulfilling my mother's dream.</h2>
         <p class="narr">My poor mother struggled and sacrificed a lot to raise me and build my career. Through several trials, errors and hardships, I fortunately did rise—as a Civil Services Officer, fulfilling my mother's dream, and as Chief of India's largest television news network, fulfilling my passion.</p>
         <p class="narr">I resigned from a coveted position and comfortable life, endured tremendous hardships, and devoted over 14 years to researching what truly drives human success. On behalf of parents and children everywhere, I set out to discover the root cause behind marks, ranks, performance, careers, success and happiness.</p>
-        <p style="font-family:var(--mono);font-size:0.8125rem;letter-spacing:0.04em;color:var(--muted);line-height:1.7">
+        <p style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.04em;color:var(--muted);line-height:1.8">
           Krishnaraj M Manjunath<br>Inventor &amp; Founder, YASHHO™<br>Ex-Civil Services Officer · Ex-Chief, ETV News Network
         </p>
         <p><a href="#" style="font-weight:600">Read the full story →<span class="tag new">new</span></a></p>
@@ -442,7 +609,7 @@
     </div>
   </section>
 
-  <!-- 04 ============== REAL STORIES — verbatim testimonials, restructured as one journey ============== -->
+  <!-- 04 ===== REAL STORIES ===== -->
   <section id="stories" class="band-2">
     <div class="wrap">
       <div class="head-stack">
@@ -451,7 +618,7 @@
         <p class="lede">Hear from students &amp; parents across our community of 15,559.</p>
       </div>
 
-      <div class="two" style="margin-top:2.5rem;align-items:start">
+      <div class="two top" style="margin-top:2rem">
         <div class="slot wide">
           <b>Video — one full journey</b>
           <span>One named student telling her own story, with her mother. The site has fifteen one-line quotes and no complete story — this is the missing film.</span>
@@ -497,14 +664,14 @@
     </div>
   </section>
 
-  <!-- 05 ============== THE YASHODARSHI — the new section ============== -->
+  <!-- 05 ===== THE YASHODARSHI — the new section ===== -->
   <section id="yashodarshi" class="band lamp">
     <div class="wrap">
       <div class="head-stack">
         <p class="eyebrow">Dedicated Success Mentor · 1-to-1 Mentoring</p>
         <h2 class="sec-title">Meet your Yashodarshi.<span class="tag new">new</span></h2>
         <p class="lede"><strong style="color:var(--fg)">Yasho</strong> — glory, success. <strong style="color:var(--fg)">Darshi</strong> — one who sees. One who sees your glory before you can.<span class="tag new">new</span></p>
-        <p style="max-width:62ch;color:var(--muted);font-size:1rem;line-height:1.65">
+        <p style="color:var(--muted);font-size:1rem;line-height:1.65;max-width:62ch">
           Ongoing, daily strengthening—a dedicated mentor, accountability and parent partnership.
           <span style="color:var(--fg)">They run the 21 tasks. They do the evaluation. They write the scorecard. Every rupee you pay reaches your child through one of them.<span class="tag new">new</span></span>
         </p>
@@ -523,11 +690,11 @@
         <div class="fact"><span class="f-k">Contact each week</span><span class="f-v tbc">to confirm — KMM</span></div>
       </div>
 
-      <p class="gardener" style="margin-top:2rem">Because every child deserves a good parent. <span style="font-weight:400;color:var(--muted)">A Yashodarshi is that mother — made available to a child whose own cannot afford to be one.<span class="tag new">new</span></span></p>
+      <p class="gardener" style="margin-top:1.75rem">Because every child deserves a good parent. <span style="font-weight:400;color:var(--muted)">A Yashodarshi is that mother — made available to a child whose own cannot afford to be one.<span class="tag new">new</span></span></p>
     </div>
   </section>
 
-  <!-- 06 ============== WHAT HAPPENS — verbatim framework + FAQ answers ============== -->
+  <!-- 06 ===== WHAT HAPPENS ===== -->
   <section id="happens">
     <div class="wrap">
       <div class="head-stack">
@@ -538,42 +705,56 @@
 
       <div class="tasks">
         <div class="task">
-          <span class="t-n">Task 01</span>
-          <h3>Ask your parents about their struggles. Listen. Thank them.<span class="tag new">new</span></h3>
-          <p class="provnote">Drawn from Nayana's own account of her first task — shown here as a task rather than left inside a testimonial.</p>
+          <span class="t-n">A real task</span>
+          <h3>Dear Teacher, With Love</h3>
+          <p>Think of one teacher who changed something in you. Write them a handwritten thank-you letter — with one specific memory in it.</p>
+          <p class="t-sub"><b>Submits</b> a handwritten letter, 150–200 words</p>
         </div>
         <div class="task">
-          <span class="t-n">Task 02</span>
-          <h3 style="color:var(--accent-strong)">Awaiting a real task</h3>
-          <p>Two more genuine tasks from the Foundation 21, written exactly as a child receives them — so a parent can picture her daughter doing it this Sunday.</p>
+          <span class="t-n">A real task</span>
+          <h3>Neighborhood Detective</h3>
+          <p>Take a fifteen-minute observation walk near your home. Find three things you pass every single day and have never actually looked at.</p>
+          <p class="t-sub"><b>Submits</b> three photographs, each with a caption</p>
         </div>
         <div class="task">
-          <span class="t-n">Task 03</span>
-          <h3 style="color:var(--accent-strong)">Awaiting a real task</h3>
-          <p>Choose the concrete, slightly uncomfortable ones. Those reveal an ability rather than test a skill.</p>
+          <span class="t-n">A real task</span>
+          <h3>My Everyday Role Model!</h3>
+          <p>Choose the family member who inspires you most — mother, father, grandparent, anyone. Sit with them and ask them about their life.</p>
+          <p class="t-sub"><b>Submits</b> the interview and a written reflection</p>
         </div>
       </div>
 
-      <div class="logistics">
+      <blockquote style="margin-top:1.75rem">In my very first task I overcame my fear. I asked my parents about their struggles, listened, and thanked them.<cite>Nayana · Student · on the task above</cite></blockquote>
+
+      <p class="lede" style="margin-top:2rem;font-size:0.9375rem">The other eighteen include:</p>
+      <div class="chips" style="margin-top:0.625rem">
+        <i>My Habit Transformation Challenge</i><i>Be the Buddy: Stop the Bully!</i><i>Escape from the Forest</i>
+        <i>News Flash: Your Rule!</i><i>Life Without Video Games</i><i>Stay Safe Online</i>
+        <i>My Growth, My Next Year</i><i>Your Fun Video Commentary</i><i>and ten more</i>
+      </div>
+
+      <p class="ipline">We will happily tell you what a task <em>is</em>. We will never publish the questions inside it — because a rehearsed answer measures nothing, and the whole point is to see your child as she actually is.<span class="tag new">new</span></p>
+
+      <div class="facts">
         <div class="fact"><span class="f-k">Time each week</span><span class="f-v tbc">state the real hours</span></div>
         <div class="fact"><span class="f-k">Where</span><span class="f-v tbc">online / in person</span></div>
         <div class="fact"><span class="f-k">Language</span><span class="f-v tbc">Kannada · English</span></div>
         <div class="fact"><span class="f-k">Ages</span><span class="f-v">From Class 5 onward</span></div>
       </div>
-      <p class="lede" style="margin-top:1.25rem;max-width:64ch;font-size:0.9375rem">The system is designed from Class 5 onward—the stage where strengthening the Success-Root has the greatest long-term impact on academics, career clarity and emotional stability.</p>
+      <p class="lede" style="margin-top:1.25rem;font-size:0.9375rem">The system is designed from Class 5 onward—the stage where strengthening the Success-Root has the greatest long-term impact on academics, career clarity and emotional stability.</p>
     </div>
   </section>
 
-  <!-- 07 ============== WHAT YOU RECEIVE — verbatim features, reframed with the human ============== -->
+  <!-- 07 ===== WHAT THE SCAN REVEALS + SIGNED SCORECARD ===== -->
   <section id="receive" class="band-2">
     <div class="wrap">
       <div class="head-stack">
-        <p class="eyebrow">What the Success Scan reveals</p>
+        <p class="eyebrow">Where every journey begins · The YASHHO Success Scan™</p>
         <h2 class="sec-title">630+ Ability Observations — every one of them made by a person.<span class="tag edit">edited</span></h2>
         <p class="lede">A scientific measurement that maps your child's 64 success abilities, reveals the hidden gaps, and shows exactly what to strengthen. Then your Yashodarshi signs it.<span class="tag new">new</span></p>
       </div>
 
-      <div class="two" style="margin-top:2.5rem;align-items:start">
+      <div class="two top" style="margin-top:2rem">
         <div class="card-mock">
           <div class="cm-top">
             <span class="cm-t">AACE64 Success Scorecard · sample layout</span>
@@ -581,13 +762,13 @@
           </div>
           <div class="cm-body">
             <p class="cm-t">Her strengths, first — always</p>
-            <div class="ab"><span>Comprehension</span><span class="track"><i class="now" style="width:71%"></i></span><span class="ab-v">strength</span></div>
-            <div class="ab"><span>Steadfastness</span><span class="track"><i class="now" style="width:68%"></i></span><span class="ab-v">strength</span></div>
-            <div class="ab"><span>Attention to Detail</span><span class="track"><i class="now" style="width:64%"></i></span><span class="ab-v">strength</span></div>
+            <div class="ab"><span class="ab-n">Comprehension</span><span class="track"><i class="now" style="width:71%"></i></span><span class="ab-v">strength</span></div>
+            <div class="ab"><span class="ab-n">Steadfastness</span><span class="track"><i class="now" style="width:68%"></i></span><span class="ab-v">strength</span></div>
+            <div class="ab"><span class="ab-n">Attention to Detail</span><span class="track"><i class="now" style="width:64%"></i></span><span class="ab-v">strength</span></div>
             <p class="cm-t" style="margin-top:0.5rem">What is in the way — and how far it has moved</p>
-            <div class="ab"><span>Expression</span><span class="track"><i class="was" style="width:52%"></i><i class="now" style="width:31%"></i></span><span class="ab-v">31 → 52</span></div>
-            <div class="ab"><span>Confidence</span><span class="track"><i class="was" style="width:57%"></i><i class="now" style="width:38%"></i></span><span class="ab-v">38 → 57</span></div>
-            <p style="font-size:0.75rem;color:var(--muted);margin-top:0.375rem">Illustrative layout only — figures are not a real child's. She is measured against where she was, never against another child.</p>
+            <div class="ab"><span class="ab-n">Expression</span><span class="track"><i class="was" style="width:52%"></i><i class="now" style="width:31%"></i></span><span class="ab-v">31 → 52</span></div>
+            <div class="ab"><span class="ab-n">Confidence</span><span class="track"><i class="was" style="width:57%"></i><i class="now" style="width:38%"></i></span><span class="ab-v">38 → 57</span></div>
+            <p style="font-size:0.6875rem;color:var(--muted);margin-top:0.375rem;line-height:1.6">Illustrative layout only — figures are not a real child's. She is measured against where she was, never against another child.</p>
           </div>
           <div class="cm-sign">
             <div class="sig-slot">PHOTO</div>
@@ -596,23 +777,153 @@
         </div>
 
         <div class="head-stack">
-          <h3 style="font-size:1.25rem">6 Career Pathways · our unique standard</h3>
-          <p class="lede" style="font-size:0.9375rem">We scan &amp; strengthen your child for 6 career paths. Whether your goal is marks, ranks, competitive exams, careers, leadership, employability or life success, YASHHO helps identify and strengthen the inner abilities that drive them.</p>
-          <div class="paths" style="margin-top:0.5rem">
-            <div class="path"><h3>NEET · Medicine STEM Pathway™</h3><p class="p-d">Medicine, Engineering, Science &amp; Technology, Research.</p><ul><li>Concentration</li><li>Memory</li><li>Logical Reasoning</li><li>Problem Solving</li><li>Mental Endurance</li></ul></div>
-            <div class="path"><h3>IAS–KAS / Government Leadership Pathway™</h3><p class="p-d">Civil Services, Public Leadership, Administration.</p><ul><li>Critical &amp; Analytical Thinking</li><li>Comprehension</li><li>Written Structure</li><li>Decision Making</li><li>Steadfastness</li></ul></div>
-            <div class="path"><h3>Corporate Leadership Pathway™</h3><p class="p-d">Global corporate careers, MNC &amp; technology leadership.</p><ul><li>Confidence</li><li>Problem Solving</li><li>Adaptability</li><li>Efficiency</li><li>Fluency</li></ul></div>
-            <div class="path"><h3>Media • Creative • Law Pathway™</h3><p class="p-d">Media, communication, creative industries, law &amp; advocacy.</p><ul><li>Confidence</li><li>Articulation</li><li>Creativity</li><li>Expression</li><li>Open Mindedness</li></ul></div>
-            <div class="path"><h3>Entrepreneurship Pathway™</h3><p class="p-d">Startups, innovation, enterprise &amp; business leadership.</p><ul><li>Decision-Making</li><li>Leadership Ability</li><li>Planning</li><li>Problem-Solving</li><li>Courage</li></ul></div>
-            <div class="path"><h3>CA • Finance • Banking Pathway™</h3><p class="p-d">Chartered Accountancy, finance, banking, investment.</p><ul><li>Attention to Detail</li><li>Logical Reasoning</li><li>Concentration</li><li>Discipline</li><li>Comprehension</li></ul></div>
-          </div>
-          <p class="provnote" style="font-size:0.75rem;color:var(--muted);line-height:1.6">The six named public figures are held back pending a decision — unaffiliated, then disclaimed, and all six men.<span class="tag edit">edited</span></p>
+          <h3 style="font-size:1.25rem">What the Success Scan reveals</h3>
+          <ul class="reveals">
+            <li>Hidden ability gaps become visible</li>
+            <li>Parents gain deeper clarity about their child</li>
+            <li>Scientific direction replaces confusion</li>
+            <li>Career direction becomes clearer</li>
+            <li>Foundational confidence begins to grow</li>
+          </ul>
+          <blockquote class="reveal-q">The earlier the Success-Root is strengthened, the stronger and happier your child's future becomes.</blockquote>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 08 ============== HOW IT WORKS — verbatim five steps + verbatim FAQ 5 promoted ============== -->
+  <!-- 08 ===== 6 CAREER PATHWAYS — own full-width section, faithful ===== -->
+  <section id="careers">
+    <div class="wrap">
+      <div class="head-stack" style="max-width:52rem;margin-inline:auto;text-align:center;align-items:center">
+        <p class="eyebrow" style="color:var(--leaf)">◆ 6 Career Pathways · our unique standard ◆</p>
+        <h2 class="sec-title">We scan &amp; strengthen your child for <span style="color:var(--accent-strong)">6 career paths</span>.</h2>
+        <p class="lede">Whether your goal is marks, ranks, competitive exams, careers, leadership, employability or life success, YASHHO helps identify and strengthen the inner abilities that drive them.</p>
+      </div>
+
+      <div class="paths">
+
+        <article class="pcard">
+          <div class="p-img">
+            <img src="https://yashho.com/img/path-stem.jpg" alt="" loading="lazy" width="600" height="400">
+            <div class="scrim"></div>
+            <span class="p-chip" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="1.6"/><ellipse cx="8" cy="8" rx="6.6" ry="2.8"/><ellipse cx="8" cy="8" rx="2.8" ry="6.6"/></svg></span>
+            <span class="p-badge">+ NEET · Medicine</span>
+            <h3 class="p-name">STEM Pathway™</h3>
+          </div>
+          <div class="p-bm">
+            <p class="bm-k">◆ <i>YASHHO</i> Grooming Benchmark</p>
+            <p class="bm-n">Dr. A.P.J. Abdul Kalam</p>
+            <p class="bm-a">Medicine, Engineering, Science &amp; Technology, Research.</p>
+            <img class="portrait" src="https://yashho.com/img/benchmark/kalam.png" alt="Dr. A.P.J. Abdul Kalam — YASHHO grooming benchmark" loading="lazy">
+          </div>
+          <div class="p-ab">
+            <p class="ab-k">Top 5 Essential Success Abilities</p>
+            <div class="pills"><span>Concentration</span><span>Memory</span><span>Logical Reasoning</span><span>Problem Solving</span><span>Mental Endurance</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="p-img">
+            <img src="https://yashho.com/img/path-gov.jpg" alt="" loading="lazy" width="600" height="400">
+            <div class="scrim"></div>
+            <span class="p-chip" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1.6 6.2 8 2.4l6.4 3.8"/><path d="M3.4 6.8v5.4M6.4 6.8v5.4M9.6 6.8v5.4M12.6 6.8v5.4"/><path d="M2 13.6h12"/></svg></span>
+            <h3 class="p-name">IAS–KAS / Government Leadership Pathway™</h3>
+          </div>
+          <div class="p-bm">
+            <p class="bm-k">◆ <i>YASHHO</i> Grooming Benchmark</p>
+            <p class="bm-n">Ajit Doval</p>
+            <p class="bm-a">Civil Services, Public Leadership, Administration.</p>
+            <img class="portrait" src="https://yashho.com/img/benchmark/doval.png" alt="Ajit Doval — YASHHO grooming benchmark" loading="lazy">
+          </div>
+          <div class="p-ab">
+            <p class="ab-k">Top 5 Essential Success Abilities</p>
+            <div class="pills"><span>Critical &amp; Analytical Thinking</span><span>Comprehension</span><span>Written Structure</span><span>Decision Making</span><span>Steadfastness</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="p-img">
+            <img src="https://yashho.com/img/path-corp.jpg" alt="" loading="lazy" width="600" height="400">
+            <div class="scrim"></div>
+            <span class="p-chip" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.4" y="2.4" width="7" height="11.2" rx="0.8"/><path d="M9.4 6.4h4.2v7.2H9.4"/><path d="M4.6 5.2h2.6M4.6 7.8h2.6M4.6 10.4h2.6"/></svg></span>
+            <h3 class="p-name">Corporate Leadership Pathway™</h3>
+          </div>
+          <div class="p-bm">
+            <p class="bm-k">◆ <i>YASHHO</i> Grooming Benchmark</p>
+            <p class="bm-n">Sundar Pichai</p>
+            <p class="bm-a">Global corporate careers, MNC &amp; technology leadership.</p>
+            <img class="portrait" src="https://yashho.com/img/benchmark/pichai.png" alt="Sundar Pichai — YASHHO grooming benchmark" loading="lazy">
+          </div>
+          <div class="p-ab">
+            <p class="ab-k">Top 5 Essential Success Abilities</p>
+            <div class="pills"><span>Confidence</span><span>Problem Solving</span><span>Adaptability</span><span>Efficiency</span><span>Fluency</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="p-img">
+            <img src="https://yashho.com/img/path-media.jpg" alt="" loading="lazy" width="600" height="400">
+            <div class="scrim"></div>
+            <span class="p-chip" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.8" y="5.2" width="12.4" height="8.6" rx="0.9"/><path d="M1.8 5.2 3.6 2.2l10.6 1.6-.4 1.4"/><path d="M5.4 5 6.9 2.5M9 5.4l1.5-2.5"/></svg></span>
+            <h3 class="p-name">Media • Creative • Law Pathway™</h3>
+          </div>
+          <div class="p-bm">
+            <p class="bm-k">◆ <i>YASHHO</i> Grooming Benchmark</p>
+            <p class="bm-n">Ramoji Rao</p>
+            <p class="bm-a">Media, communication, creative industries, law &amp; advocacy.</p>
+            <img class="portrait" src="https://yashho.com/img/benchmark/ramoji.png" alt="Ramoji Rao — YASHHO grooming benchmark" loading="lazy">
+          </div>
+          <div class="p-ab">
+            <p class="ab-k">Top 5 Essential Success Abilities</p>
+            <div class="pills"><span>Confidence</span><span>Articulation</span><span>Creativity</span><span>Expression</span><span>Open Mindedness</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="p-img">
+            <img src="https://yashho.com/img/path-startup.jpg" alt="" loading="lazy" width="600" height="400">
+            <div class="scrim"></div>
+            <span class="p-chip" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1.8a4.4 4.4 0 0 0-2.6 7.9v1.5h5.2V9.7A4.4 4.4 0 0 0 8 1.8Z"/><path d="M6.2 12.9h3.6M6.8 14.4h2.4"/></svg></span>
+            <h3 class="p-name">Entrepreneurship Pathway™</h3>
+          </div>
+          <div class="p-bm">
+            <p class="bm-k">◆ <i>YASHHO</i> Grooming Benchmark</p>
+            <p class="bm-n">Steve Jobs</p>
+            <p class="bm-a">Startups, innovation, enterprise &amp; business leadership.</p>
+            <img class="portrait" src="https://yashho.com/img/benchmark/jobs.png" alt="Steve Jobs — YASHHO grooming benchmark" loading="lazy">
+          </div>
+          <div class="p-ab">
+            <p class="ab-k">Top 5 Essential Success Abilities</p>
+            <div class="pills"><span>Decision-Making</span><span>Leadership Ability</span><span>Planning</span><span>Problem-Solving</span><span>Courage</span></div>
+          </div>
+        </article>
+
+        <article class="pcard">
+          <div class="p-img">
+            <img src="https://yashho.com/img/path-finance.jpg" alt="" loading="lazy" width="600" height="400">
+            <div class="scrim"></div>
+            <span class="p-chip" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1.8 12.4l4-4.4 3 2.6 5.4-6"/><path d="M10.6 4.6h3.6v3.6"/></svg></span>
+            <h3 class="p-name">CA • Finance • Banking Pathway™</h3>
+          </div>
+          <div class="p-bm">
+            <p class="bm-k">◆ <i>YASHHO</i> Grooming Benchmark</p>
+            <p class="bm-n">Warren Buffett</p>
+            <p class="bm-a">Chartered Accountancy, finance, banking, investment.</p>
+            <img class="portrait" src="https://yashho.com/img/benchmark/buffett.png" alt="Warren Buffett — YASHHO grooming benchmark" loading="lazy">
+          </div>
+          <div class="p-ab">
+            <p class="ab-k">Top 5 Essential Success Abilities</p>
+            <div class="pills"><span>Attention to Detail</span><span>Logical Reasoning</span><span>Concentration</span><span>Discipline</span><span>Comprehension</span></div>
+          </div>
+        </article>
+
+      </div>
+
+      <p class="p-disc">Aspirational grooming benchmarks — YASHHO is not affiliated with, or endorsed by, the individuals named.</p>
+    </div>
+  </section>
+
+  <!-- 09 ===== HOW IT WORKS ===== -->
   <section id="method" class="band">
     <div class="wrap">
       <div class="head-stack">
@@ -641,7 +952,7 @@
     </div>
   </section>
 
-  <!-- 09 ============== PRICING — verbatim tiers + GODPARENT surfaced ============== -->
+  <!-- 10 ===== PRICING ===== -->
   <section id="pricing">
     <div class="wrap">
       <div class="head-stack">
@@ -651,20 +962,6 @@
       </div>
 
       <div class="tiers">
-        <div class="tier">
-          <span class="t-tag">5 Critical Success Abilities</span>
-          <h3>ASLI5 Starter Scan</h3>
-          <p class="t-p">₹999</p>
-          <ul><li>5 Success Abilities Measured</li><li>7 Personalized Exciting Tasks</li><li>90 min Scientific Measurement</li><li>35+ Ability Observations</li><li>AACE5 Success Scorecard</li></ul>
-          <a class="btn ghost" href="#">Start this scan</a>
-        </div>
-        <div class="tier">
-          <span class="t-tag">15 Essential Success Abilities</span>
-          <h3>ASLI15 Focus Scan</h3>
-          <p class="t-p">₹1,999</p>
-          <ul><li>15 Success Abilities Measured</li><li>7 Personalized Exciting Tasks</li><li>90 min Scientific Measurement</li><li>105+ Ability Observations</li><li>AACE15 Success Scorecard</li></ul>
-          <a class="btn ghost" href="#">Start this scan</a>
-        </div>
         <div class="tier lead">
           <span class="t-tag">Most Complete · 64 Success Abilities</span>
           <h3>ASLI64 Master Scan</h3>
@@ -676,7 +973,21 @@
             <li>Dedicated Success Mentor (Yashodarshi) · 1-to-1 Mentoring</li>
             <li>AACE64 Success Scorecard</li>
           </ul>
-          <a class="btn" href="#">Start this scan</a>
+          <a class="btn block" href="#">Start this scan</a>
+        </div>
+        <div class="tier">
+          <span class="t-tag">15 Essential Success Abilities</span>
+          <h3>ASLI15 Focus Scan</h3>
+          <p class="t-p">₹1,999</p>
+          <ul><li>15 Success Abilities Measured</li><li>7 Personalized Exciting Tasks</li><li>90 min Scientific Measurement</li><li>105+ Ability Observations</li><li>AACE15 Success Scorecard</li></ul>
+          <a class="btn ghost block" href="#">Start this scan</a>
+        </div>
+        <div class="tier">
+          <span class="t-tag">5 Critical Success Abilities</span>
+          <h3>ASLI5 Starter Scan</h3>
+          <p class="t-p">₹999</p>
+          <ul><li>5 Success Abilities Measured</li><li>7 Personalized Exciting Tasks</li><li>90 min Scientific Measurement</li><li>35+ Ability Observations</li><li>AACE5 Success Scorecard</li></ul>
+          <a class="btn ghost block" href="#">Start this scan</a>
         </div>
       </div>
 
@@ -685,8 +996,8 @@
           <h3>Then the year — meet your child's GODPARENT</h3>
           <p>Ongoing, daily strengthening—a dedicated mentor, accountability and parent partnership. Because every child deserves a good parent.</p>
         </div>
-        <div style="text-align:right">
-          <p class="t-p" style="font-size:2rem;font-weight:800">₹82 <small style="font-size:0.8125rem;font-weight:500;color:var(--muted)">/ day</small></p>
+        <div class="gp-price">
+          <p class="t-p">₹82 <small>/ day</small></p>
           <p style="font-size:0.8125rem;color:var(--muted)">≈ ₹2,460 a month · cancel any time</p>
         </div>
       </div>
@@ -695,7 +1006,7 @@
     </div>
   </section>
 
-  <!-- 10 ============== QUESTIONS — parent answers verbatim, two new audiences ============== -->
+  <!-- 11 ===== QUESTIONS ===== -->
   <section id="faq" class="band-2">
     <div class="wrap">
       <div class="head-stack">
@@ -709,9 +1020,9 @@
         <input type="radio" name="faqtab" id="t2">
         <input type="radio" name="faqtab" id="t3">
         <div class="tabbar">
-          <label for="t1">Questions parents ask</label>
-          <label for="t2">For students<span class="tag new">new</span></label>
-          <label for="t3">For adults &amp; professionals<span class="tag new">new</span></label>
+          <label for="t1">Parents</label>
+          <label for="t2">Students<span class="tag new">new</span></label>
+          <label for="t3">Adults &amp; professionals<span class="tag new">new</span></label>
         </div>
 
         <div class="pane" id="p1">
@@ -740,22 +1051,22 @@
     </div>
   </section>
 
-  <!-- 11 ============== THE CLOSE — verbatim, one word changed ============== -->
+  <!-- 12 ===== THE CLOSE ===== -->
   <section class="band lamp close-sec">
     <div class="wrap">
       <p class="eyebrow">It's India and the Indians' Rise that drive YASHHO</p>
-      <h2>One nation. Every child rising.<span class="tag edit">edited</span></h2>
-      <p class="lede" style="margin-top:1.25rem">Your child / you: Confident. Capable. Charming. Successful. Happy. That's what the World's First Success Doctor YASHHO excels in—and what thousands of students, parents and teachers who experienced YASHHO vouch for.</p>
+      <h2 style="margin-top:0.75rem">One nation. Every child rising.<span class="tag edit">edited</span></h2>
+      <p class="lede" style="margin-top:1.125rem">Your child / you: Confident. Capable. Charming. Successful. Happy. That's what the World's First Success Doctor YASHHO excels in—and what thousands of students, parents and teachers who experienced YASHHO vouch for.</p>
 
       <div class="faces">
         <div class="slot"><b>Face</b></div><div class="slot"><b>Face</b></div><div class="slot"><b>Face</b></div>
         <div class="slot"><b>Face</b></div><div class="slot"><b>Face</b></div><div class="slot"><b>Face</b></div>
       </div>
-      <p class="provnote" style="margin-top:1rem;font-size:0.8125rem;font-family:var(--mono);letter-spacing:0.04em;color:var(--muted)">Many children, many districts — the same idea as the opening frame, at national scale.</p>
+      <p class="provnote" style="margin-top:1rem;font-size:0.75rem;font-family:var(--mono);letter-spacing:0.04em;color:var(--muted)">Many children, many districts — the same idea as the opening frame, at national scale.</p>
 
-      <p class="lede" style="margin-top:2rem;font-size:1.125rem;color:var(--fg)">Check your ability score. Strengthen your success core.</p>
-      <div class="cta-row" style="margin-top:1.5rem">
-        <a class="btn" href="#pricing">Start Your Success Scan</a>
+      <p class="lede" style="margin-top:1.75rem;font-size:1.0625rem;color:var(--fg)">Check your ability score. Strengthen your success core.</p>
+      <div class="cta-row" style="margin-top:1.25rem">
+        <a class="btn block" href="#pricing">Start Your Success Scan</a>
         <a class="phone" href="tel:+919972501891"><b>99725 01891</b></a>
       </div>
 
@@ -778,8 +1089,8 @@
         <ul>
           <li><a href="#root">The Success-Root</a></li>
           <li><a href="#yashodarshi">Yashodarshis</a></li>
+          <li><a href="#careers">Career paths</a></li>
           <li><a href="#method">How it works</a></li>
-          <li><a href="#receive">Career paths</a></li>
           <li><a href="#pricing">The Success Scan™</a></li>
         </ul>
       </div>
@@ -801,6 +1112,11 @@
     </div>
   </div>
 </footer>
+
+<div class="actionbar">
+  <a class="btn" href="#pricing">Start Your Success Scan</a>
+  <a class="btn ghost" href="tel:+919972501891" aria-label="Call 99725 01891">Call</a>
+</div>
 
 </body>
 </html>
